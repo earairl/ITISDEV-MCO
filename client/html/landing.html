@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../css/landing.css">
+</head>
+<body>
+    <div id="shuttlesync">
+        <img src="../src/assets/shuttlesync.png">
+    </div>
+
+    <div id="loginContent">
+        <form id="loginForm">
+            <div class="inpWrap">
+                <div class="inpContent">
+                    <label for="loginUser">Username</label><br/>
+                    <input type="text" id="loginUser" name="username" required/><br/>
+                </div>
+                
+                <div class="inpContent">
+                    <label for="loginPass">Password</label><br/>
+                    <div class="passWrap">
+                        <input type="password" id="loginPass" name="password" required/>
+                        <span class="material-symbols-outlined visibilityBtn">visibility</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="centerWrap">
+                <input id="loginBtn" type="submit" value="Log In">
+            </div>
+        </form>
+
+        <div class="centerWrap">
+            <p>Don't have an account? <a>Sign up</a></p>
+        </div>
+    </div>
+</body>
+</html>
