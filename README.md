@@ -2,6 +2,7 @@
 
 ## Dev Tools and Notes
 - Install Tailwind CSS Intellisense extension in VSCode
+- Tailwind Fold is a useful extension to hide tailwind css, use wisely :p
 - This README isn't finished, probably some inaccuracies hehe
 - if you run just "npm install" it usually downloads all the needed dependencies found in the package.json
 
