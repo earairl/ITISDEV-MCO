@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const indexRoute = require('./routes/index')
+const mongoose = require('mongoose');
 
 // express app
 const app = express()
@@ -17,7 +18,10 @@ app.use((req, res, next) => { // custom, for logging
 app.use('/index', indexRoute)
 
 // listen for requests
-app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`)
-    console.log(`Server: http://localhost:${PORT}`)
-})
+mongoose.connect(process.env.MONGODB).then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+    });
+}).catch(e => {
+    console.error(e);
+});
