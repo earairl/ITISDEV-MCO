@@ -1,15 +1,17 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import LoginPage from './components/LoginPage';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
+// BrowserRouter uses alias Router
+import LoginPage from './pages/LoginPage'
+import HomePage from './pages/HomePage'
+import './App.css'
 
 function App() {
-  // const [count, setCount] = useState(0)
   return (
-    <div className="App">
-      <LoginPage />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={<HomePage />} />
+      </Routes>
+    </Router>
   )
 }
 

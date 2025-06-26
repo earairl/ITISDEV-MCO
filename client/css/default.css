@@ -28,7 +28,7 @@
 
     list-style: none;
     text-decoration: none;
-    color: var(--color-text-bg-green);
+    /* color: var(--color-text-bg-green); */
 
     font-family: var(--font-body);
 }

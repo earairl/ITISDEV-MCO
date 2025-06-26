@@ -5,6 +5,8 @@
 - Tailwind Fold is a useful extension to hide tailwind css, use wisely :p
 - This README isn't finished, probably some inaccuracies hehe
 - if you run just "npm install" it usually downloads all the needed dependencies found in the package.json
+- npm install react-router-dom as dependency under client folder
+- certain changes in react may require you to reload the whole browser, i.e. importing a component that you forgot to export
 
 ## Project Setup and Installation (Work In Progress)
 
