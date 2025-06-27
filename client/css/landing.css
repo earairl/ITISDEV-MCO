@@ -57,7 +57,9 @@ input {
 }
 
 .inpWrap {
-    width: 100%;
+    width: 40%;
+    text-align: left;
+    justify-self: center;
 }
 
 #loginPass {
@@ -76,7 +78,7 @@ input {
 }
 
 #loginContent {
-    max-width: 50vw;
+    max-width: 60vw;
 }
 
 #shuttlesync {
