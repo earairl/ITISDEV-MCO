@@ -1,5 +1,5 @@
 // Import necessary React features and assets
-import LoginForm from "../components/LoginForm";
+import LoginForm from "@/components/LoginForm";
 import shuttlesyncLogo from '../assets/shuttlesync.png';
 /* read more into useState in react, but its basically where you
 put dynamic data, like a counter or using it like a conditional*/
