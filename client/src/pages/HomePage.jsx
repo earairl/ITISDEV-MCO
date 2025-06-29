@@ -1,8 +1,10 @@
+import MainLayout from "@/template/MainLayout"
+
 function HomePage() {
     return (
-        <div>
-            <h1 className='text-white'>HOMEPAGE</h1>
-        </div>
+        <MainLayout>
+            <h1 className='text-green-300'>HOMEPAGE</h1>
+        </MainLayout>    
     )
 }
 

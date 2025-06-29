@@ -7,6 +7,7 @@
 - if you run just "npm install" it usually downloads all the needed dependencies found in the package.json
 - npm install react-router-dom as dependency under client folder
 - certain changes in react may require you to reload the whole browser, i.e. importing a component that you forgot to export
+- Note that any css file within react is applied globally
 
 ## Project Setup and Installation (Work In Progress)
 

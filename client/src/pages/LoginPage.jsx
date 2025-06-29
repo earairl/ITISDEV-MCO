@@ -10,7 +10,7 @@ function LoginPage() {
   //vvv The JSX (UI) to be rendered by the component
   return (
     // basically return your html/jsx layout here
-    <>
+    <div id="login-body">
       <div id="shuttlesync">
         {/* JSX allows embedding of JS expressions via {} */}
         <img src={shuttlesyncLogo} alt="ShuttleSync Logo" />
@@ -19,7 +19,7 @@ function LoginPage() {
       <div id="loginContent">
         <LoginForm />
       </div>
-    </>
+    </div>
   );
 }
 
