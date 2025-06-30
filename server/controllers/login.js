@@ -23,6 +23,9 @@ const loginUser = async (req, res) => {
 
         const response = await serverGetUser(user._id);
 
+        req.session.userid = user._id;
+        req.session.remember = false;
+
         res.status(200).json({ message: 'Login successful', user: response.userInfo });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
@@ -30,6 +33,13 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = (req, res) => {
+    try {
+        req.session.destroy();
+        res.status(200).json({ message: 'Session destroyed' });
+    } catch (err) {
+        console.error('Error destroying session: ', err);
+        res.status(500).json({ error: err });
+    }
 };
 
 module.exports = { loginUser, logoutUser };
