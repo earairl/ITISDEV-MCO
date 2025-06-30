@@ -1,5 +1,6 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
+const { register } = require('../controllers/register');
 
 // GET
 router.get('/', (req, res) => {
@@ -15,6 +16,7 @@ router.get('/', (req, res) => {
 // router.post('/', (req, res) => {
 //     res.json({msg: 'Post Method'})
 // })
+router.post('/register', register);
 
 // // DELETE
 // router.delete('/:id', (req, res) => {
