@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { register } = require('../controllers/register');
+const { loginUser, logoutUser } = require('../controllers/login');
 
 // GET
 router.get('/', (req, res) => {
@@ -11,12 +12,14 @@ router.get('/', (req, res) => {
 // router.get('/:id', (req, res) => {
 //     res.json({msg: 'Get Single Method'})
 // })
+router.get('/logout', logoutUser);
 
 // // POST
 // router.post('/', (req, res) => {
 //     res.json({msg: 'Post Method'})
 // })
 router.post('/register', register);
+router.post('/login', loginUser);
 
 // // DELETE
 // router.delete('/:id', (req, res) => {
