@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
-function LoginForm(props) {
+function SignupForm(props) {
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
+const [email, setEmail] = useState('');
 const [showPassword, setShowPassword] = useState(false);
+
 const navigate = useNavigate()
 
 // function to handle submission
@@ -21,11 +23,21 @@ function toggleView(e) {
 }
 
     return (
-        /* The tag <></> are shorthand for <React.fragment></React.fragment>
-        that allows grouping elements without adding an extra element like a div */
         <> 
             <form id="loginForm" onSubmit={handleSubmit}>
             <div className="inpWrap">
+                <div className="inpContent">
+                <label htmlFor="loginEmail">Email</label><br/>
+                <input 
+                    type="text" 
+                    id="loginEmail" 
+                    name="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                /><br/>
+                </div>
+
                 <div className="inpContent">
                 <label htmlFor="loginUser">Username</label><br/>
                 <input 
@@ -60,16 +72,17 @@ function toggleView(e) {
             </div>
 
             <div className="centerWrap">
-                <input id="loginBtn" type="submit" value="Log In" />
+                <input id="loginBtn" type="submit" value="Sign Up" />
             </div>
 
             </form>
+
+
             <div className="centerWrap">
-            <p>Don't have an account? <a href="#" onClick={toggleView}>Sign up</a></p>
+            <p>Already have an account? <a href="#" onClick={toggleView}>Log in</a></p>
             </div>
         </>
-
     )
 }
 
-export default LoginForm
+export default SignupForm
