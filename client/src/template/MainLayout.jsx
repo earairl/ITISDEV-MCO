@@ -26,7 +26,7 @@ function MainLayout({ children }) {
         // </div>
 
         <>
-            {sidebarActive && <SideNavBar toggleSideNav={toggleSideNav} position='officer'/>}
+            {sidebarActive && <SideNavBar username={'Yippee'} toggleSideNav={toggleSideNav} position='officer'/>}
 
             <NavBar username={'Yippee'} toggleSideNav={toggleSideNav} />
         </>

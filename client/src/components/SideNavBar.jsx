@@ -1,7 +1,7 @@
 function SideNavBar(props) {
     const actions = [
         { label: 'Home', path: '/home' },
-        { label: 'Profile', path: '/profile/:username' },
+        { label: 'Profile', path: `/profile/${props.username}` },
         ...(props.position === 'officer' ?
             [
                 { label: 'Database', path: '/database' },
