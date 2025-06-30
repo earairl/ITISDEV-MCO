@@ -8,7 +8,7 @@ const memberSchema = new mongoose.Schema({
     position:       {type: String},
     dateJoined:     {type: Date},
     lastMatchJoined:{type: Date},
-    deleted:        {type: Boolean, default: false}
+    isActive:       {type: Boolean, default: true}
 }, {collection: 'Members'});
 
 const Member = mongoose.model('Member', memberSchema);
