@@ -7,15 +7,33 @@ const [password, setPassword] = useState('');
 const [email, setEmail] = useState('');
 const [showPassword, setShowPassword] = useState(false);
 const styles = props.styles
+let userId; // after the 1st step of registration phase, the user must be asked if he's a member or not. If he's a member, an idNum will be required.
 
 const navigate = useNavigate()
 
 // function to handle submission
-function handleSubmit(e) {
+async function handleSubmit(e) {
     e.preventDefault();
     console.log('Login attempted with:', { username, password });
-    navigate('/home')
-    // login logic here
+
+    // registration logic
+    try {
+        const response = await fetch('http://localhost:5000/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ userId, username, email, password }),
+        });
+
+        const data = await response.json();
+        alert(data.message);
+        if (response.ok) {
+            navigate('/home');
+        }
+    } catch (err) {
+        console.error('Register error:', err);
+        alert('Register error');
+    }
 }
 
 function toggleView(e) {

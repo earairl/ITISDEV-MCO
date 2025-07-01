@@ -14,7 +14,7 @@ const generateUserId = async (requestedId) => {
 };
 
 const register = async (req, res) => {
-    const { userId, username, email, password, confirmPassword } = req.body;
+    const { userId, username, email, password } = req.body;
 
     try {
         let finalUserId;
@@ -23,10 +23,6 @@ const register = async (req, res) => {
         
         if (existingUser) {
             return res.status(400).json({ message: 'Username already taken.' });
-        }
-
-        if (password != confirmPassword) {
-            return res.status(400).json({ message: 'Passwords do not match. Please ensure both fields are identical.' });
         }
 
         if (idAlreadyUsed) {
@@ -56,7 +52,7 @@ const register = async (req, res) => {
             username: newUser.credentials.username
         };
 
-        res.status(201).json({ message: 'User registered successfully!', user: userInfo });
+        res.status(201).json({ message: 'User registered successfully!', user: userInfo, success: true });
     } catch (error) {
         res.status(500).json({ message: 'Error registering user: ' + error.message });
     }

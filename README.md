@@ -41,7 +41,7 @@ If both commands return version numbers, Node.js and npm are correctly installed
 Run the following command to install all required packages:
 
 ```sh
-npm install dotenv express nodemon mongoose express-session connect-mongodb-session bcrypt
+npm install dotenv express nodemon mongoose express-session connect-mongodb-session bcrypt cors
 ```
 
 ### 3. Run the Server
@@ -114,7 +114,7 @@ If both commands return version numbers, Node.js and npm are correctly installed
 Run the following command to install all required packages:
 
 ```sh
-npm install dotenv express nodemon express-session connect-mongodb-session
+npm install dotenv express nodemon mongoose express-session connect-mongodb-session bcrypt cors
 ```
 
 ### 3. Run the Server

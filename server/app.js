@@ -3,19 +3,23 @@ const express = require('express')
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
-const indexRoute = require('./routes/index');
+const cors = require('cors');
+const indexRoute = require('./routes');
 
 // express app
 const app = express()
 const PORT =  process.env.PORT || 5000
 
 // middleware
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json())
-app.use((req, res, next) => { // custom, for logging
-    console.log(req.path, req.method)
-    next()
-})
+// app.use((req, res, next) => { // custom, for logging
+//     console.log(req.path, req.method)
+//     next()
+// })
 
 // setup MongoDB session store
 const store = new MongoDBStore({
@@ -34,7 +38,7 @@ app.use(
 );
 
 // routes
-app.use('/index', indexRoute)
+app.use('/', indexRoute)
 
 // listen for requests
 mongoose.connect(process.env.MONGODB).then(() => {
