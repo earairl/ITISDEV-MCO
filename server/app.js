@@ -5,8 +5,6 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 const indexRoute = require('./routes/index');
-const User = require('./models/User');
-const Member = require('./models/Member');
 
 // express app
 const app = express()
