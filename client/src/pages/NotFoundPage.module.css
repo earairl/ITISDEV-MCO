@@ -1,0 +1,25 @@
+.MainDiv{
+    background-color: var(--color-accent-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    color: var(--color-text-bg-green);
+    font-family: var(--font-heading);
+}
+
+.MainDiv > img{
+    width: 30rem;
+    margin: 1rem;
+}
+
+.MainDiv > h1 {
+    font-size: 3rem;
+}
+
+.MainDiv > h2 {
+    margin: 0.5rem;
+    font-size: 1.2rem;
+}
