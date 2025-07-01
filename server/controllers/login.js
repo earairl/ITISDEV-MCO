@@ -1,11 +1,6 @@
 const User = require('../models/User');
 const { serverGetUser } = require('./user');
-
-function checkPassword(inputPassword, userPassword) {
-    if (inputPassword === userPassword) 
-        return true;
-    return false;
-}
+const bcrypt = require('bcrypt');
 
 const loginUser = async (req, res) => {
     const { username, password } = req.body;
@@ -17,7 +12,8 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: "Username doesn't exist" });
         }
 
-        if (!checkPassword(password, user.credentials.password)) {
+        const isMatch = await bcrypt.compare(password, user.credentials.password); //compare plaintext password with hashed password
+        if (!isMatch) {
             return res.status(401).json({ message: 'Incorrect password' });
         }
 

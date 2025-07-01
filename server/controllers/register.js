@@ -46,7 +46,7 @@ const register = async (req, res) => {
                 password: password
             }
         });
-        await newUser.save();
+        await newUser.save(); // password is hashed automatically by the pre-save hook in User model
 
         const user = await User.findOne({ 'credentials.username': username });
         req.session.userid = user._id;
