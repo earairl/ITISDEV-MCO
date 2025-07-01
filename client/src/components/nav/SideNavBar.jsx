@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import styles from './SideNavBar.module.css'
+
 function SideNavBar(props) {
     const actions = [
         { label: 'Home', path: '/home' },
@@ -37,29 +39,30 @@ function SideNavBar(props) {
     };
 
     return (
-        <>
-            <span 
-                className="material-symbols-outlined"
-                onClick={() => props.toggleSideNav()}
-            >
-                close
-            </span>
-            <ul>
-                {actions.map((action, index) => (
-                    <li key={index}>
-                        {action.label === 'Log out' ? (
-                            <a href="#" onClick={handleLogout}>
-                                {action.label}
-                            </a>
-                        ) : (
-                            <a href={action.path}>{action.label}</a>
-                        )}
-                    </li>
-                ))}
-            </ul>
-        </>
+        <div className={styles.modal}>
+            <div className={styles.navBarWrap}>
+                <span 
+                    className="material-symbols-outlined"
+                    onClick={() => props.toggleSideNav()}
+                >
+                    close
+                </span>
+                <ul>
+                    {actions.map((action, index) => (
+                        <li key={index}>
+                            {action.label === 'Log out' ? (
+                                <a href="#" onClick={handleLogout}>
+                                    {action.label}
+                                </a>
+                            ) : (
+                                <a href={action.path}>{action.label}</a>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
     )
-    
 }
 
 export { SideNavBar } 

@@ -1,0 +1,56 @@
+.navBarWrap {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-text-bg-green);
+    min-width: 100vw;
+}
+
+.navBarLeft {
+    display: flex;
+    align-items: center;
+    padding: 0.3em 0 0.3em 1em;
+}
+
+.material-symbols-outlined {
+    color: var(--color-text-bg-white);
+}
+
+.menuBtn {
+    margin-right: 0.3em;
+    font-size: 2.3em;
+    font-weight: 900;
+}
+
+.menuBtn:hover {
+    color: var(--color-accent-light);
+    transition: all 100ms;
+}
+
+.navBarUser {
+    font-size: 1.7em;
+}
+
+.navBarUser a {
+    font-weight: 900;
+}
+
+.navBarUser a:hover {
+    text-decoration: underline;
+}
+
+.navBarRight {
+    padding: 0.5em 1em 0.5em 0;
+}
+
+.navBarLogo {
+    max-width: 4.2em;
+    height: auto;
+}
+
+.navBarLogo:hover {
+    cursor: pointer;
+}

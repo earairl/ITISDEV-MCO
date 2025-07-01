@@ -1,0 +1,20 @@
+.modal {
+    z-index: 9998;
+    position: absolute;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: rgba(181, 255, 187, 0.2);
+}
+
+.navBarWrap {
+    z-index: 9999;
+    position: absolute;
+    left: 0;
+    min-height: 100vh;
+    min-width: 20%;
+    background-color: var(--color-text-bg-white);
+}
+
+.navBarWrap * {
+    color: var(--color-text-bg-green);
+}

@@ -42,28 +42,28 @@ function AuthPage() {
         <ShuttleSyncLogo styles={styles} />
       </motion.div>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode='wait'>
         {isLogin ? (
           <motion.div
-            key="loginForm"
+            key='loginForm'
             className={styles.authContent}
 
             initial={{ x: -100, opacity: 0 }} 
             animate={{ x: 0, opacity: 1 }} 
             exit={{ x: 100, opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
           >
             <LoginForm toggleView={toggleLogin} styles={modifiedStyles} />
           </motion.div>
         ) : (
           <motion.div
-            key="signupForm"
+            key='signupForm'
             className={styles.authContent}
 
             initial={{ x: -100, opacity: 0 }} 
             animate={{ x: 0, opacity: 1 }} 
             exit={{ x: 100, opacity: 0 }} 
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
           >
             <SignupForm toggleView={toggleLogin} styles={modifiedStyles} />
           </motion.div>

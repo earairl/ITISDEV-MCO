@@ -1,26 +1,36 @@
 import logo from '../../assets/logo.png';
 import { useNavigate, useLocation } from 'react-router-dom'
+import classNames from 'classnames'
+
+import styles from './NavBar.module.css'
 
 function NavBar(props) {
     const navigate = useNavigate()
     const location = useLocation()
+    const menuBtn = classNames('material-symbols-outlined', styles.menuBtn)
 
     // debugging purposes
     console.log('Location context:', location);
 
     return (
         <>
-            <span 
-                className="material-symbols-outlined"
-                onClick={() => props.toggleSideNav()}
-            >
-                menu
-            </span>
+            <div className={styles.navBarWrap}>
+                <div className={styles.navBarLeft}>
+                    <span 
+                        className={menuBtn}
+                        onClick={() => props.toggleSideNav()}
+                    >
+                        menu
+                    </span>
 
-            {/* parent comp must pass <NavBar username={} />  */}
-            <h1>Hello, <a href={`/profile/${props.username}`}>{props.username}</a></h1>
+                    {/* parent comp must pass <NavBar username={} />  */}
+                    <h1 className={styles.navBarUser}>Hello, <a href={`/profile/${props.username}`}>{props.username}</a></h1>
+                </div>
 
-            <img src={logo} onClick={() => navigate('/home')}/>
+                <div className={styles.navBarRight}>
+                    <img className={styles.navBarLogo} src={logo} onClick={() => navigate('/home')}/>
+                </div>
+            </div>
         </>
     )
 }
