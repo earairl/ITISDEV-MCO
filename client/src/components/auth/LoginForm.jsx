@@ -12,8 +12,25 @@ const styles = props.styles
 function handleSubmit(e) {
     e.preventDefault();
     console.log('Login attempted with:', { username, password });
-    navigate('/home')
+
     // login logic here
+    try {
+        const response = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+        alert(data.message);
+        if (response.ok) {
+            navigate('/home');
+        }
+    } catch (err) {
+        console.error('Login error:', err);
+        alert('Login error');
+    }
 }
 
 function toggleView(e) {
