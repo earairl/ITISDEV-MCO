@@ -19,7 +19,7 @@ app.use((req, res, next) => { // custom, for logging
 
 // setup MongoDB session store
 const store = new MongoDBStore({
-  uri: MONGO_URI,
+  uri: process.env.MONGODB,
   collection: 'sessions',
 });
 
