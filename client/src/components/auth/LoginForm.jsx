@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
-function SignupForm(props) {
+function LoginForm(props) {
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
-const [email, setEmail] = useState('');
 const [showPassword, setShowPassword] = useState(false);
-
 const navigate = useNavigate()
+const styles = props.styles
 
 // function to handle submission
 function handleSubmit(e) {
@@ -25,24 +24,12 @@ function toggleView(e) {
     return (
         <> 
             <form id="loginForm" onSubmit={handleSubmit}>
-            <div className="inpWrap">
-                <div className="inpContent">
-                <label htmlFor="loginEmail">Email</label><br/>
-                <input 
-                    type="text" 
-                    id="loginEmail" 
-                    name="email" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                /><br/>
-                </div>
-
-                <div className="inpContent">
+            <div className={styles.inpWrap}>
+                <div className={styles.inpContent}>
                 <label htmlFor="loginUser">Username</label><br/>
                 <input 
                     type="text" 
-                    id="loginUser" 
+                    id={styles.authUser}
                     name="username" 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -50,19 +37,19 @@ function toggleView(e) {
                 /><br/>
                 </div>
                 
-                <div className="inpContent">
+                <div className={styles.inpContent}>
                 <label htmlFor="loginPass">Password</label><br/>
-                <div className="passWrap">
+                <div className={styles.passWrap}>
                     <input 
                     type={showPassword ? "text" : "password"} 
-                    id="loginPass" 
+                    id={styles.authPass} 
                     name="password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     />
                     <span 
-                    className="material-symbols-outlined visibilityBtn"
+                    className={styles.visBtn}
                     onClick={() => setShowPassword(!showPassword)}
                     >
                     {showPassword ? "visibility_off" : "visibility"}
@@ -71,18 +58,17 @@ function toggleView(e) {
                 </div>
             </div>
 
-            <div className="centerWrap">
-                <input id="loginBtn" type="submit" value="Sign Up" />
+            <div className={styles.centerWrap}>
+                <input id={styles.authBtn} type="submit" value="Log In" />
             </div>
 
             </form>
-
-
-            <div className="centerWrap">
-            <p>Already have an account? <a href="#" onClick={toggleView}>Log in</a></p>
+            <div className={styles.centerWrap}>
+            <p>Don't have an account? <a href="#" onClick={toggleView}>Sign up</a></p>
             </div>
         </>
+
     )
 }
 
-export default SignupForm
+export default LoginForm

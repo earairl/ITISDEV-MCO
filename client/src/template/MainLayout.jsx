@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { NavBar } from '../components/NavBar'
-import { SideNavBar } from '../components/SideNavBar'
+import { NavBar } from '../components/nav/NavBar'
+import { SideNavBar } from '../components/nav/SideNavBar'
 
 function MainLayout({ children }) {
     const [sidebarActive, setSidebarActive] = useState(false)

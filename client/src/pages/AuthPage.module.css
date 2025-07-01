@@ -1,7 +1,7 @@
-/* @import url("@/index.css"); */
+@import url("../index.css");
 /* Quick Note: In React any css is applied globally, so best use classes or ids to style components seperately */
 
-/* #auth-body {
+#authBody {
     min-height: 100vh;
     width: 100vw;
     padding: 0 4em 0 4em;
@@ -87,4 +87,4 @@ input {
 #shuttlesync {
     max-width: 60vw;
     height: auto;
-} */
+}
