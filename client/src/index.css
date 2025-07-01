@@ -67,6 +67,7 @@ a, .material-symbols-outlined {
 
 a:hover {
   color: var(--color-accent-light);
+  transition: all 100ms;
 }
 
 /* html, body {
@@ -106,11 +107,13 @@ button {
 
 button:hover {
   border-color: #646cff;
+  transition: all 100ms;
 }
 
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+  transition: all 100ms;
 }
 
 div, img {
@@ -130,6 +133,7 @@ div, img {
   }
   a:hover {
     color: #747bff;
+    transition: all 100ms;
   }
   button {
     background-color: #f9f9f9;

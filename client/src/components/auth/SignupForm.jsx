@@ -14,7 +14,7 @@ const navigate = useNavigate()
 // function to handle submission
 async function handleSubmit(e) {
     e.preventDefault();
-    console.log('Login attempted with:', { username, password });
+    console.log('Signup attempted with:', { username, password });
 
     // registration logic
     try {
@@ -43,13 +43,13 @@ function toggleView(e) {
 
     return (
         <> 
-            <form id="signupForm" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <div className={styles.inpWrap}>
                 <div className={styles.inpContent}>
                 <label htmlFor="signupEmail">Email</label><br/>
                 <input 
                     type="text" 
-                    id={styles.authEmail} 
+                    className={styles.authEmail} 
                     name="email" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +61,7 @@ function toggleView(e) {
                 <label htmlFor="signupUser">Username</label><br/>
                 <input 
                     type="text" 
-                    id={styles.authUser} 
+                    className={styles.authUser} 
                     name="username" 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -74,7 +74,7 @@ function toggleView(e) {
                 <div className={styles.passWrap}>
                     <input 
                     type={showPassword ? "text" : "password"} 
-                    id={styles.authPass} 
+                    className={styles.authPass} 
                     name="password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -91,7 +91,7 @@ function toggleView(e) {
             </div>
 
             <div className={styles.centerWrap}>
-                <input id={styles.authBtn} type="submit" value="Sign Up" />
+                <input className={styles.authBtn} type="submit" value="Sign Up" />
             </div>
 
             </form>

@@ -40,13 +40,13 @@ function toggleView(e) {
 
     return (
         <> 
-            <form id="loginForm" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <div className={styles.inpWrap}>
                 <div className={styles.inpContent}>
                 <label htmlFor="loginUser">Username</label><br/>
                 <input 
                     type="text" 
-                    id={styles.authUser}
+                    className={styles.authUser}
                     name="username" 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -59,7 +59,7 @@ function toggleView(e) {
                 <div className={styles.passWrap}>
                     <input 
                     type={showPassword ? "text" : "password"} 
-                    id={styles.authPass} 
+                    className={styles.authPass} 
                     name="password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -76,7 +76,7 @@ function toggleView(e) {
             </div>
 
             <div className={styles.centerWrap}>
-                <input id={styles.authBtn} type="submit" value="Log In" />
+                <input className={styles.authBtn} type="submit" value="Log In" />
             </div>
 
             </form>
@@ -84,7 +84,6 @@ function toggleView(e) {
             <p>Don't have an account? <a href="#" onClick={toggleView}>Sign up</a></p>
             </div>
         </>
-
     )
 }
 

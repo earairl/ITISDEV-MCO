@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import classNames from 'classnames'
+import { motion, AnimatePresence } from 'motion/react'
 
 // Import necessary React features and assets
 import styles from './AuthPage.module.css'
@@ -26,18 +27,54 @@ function AuthPage() {
   }
 
   return (
-    <div id={styles.authBody}>
-      <ShuttleSyncLogo />
-      
-      <div id={styles.authContent}>
-        {isLogin ? <LoginForm toggleView={toggleLogin} styles={modifiedStyles} /> : <SignupForm toggleView={toggleLogin} styles={modifiedStyles} />}
+    <motion.div 
+      className={styles.authBody}
 
-        {/* Sample Modified Radix Components */}
-        <ToggleSwitch btnLabel="sample" btnName="Sample Toggle"></ToggleSwitch>
-        <UserAvatar userImg="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80" initials="TadadsD"></UserAvatar>
-        <NotifModal></NotifModal>
-      </div>
-    </div>
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
+      exit={{opacity: 0}}
+    >
+      
+      {/* not yet final animation */}
+      <motion.div 
+        layout
+      >
+        <ShuttleSyncLogo styles={styles} />
+      </motion.div>
+
+      <AnimatePresence mode="wait">
+        {isLogin ? (
+          <motion.div
+            key="loginForm"
+            className={styles.authContent}
+
+            initial={{ x: -100, opacity: 0 }} 
+            animate={{ x: 0, opacity: 1 }} 
+            exit={{ x: 100, opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+          >
+            <LoginForm toggleView={toggleLogin} styles={modifiedStyles} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="signupForm"
+            className={styles.authContent}
+
+            initial={{ x: -100, opacity: 0 }} 
+            animate={{ x: 0, opacity: 1 }} 
+            exit={{ x: 100, opacity: 0 }} 
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+          >
+            <SignupForm toggleView={toggleLogin} styles={modifiedStyles} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <ToggleSwitch btnLabel="sample" btnName="Sample Toggle"></ToggleSwitch>
+      <UserAvatar userImg="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80" initials="TadadsD"></UserAvatar>
+      <NotifModal></NotifModal>
+
+    </motion.div>
   );
 }
 

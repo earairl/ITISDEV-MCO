@@ -1,8 +1,12 @@
 import logo from '../../assets/logo.png';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 function NavBar(props) {
     const navigate = useNavigate()
+    const location = useLocation()
+
+    // debugging purposes
+    console.log('Location context:', location);
 
     return (
         <>

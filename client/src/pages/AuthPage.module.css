@@ -1,7 +1,7 @@
-@import url("../index.css");
+/* @import url("../index.css"); */
 /* Quick Note: In React any css is applied globally, so best use classes or ids to style components seperately */
 
-#authBody {
+.authBody {
     min-height: 100vh;
     width: 100vw;
     padding: 0 4em 0 4em;
@@ -12,22 +12,17 @@
     align-items: center;
 }
 
-label, p, a {
+.authBody label, p, a {
     color: var(--color-text-bg-white);
 }
 
-a {
+.authBody a {
     text-decoration: underline;
 }
 
-a:hover {
+.authBody a:hover {
     color: var(--color-accent-light);
-}
-
-input {
-    width: 100%;
-    border: none;
-    margin-top: 0.15em;
+    transition: all 100ms;
 }
 
 .material-symbols-outlined {
@@ -36,6 +31,12 @@ input {
 
 .inpContent {
     margin-top: 0.8em;
+}
+
+.inpContent input {
+    width: 100%;
+    border: none;
+    margin-top: 0.15em;
 }
 
 .passWrap {
@@ -52,6 +53,7 @@ input {
 
 .visibilityBtn:hover {
     color: var(--color-accent-light);
+    transition: all 100ms;
 }
 
 .centerWrap {
@@ -65,26 +67,27 @@ input {
     justify-self: center;
 }
 
-#authPass {
+.authPass {
     padding-right: 2.2em;
 }
 
-#authBtn {
+.authBtn {
     width: 6em;
     margin: 2em 0 3em 0;
     padding: 0.5em 1em 0.5em 1em;
     font-weight: 900;
 }
 
-#authBtn:hover {
+.authBtn:hover {
     color: var(--color-accent-light);
+    transition: all 100ms;
 }
 
-#authContent {
+.authContent {
     max-width: 60vw;
 }
 
-#shuttlesync {
-    max-width: 60vw;
+.shuttlesync {
+    width: 60vw;
     height: auto;
 }

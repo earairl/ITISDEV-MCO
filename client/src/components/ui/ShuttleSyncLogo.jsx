@@ -1,9 +1,9 @@
 import logo from '../../assets/shuttlesync.png';
 
-function ShuttleSyncLogo() {
+function ShuttleSyncLogo(props) {
     return (
         <>
-            <div id="shuttlesync">
+            <div className={props.styles.shuttlesync}>
                 <img src={logo} alt="ShuttleSync Logo" />
             </div>
         </>
