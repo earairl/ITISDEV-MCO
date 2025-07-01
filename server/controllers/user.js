@@ -35,8 +35,6 @@ const deleteUser = async(req, res) => {
 
         user.credentials.username = `[deleted]_${user._id}`;
         user.credentials.password = null;
-        // user.credentials.passwordSalt = null;
-        // user.credentials.passwordHash = null;
         user.deleted = true;
 
         await user.save();

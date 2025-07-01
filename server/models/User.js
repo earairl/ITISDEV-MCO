@@ -7,8 +7,6 @@ const userSchema = new mongoose.Schema({
         username:       {type: String, required: true, unique: true},
         email:          {type: String, required: true, unique: true},
         password:       {type: String, required: true}
-        // passwordSalt:   {type: String, required: function () { return !this.deleted; }},
-        // passwordHash:   {type: String, required: function () { return !this.deleted; }}
     },
     // penalties:          [{ type: mongoose.Schema.Types.ObjectId, ref: 'Penalty' }],
     // currentlyQueued:    [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
