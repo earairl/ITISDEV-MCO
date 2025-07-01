@@ -66,7 +66,7 @@ a, .material-symbols-outlined {
 }
 
 a:hover {
-  color: #535bf2;
+  color: var(--color-accent-light);
 }
 
 /* html, body {
@@ -84,8 +84,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: bold;
+  font-family: var(--font-heading);
+  font-weight: bold;
+}
+
+p, pre{
+  font-family: var(--font-body);
 }
 
 button {

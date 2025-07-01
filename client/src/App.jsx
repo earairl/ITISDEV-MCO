@@ -11,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
+        {/* <Route path="/game-details" element={<GamePage />} /> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
