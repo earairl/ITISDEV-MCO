@@ -1,7 +1,7 @@
 const User = require('../models/User');
 
 const generateUserId = async (requestedId) => {
-    // no userId (school id) supplied due to being a non-member, then generate a unique one.
+    // If no userId (school id) supplied due to being a non-member, then generate a unique one.
     let candidate;
     let exists = true;
 
@@ -18,14 +18,19 @@ const register = async (req, res) => {
 
     try {
         let finalUserId;
-        const existingUser = await User.findOne({ 'credentials.username': username });
-        const idAlreadyUsed = await User.exists({ 'credentials.userId': userId });
+        const existingUsername = await User.findOne({ 'credentials.username': username });
+        const existingEmail = await User.findOne({ 'credentials.email': email });
+        const existingUserId = await User.exists({ 'credentials.userId': userId });
         
-        if (existingUser) {
+        if (existingUsername) {
             return res.status(400).json({ message: 'Username already taken.' });
         }
 
-        if (idAlreadyUsed) {
+        if (existingEmail) {
+            return res.status(400).json({ message: 'Email already taken.' });
+        }
+
+        if (existingUserId) {
             return res.status(400).json({ message: 'The userId is already in use. Please provide another one.' });
         }
 
