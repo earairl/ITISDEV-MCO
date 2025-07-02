@@ -18,11 +18,10 @@ const loginUser = async (req, res) => {
         }
 
         const response = await serverGetUser(user._id);
-
         req.session.userid = user._id;
         req.session.remember = false;
 
-        res.status(200).json({ message: 'Login successful', user: response.userInfo, userId: user._id });
+        res.status(200).json({ message: 'Login successful', user: response.userInfo });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }

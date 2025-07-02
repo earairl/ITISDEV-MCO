@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const { serverGetUser } = require('./user');
 
 const generateUserId = async (requestedId) => {
     // If no userId (school id) supplied due to being a non-member, then generate a unique one.
@@ -54,15 +55,11 @@ const register = async (req, res) => {
         });
         await newUser.save(); // password is hashed automatically by the pre-save hook in User model
 
-        const user = await User.findOne({ 'credentials.username': username });
-        req.session.userid = user._id;
+        const response = await serverGetUser(newUser._id);
+        req.session.userid = newUser._id;
         req.session.remember = false;
 
-        const userInfo = {
-            username: newUser.credentials.username
-        };
-
-        res.status(201).json({ message: 'User registered successfully!', user: userInfo, success: true, userId: user._id });
+        res.status(201).json({ message: 'User registered successfully!', user: response.userInfo, success: true });
     } catch (error) {
         res.status(500).json({ message: 'Error registering user: ' + error.message });
     }

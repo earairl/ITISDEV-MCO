@@ -30,7 +30,8 @@ function SideNavBar(props) {
             const data = await response.json();
             alert(data.message);
             if (response.ok) {
-                sessionStorage.removeItem('userId');
+                sessionStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('username');
                 navigate('/');
             }
         } catch (err) {

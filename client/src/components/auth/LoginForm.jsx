@@ -25,7 +25,8 @@ async function handleSubmit(e) {
         const data = await response.json();
         alert(data.message);
         if (response.ok) {
-            sessionStorage.setItem('userId', data.userId);
+            sessionStorage.setItem('isLoggedIn', true);
+            sessionStorage.setItem('username', data.user.username);
             navigate('/home');
         }
     } catch (err) {
