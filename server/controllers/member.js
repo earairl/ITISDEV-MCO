@@ -30,12 +30,13 @@ const addMember = async (req, res) => {
     }
 };
 
-const getMemberInfo = async (req, res) => {
-    const { idNum } = req.body;
+const serverGetMemberInfo = async (idNum) => {
     try {
         const member = await Member.findOne({ 'idNum': idNum });
-        const memberInfo = {
-            idNum : member.idNum,
+
+        const memberInfo = member
+        ? {
+            idNum: member.idNum,
             firstName: member.firstName,
             lastName: member.lastName,
             college: member.college,
@@ -43,12 +44,27 @@ const getMemberInfo = async (req, res) => {
             dateJoined: member.dateJoined,
             lastMatchJoined: member.lastMatchJoined,
             isActive: member.isActive
-        };
+        } 
+        : null;
 
-        res.status(200).json({ memberInfo: memberInfo });
+        return { success: true, memberInfo };
     } catch (error) {
-        console.log('Error in getting member info: ', error);
-        res.status(500).json({ message: 'Error in getting member info: ', error });
+        console.log('Error in getting member info (server side): ', error);
+        return { success: false };
+    }
+}
+
+const getMemberInfo = async (req, res) => {
+    const { idNum } = req.body;
+    try {
+        const result = await serverGetMemberInfo(idNum);
+        if (result.success) 
+            res.status(200).json({ memberInfo: result.memberInfo });
+        else 
+            res.status(500).json({ message: 'Error in getting member: ' });
+    } catch (error) {
+        console.log('Error in getting member (client side): ', error);
+        res.status(500).json({ message: 'Error in getting member (client side): ', error });
     }
 };
 
@@ -83,4 +99,4 @@ const removeMember = async (req, res) => {
     }
 };
 
-module.exports = { addMember, getMemberInfo, setMemberInactive, removeMember };
+module.exports = { addMember, serverGetMemberInfo, getMemberInfo, setMemberInactive, removeMember };

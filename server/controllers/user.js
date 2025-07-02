@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const { serverGetMemberInfo } = require('./member');
 
 const serverGetUser = async (userId) => {
     try {
@@ -6,6 +7,13 @@ const serverGetUser = async (userId) => {
         const userInfo = {
             username: user.credentials.username
         };
+
+        const result = await serverGetMemberInfo(userId);
+        if (result && result.memberInfo) {
+            userInfo.position = memberInfo.position;
+        }
+        else if (result && !result.memberInfo) userInfo.position = 'member';
+
         return { success: true, userInfo };
     } catch (error) {
         console.log('Error in getting user (server side): ', error);
