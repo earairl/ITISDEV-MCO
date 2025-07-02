@@ -28,6 +28,7 @@ async function handleSubmit(e) {
         const data = await response.json();
         alert(data.message);
         if (response.ok) {
+            sessionStorage.setItem('userId', data.userId);
             navigate('/home');
         }
     } catch (err) {
