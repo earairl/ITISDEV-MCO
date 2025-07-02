@@ -1,19 +1,24 @@
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames'
 
 import styles from './SideNavBar.module.css'
+import shuttlesyncGreen from '@/assets/shuttlesync-green.png'
+
+import { SideBarActions } from './SideBarActions'
 
 function SideNavBar(props) {
     const actions = [
-        { label: 'Home', path: '/home' },
-        { label: 'Profile', path: `/profile/${props.username}` },
+        { label: 'Home', icon: 'home', path: '/home' },
+        { label: 'Profile', icon: 'account_box', path: `/profile/${props.username}` },
         ...(props.position === 'officer' ?
             [
-                { label: 'Database', path: '/database' },
+                { label: 'Database', icon: 'database', path: '/database' },
             ] :
             []
         ),
-        { label: 'Log out', path: '/' }
     ]
+
+    const closeBtn = classNames("material-symbols-outlined", styles.closeBtn)
 
     const navigate = useNavigate();
 
@@ -41,28 +46,31 @@ function SideNavBar(props) {
     };
 
     return (
-        <div className={styles.modal}>
-            <div className={styles.navBarWrap}>
-                <span 
-                    className="material-symbols-outlined"
-                    onClick={() => props.toggleSideNav()}
-                >
-                    close
-                </span>
-                <ul>
-                    {actions.map((action, index) => (
-                        <li key={index}>
-                            {action.label === 'Log out' ? (
-                                <a href="#" onClick={handleLogout}>
-                                    {action.label}
-                                </a>
-                            ) : (
-                                <a href={action.path}>{action.label}</a>
-                            )}
-                        </li>
-                    ))}
-                </ul>
+        <div className={styles.navBarWrap}>
+            <span 
+                className={closeBtn}
+                onClick={() => props.toggleSideNav()}
+            >
+                close
+            </span>
+
+            <div>
+                <div className={styles.navBarHeader}>
+                    <img src={shuttlesyncGreen} />
+                </div>
+                <SideBarActions styles={styles} actions={actions} />
             </div>
+            
+            <ul className={styles.navBarActions}>
+                <li key='logout' className={styles.navBarAction}>
+                    <span className="material-symbols-outlined" onClick={(e) => handleLogout(e)}>
+                        logout
+                    </span>
+                    <a href="#" onClick={(e) => handleLogout(e)}>
+                        Log out
+                    </a>
+                </li>
+            </ul>
         </div>
     )
 }

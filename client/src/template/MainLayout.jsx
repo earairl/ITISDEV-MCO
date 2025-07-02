@@ -15,19 +15,35 @@ function MainLayout({ children }) {
 
     return (
         <div className={styles.Main}>
-            {sidebarActive && 
-                <AnimatePresence>
-                    <motion.div
-                        key='sidebar'
-                        initial={{ opacity: 0 }} 
-                        animate={{ opacity: 1 }} 
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4 }}
-                    >
-                        <SideNavBar username={user.username} toggleSideNav={toggleSideNav} position={user.position}/>
-                    </motion.div>
-                </AnimatePresence>
-            }
+            <AnimatePresence>
+                {sidebarActive && 
+                    <>
+                        <motion.div 
+                            className={styles.backdrop} 
+
+                            key='backdrop'
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.5 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            onClick={toggleSideNav}
+                        />
+
+                        <motion.div
+                            className={styles.sideNavWrap}
+
+                            key='sidebar'
+                            initial={{ x: -500 }} 
+                            animate={{ x: -15 }} 
+                            exit={{ x: -500 }}
+                            transition={{ duration: 0.6, ease: 'easeInOut', type: 'spring', bounce: 0.2 }}
+                        >
+                            <SideNavBar username={user.username} toggleSideNav={toggleSideNav} position={user.position}/>
+                        </motion.div>
+                    </> 
+                }
+            </AnimatePresence>
+            
             <NavBar username={user.username} toggleSideNav={toggleSideNav} />
             {/* places "pages" here */}
             { children }
