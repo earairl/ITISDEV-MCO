@@ -18,12 +18,17 @@ const register = async (req, res) => {
 
     try {
         let finalUserId;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email validation regex
         const existingUsername = await User.findOne({ 'credentials.username': username });
         const existingEmail = await User.findOne({ 'credentials.email': email });
         const existingUserId = await User.exists({ 'credentials.userId': userId });
         
         if (existingUsername) {
             return res.status(400).json({ message: 'Username already taken.' });
+        }
+
+        if (!emailRegex.test(email)) { //if email does not match regex pattern, return status.
+            return res.status(400).json({ message: 'Invalid email format.' });
         }
 
         if (existingEmail) {
