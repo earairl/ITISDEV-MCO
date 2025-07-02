@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'motion/react'
+import classNames from 'classnames'
 
 function SignupForm(props) {
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [email, setEmail] = useState('');
+const [userId, setUserId] = useState('');
 const [showPassword, setShowPassword] = useState(false);
-const styles = props.styles
-let userId; // after the 1st step of registration phase, the user must be asked if he's a member or not. If he's a member, an idNum will be required.
+const [activeIdInp, setActiveIdInp] = useState(false);
+const styles = props.styles;
 
 const navigate = useNavigate()
 
@@ -43,54 +46,89 @@ function toggleView(e) {
     props.toggleView()
 }
 
+function toggleUserIdInp() {
+    setActiveIdInp(!activeIdInp)
+}
+
     return (
         <> 
             <form onSubmit={handleSubmit}>
             <div className={styles.inpWrap}>
                 <div className={styles.inpContent}>
-                <label htmlFor="signupEmail">Email</label><br/>
-                <input 
-                    type="text" 
-                    className={styles.authEmail} 
-                    name="email" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                /><br/>
+                    <label htmlFor="signupEmail">Email</label><br/>
+                    <input 
+                        type="text" 
+                        className={styles.authEmail} 
+                        name="email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    /><br/>
                 </div>
 
                 <div className={styles.inpContent}>
-                <label htmlFor="signupUser">Username</label><br/>
-                <input 
-                    type="text" 
-                    className={styles.authUser} 
-                    name="username" 
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                /><br/>
+                    <label htmlFor="signupUser">Username</label><br/>
+                    <input 
+                        type="text" 
+                        className={styles.authUser} 
+                        name="username" 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    /><br/>
                 </div>
                 
                 <div className={styles.inpContent}>
-                <label htmlFor="signupPass">Password</label><br/>
-                <div className={styles.passWrap}>
-                    <input 
-                    type={showPassword ? "text" : "password"} 
-                    className={styles.authPass} 
-                    name="password" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    />
-                    <span 
-                    className={styles.visBtn}
-                    onClick={() => setShowPassword(!showPassword)}
-                    >
-                    {showPassword ? "visibility_off" : "visibility"}
-                    </span>
-                </div>
+                    <label htmlFor="signupPass">Password</label><br/>
+                    <div className={styles.passWrap}>
+                        <input 
+                        type={showPassword ? "text" : "password"} 
+                        className={styles.authPass} 
+                        name="password" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        />
+                        <span 
+                        className={styles.visBtn}
+                        onClick={() => setShowPassword(!showPassword)}
+                        >
+                        {showPassword ? "visibility_off" : "visibility"}
+                        </span>
+                    </div><br/>
                 </div>
             </div>
+
+            <label className={styles.userIdInp}>
+                <input
+                    type='checkbox'
+                    onChange={() => toggleUserIdInp()}
+                />
+                Currently a member of DLSU Badminton Society
+            </label>
+
+            <AnimatePresence>
+                {activeIdInp && (
+                    <motion.div 
+                        className={styles.inpContent}
+                        key='userIdInp'
+                        initial={{ opacity: 0, y: -100}}
+                        animate={{ opacity: 1, y: 0}}
+                        exit={{ opacity: 0, y: -100 }}
+                        transition={{ duration: 0.4, ease: 'easeInOut' }}
+                    >
+                        <label htmlFor="signupUserId">Full ID Number</label><br/>
+                        <input 
+                            type="text" 
+                            className={styles.authUserId} 
+                            name="userId" 
+                            value={userId}
+                            onChange={(e) => setUserId(e.target.value)}
+                            required
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <div className={styles.centerWrap}>
                 <input className={styles.authBtn} type="submit" value="Sign Up" />

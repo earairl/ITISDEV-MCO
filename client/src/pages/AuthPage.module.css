@@ -31,16 +31,31 @@
 
 .inpContent {
     margin-top: 0.8em;
+    justify-self: center;
 }
 
 .inpContent input {
     width: 100%;
+    min-width: 25ch;
+    max-width: 25ch;
     border: none;
     margin-top: 0.15em;
     &:focus-visible {
 		outline: 2px solid var(--color-accent-light);    
 		outline-offset: 1px;
 	}
+}
+
+.userIdInp {
+    display: flex;
+    align-items: center;
+    margin-top: 0.25em;
+}
+
+.userIdInp input {
+    width: 1em;
+    height: 1em;
+    margin-right: 0.4em;
 }
 
 .passWrap {
@@ -67,8 +82,11 @@
 
 .inpWrap {
     width: 100%;
+    display: flex;
+    flex-direction: column;
     text-align: left;
     justify-self: center;
+    align-items: center;
 }
 
 .authPass {
