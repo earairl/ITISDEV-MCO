@@ -2,6 +2,7 @@ import { Routes, Route, Link, useLocation } from "react-router-dom"
 
 import AuthPage from '../pages/AuthPage'
 import HomePage from '../pages/HomePage'
+import ProfilePage from '../pages/ProfilePage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 import { AnimatePresence } from 'motion/react'
@@ -14,6 +15,7 @@ function AnimatedRoutes() {
                 <Route path="/" element={<AuthPage />} />
                 <Route path="/home" element={<HomePage />} />
                 {/* <Route path="/game-details" element={<GamePage />} /> */}
+                <Route path="/profile" element={<ProfilePage />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </AnimatePresence>

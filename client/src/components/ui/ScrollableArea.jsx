@@ -2,10 +2,12 @@ import * as React from "react";
 import { ScrollArea } from "radix-ui";
 import styles from "./ScrollableArea.module.css";
 
+// sample data
 const TAGS = Array.from({ length: 50 }).map(
 	(_, i, a) => `v1.2.0-beta.${a.length - i}`,
 );
 
+// add conditionals to determine what to render, e.g. data for games, times, notifs, etc.
 const ScrollableArea = ({ tabName }) => (
 	<>
 		<h2 className={styles.TabTitle}>{ tabName }</h2>
@@ -14,6 +16,7 @@ const ScrollableArea = ({ tabName }) => (
 				<div style={{ padding: "15px 20px" }}>
 					{/* <div className={styles.Text}>Scrollable Area</div> */}
 					{TAGS.map((tag) => (
+						// might use a custom component to display info
 						<div className={styles.Tag} key={tag}>
 							{tag}
 						</div>

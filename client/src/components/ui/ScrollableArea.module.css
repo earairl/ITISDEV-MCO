@@ -83,6 +83,8 @@
 	font-size: 1rem;
 	line-height: 18px;
 	margin-top: 10px;
-	border-top: 1px solid black;
-	padding-top: 10px;
+	border: 1.5px solid var(--color-text-bg-green);
+	border-radius: 1rem;
+	padding: 0.4rem 0.5rem;
+	margin: 1rem 0rem;
 }
