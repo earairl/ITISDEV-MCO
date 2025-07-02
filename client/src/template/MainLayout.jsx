@@ -28,7 +28,7 @@ function MainLayout({ children }) {
                     </motion.div>
                 </AnimatePresence>
             }
-            <NavBar username={username} toggleSideNav={toggleSideNav} />
+            <NavBar username={user.username} toggleSideNav={toggleSideNav} />
             {/* places "pages" here */}
             { children }
         </div>
