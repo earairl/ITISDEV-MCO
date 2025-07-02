@@ -102,6 +102,7 @@ function toggleUserIdInp() {
             <label className={styles.userIdInp}>
                 <input
                     type='checkbox'
+                    checked={activeIdInp}
                     onChange={() => toggleUserIdInp()}
                 />
                 Currently a member of DLSU Badminton Society
