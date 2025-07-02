@@ -1,0 +1,291 @@
+{
+  "Users": [
+    {
+      "credentials": {
+        "userId": "10000001",
+        "username": "jopet",
+        "email": "jopet@gmail.com",
+        "password": "Isko123!"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000002",
+        "username": "annec",
+        "email": "annecurt@gmail.com",
+        "password": "CurtisPass!2023"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000003",
+        "username": "aldenr",
+        "email": "alden.richards@gmail.com",
+        "password": "AlDubForever!"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000004",
+        "username": "mained",
+        "email": "maine.mendoza@gmail.com",
+        "password": "YayaDub!22"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000005",
+        "username": "cocom",
+        "email": "cardo@gmail.com",
+        "password": "FPJAngProbinsyano!"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000006",
+        "username": "beaalonzo",
+        "email": "bea.alonzo@gmail.com",
+        "password": "OneMoreChance123"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000007",
+        "username": "dingdongd",
+        "email": "dong@gmail.com",
+        "password": "MarianForever!"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000008",
+        "username": "marianr",
+        "email": "marian@gmail.com",
+        "password": "DingdongLove2024"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000009",
+        "username": "viceganda",
+        "email": "vice@gmail.com",
+        "password": "GandaraQueen!"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "10000010",
+        "username": "kathbernardo",
+        "email": "kath@gmail.com",
+        "password": "KathNiel4ever!"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "90000001",
+        "username": "joshlia",
+        "email": "joshlia@gmail.com",
+        "password": "ExCouple123"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "90000002",
+        "username": "angel",
+        "email": "angel.locsin@gmail.com",
+        "password": "DarnaReal!"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "90000003",
+        "username": "carloss",
+        "email": "carlos@gmail.com",
+        "password": "RandomPass!123"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "90000004",
+        "username": "sarahg",
+        "email": "sarah.geronimo@gmail.com",
+        "password": "PopStarRoyalty!"
+      },
+      "deleted": false
+    },
+    {
+      "credentials": {
+        "userId": "90000005",
+        "username": "piolo",
+        "email": "piolo@gmail.com",
+        "password": "PapaP1234"
+      },
+      "deleted": false
+    }
+  ],
+  "Members": [
+    {
+      "idNum": "10000001",
+      "firstName": "Jose",
+      "lastName": "Manalo",
+      "college": "Engineering",
+      "position": "member",
+      "dateJoined": "2023-01-15T00:00:00.000Z",
+      "lastMatchJoined": "2024-12-10T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "10000002",
+      "firstName": "Anne",
+      "lastName": "Curtis",
+      "college": "Science",
+      "position": "officer",
+      "dateJoined": "2022-10-12T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-25T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "10000003",
+      "firstName": "Alden",
+      "lastName": "Richards",
+      "college": "Business",
+      "position": "member",
+      "dateJoined": "2024-03-22T00:00:00.000Z",
+      "lastMatchJoined": "2025-04-30T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "10000004",
+      "firstName": "Maine",
+      "lastName": "Mendoza",
+      "college": "Arts",
+      "position": "member",
+      "dateJoined": "2023-11-05T00:00:00.000Z",
+      "lastMatchJoined": "2025-05-20T00:00:00.000Z",
+      "isActive": false
+    },
+    {
+      "idNum": "10000005",
+      "firstName": "Coco",
+      "lastName": "Martin",
+      "college": "Criminology",
+      "position": "officer",
+      "dateJoined": "2021-08-10T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-01T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "10000006",
+      "firstName": "Bea",
+      "lastName": "Alonzo",
+      "college": "Engineering",
+      "position": "member",
+      "dateJoined": "2023-09-14T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-15T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "10000007",
+      "firstName": "Dingdong",
+      "lastName": "Dantes",
+      "college": "Science",
+      "position": "member",
+      "dateJoined": "2023-12-01T00:00:00.000Z",
+      "lastMatchJoined": "2025-05-01T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "10000008",
+      "firstName": "Marian",
+      "lastName": "Rivera",
+      "college": "Business",
+      "position": "officer",
+      "dateJoined": "2022-06-20T00:00:00.000Z",
+      "lastMatchJoined": "2025-03-15T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "10000009",
+      "firstName": "Vice",
+      "lastName": "Ganda",
+      "college": "Arts",
+      "position": "member",
+      "dateJoined": "2021-02-11T00:00:00.000Z",
+      "lastMatchJoined": "2025-01-20T00:00:00.000Z",
+      "isActive": false
+    },
+    {
+      "idNum": "10000010",
+      "firstName": "Kathryn",
+      "lastName": "Bernardo",
+      "college": "Arts",
+      "position": "member",
+      "dateJoined": "2024-07-01T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-29T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "20000011",
+      "firstName": "Joshua",
+      "lastName": "Garcia",
+      "college": "Engineering",
+      "position": "member",
+      "dateJoined": "2024-08-10T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-18T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "20000012",
+      "firstName": "Julia",
+      "lastName": "Barretto",
+      "college": "Science",
+      "position": "member",
+      "dateJoined": "2023-03-10T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-20T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "20000013",
+      "firstName": "Angel",
+      "lastName": "Locsin",
+      "college": "Health Sciences",
+      "position": "officer",
+      "dateJoined": "2024-01-25T00:00:00.000Z",
+      "lastMatchJoined": "2025-05-05T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "20000014",
+      "firstName": "Sarah",
+      "lastName": "Geronimo",
+      "college": "Music",
+      "position": "member",
+      "dateJoined": "2023-07-15T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-15T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "idNum": "20000015",
+      "firstName": "Piolo",
+      "lastName": "Pascual",
+      "college": "Theater Arts",
+      "position": "officer",
+      "dateJoined": "2022-02-18T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-05T00:00:00.000Z",
+      "isActive": false
+    }
+  ]
+}
