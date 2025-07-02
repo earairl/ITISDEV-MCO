@@ -1,6 +1,7 @@
 const User = require('../models/User');
 // const Member = require('../models/Member');
 const { serverGetUser } = require('./user');
+const { serverGetMemberInfo } = require('./member');
 
 const generateUserId = async (requestedId) => {
     // If no userId (school id) supplied due to being a non-member, then generate a unique one.
@@ -16,7 +17,7 @@ const generateUserId = async (requestedId) => {
 };
 
 const register = async (req, res) => {
-    const { userId, username, email, password } = req.body;
+    const { userId, username, email, password, activeIdInp } = req.body;
 
     try {
         let finalUserId;
@@ -35,6 +36,13 @@ const register = async (req, res) => {
 
         if (existingEmail) {
             return res.status(400).json({ message: 'Email already taken.' });
+        }
+
+        if (activeIdInp) {
+            const result = await serverGetMemberInfo(userId);
+            if (result && !result.memberInfo) {
+                return res.status(400).json({ message: 'ID number is not registered. Please contact your officers for clarifications.' });
+            }
         }
 
         if (existingUserId) {

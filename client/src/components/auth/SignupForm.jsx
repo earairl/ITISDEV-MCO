@@ -25,7 +25,12 @@ async function handleSubmit(e) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ userId, username, email, password }),
+            body: JSON.stringify({ 
+                userId: activeIdInp ? userId : '', 
+                username, 
+                email, 
+                password, 
+                activeIdInp, }),
         });
 
         const data = await response.json();
@@ -116,7 +121,7 @@ function toggleUserIdInp() {
                         initial={{ opacity: 0, y: -100}}
                         animate={{ opacity: 1, y: 0}}
                         exit={{ opacity: 0, y: -100 }}
-                        transition={{ duration: 0.4, ease: 'easeInOut' }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
                     >
                         <label htmlFor="signupUserId">Full ID Number</label><br/>
                         <input 
@@ -131,12 +136,11 @@ function toggleUserIdInp() {
                 )}
             </AnimatePresence>
 
-            <div className={styles.centerWrap}>
+            <motion.div layout transition={{ duration: 0.4, ease: 'easeOut' }} className={styles.centerWrap}>
                 <input className={styles.authBtn} type="submit" value="Sign Up" />
-            </div>
+            </motion.div>
 
             </form>
-
 
             <div className={styles.centerWrap}>
             <p>Already have an account? <a href="#" onClick={toggleView}>Log in</a></p>

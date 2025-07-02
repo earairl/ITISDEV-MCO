@@ -30,12 +30,7 @@ function AuthPage() {
       exit={{opacity: 0}}
     >
       
-      {/* not yet final animation */}
-      <motion.div 
-        layout
-      >
-        <ShuttleSyncLogo styles={styles} />
-      </motion.div>
+      <ShuttleSyncLogo styles={styles} />
 
       <AnimatePresence mode='wait'>
         {isLogin ? (

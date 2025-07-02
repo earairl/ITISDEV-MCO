@@ -72,7 +72,7 @@
 
 .visibilityBtn:hover {
     color: var(--color-accent-light);
-    transition: all 100ms;
+    transition: all 200ms;
 }
 
 .centerWrap {
@@ -107,7 +107,7 @@
 .authBtn:hover {
     color: var(--color-text-bg-white);
     background-color: var(--color-accent-dark);
-    transition: all 100ms;
+    transition: all 200ms;
 }
 
 .authContent {
