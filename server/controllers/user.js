@@ -8,9 +8,12 @@ const serverGetUser = async (userId) => {
             username: user.credentials.username
         };
 
-        const result = await serverGetMemberInfo(userId);
+        console.log('user info: ', user);
+
+        const result = await serverGetMemberInfo(user.credentials.userId);
+        console.log('user info: ', result.memberInfo);
         if (result && result.memberInfo) {
-            userInfo.position = memberInfo.position;
+            userInfo.position = result.memberInfo.position;
         }
         else if (result && !result.memberInfo) userInfo.position = 'member';
 
