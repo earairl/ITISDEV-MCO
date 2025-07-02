@@ -26,7 +26,7 @@ async function handleSubmit(e) {
         alert(data.message);
         if (response.ok) {
             sessionStorage.setItem('isLoggedIn', true);
-            sessionStorage.setItem('username', JSON.stringify(data.user.username));
+            sessionStorage.setItem('user', JSON.stringify(data.user));
             navigate('/home');
         }
     } catch (err) {
