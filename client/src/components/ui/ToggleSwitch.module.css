@@ -31,7 +31,7 @@
 }
 
 .Label {
-	color: white;
+	color: var(--color-text-bg-green);
 	font-size: 15px;
 	line-height: 1;
 	user-select: none;

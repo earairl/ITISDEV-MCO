@@ -37,6 +37,10 @@
     width: 100%;
     border: none;
     margin-top: 0.15em;
+    &:focus-visible {
+		outline: 2px solid var(--color-accent-light);    
+		outline-offset: 1px;
+	}
 }
 
 .passWrap {
@@ -76,10 +80,15 @@
     margin: 2em 0 3em 0;
     padding: 0.5em 1em 0.5em 1em;
     font-weight: 900;
+    &:focus-visible {
+		outline: 2px solid var(--color-accent-light);
+		outline-offset: 1px;
+	}
 }
 
 .authBtn:hover {
-    color: var(--color-accent-light);
+    color: var(--color-text-bg-white);
+    background-color: var(--color-accent-dark);
     transition: all 100ms;
 }
 

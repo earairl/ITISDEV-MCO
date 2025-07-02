@@ -1,0 +1,88 @@
+.Root {
+	margin: 0.25rem 1rem 1rem 1rem;
+	width: 35vw;
+	height: 18vw;
+	border-radius: 1rem;
+	overflow: hidden;
+	box-shadow: 0 2px 10px black;
+	background-color: var(--color-accent-light);
+	--scrollbar-size: 0.6rem;
+}
+
+.TabTitle{
+	color: var(--color-text-bg-green);
+	margin-left: 1rem;
+	font-family: var(--font-heading);
+	font-size: 1.4rem;
+	font-weight: 600;
+}
+
+.Viewport {
+	width: 100%;
+	height: 100%;
+	border-radius: inherit;
+}
+
+.Scrollbar {
+	display: flex;
+	border-radius: 0.5rem;
+	margin-right: 0.3rem;
+	margin-top: 0.5rem;
+	/* ensures no selection */
+	user-select: none;
+	/* disable browser handling of all panning and zooming gestures on touch devices */
+	touch-action: none;
+	padding: 2px;
+	background: lightgray;
+	transition: background 160ms ease-out;
+	&:hover {
+		background: gray;
+	}
+	&[data-orientation="vertical"] {
+		width: var(--scrollbar-size);
+	}
+	&[data-orientation="horizontal"] {
+		flex-direction: column;
+		height: var(--scrollbar-size);
+	}
+}
+
+.Thumb {
+	flex: 1;
+	background: #a1a8a2;
+	border-radius: var(--scrollbar-size);
+	position: relative;
+
+	/* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
+	&::before {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+		height: 100%;
+		min-width: 44px;
+		min-height: 44px;
+	}
+}
+
+.Corner {
+	background: black;
+}
+
+.Text {
+	color: var(--color-text-bg-green);
+	font-size: 15px;
+	line-height: 18px;
+	font-weight: 500;
+}
+
+.Tag {
+	color: var(--color-text-bg-green);
+	font-size: 1rem;
+	line-height: 18px;
+	margin-top: 10px;
+	border-top: 1px solid black;
+	padding-top: 10px;
+}

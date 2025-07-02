@@ -13,25 +13,23 @@ function NavBar(props) {
     console.log('Location context:', location);
 
     return (
-        <>
-            <div className={styles.navBarWrap}>
-                <div className={styles.navBarLeft}>
-                    <span 
-                        className={menuBtn}
-                        onClick={() => props.toggleSideNav()}
-                    >
-                        menu
-                    </span>
+        <header className={styles.navBarWrap}>
+            <div className={styles.navBarLeft}>
+                <span 
+                    className={menuBtn}
+                    onClick={() => props.toggleSideNav()}
+                >
+                    menu
+                </span>
 
-                    {/* parent comp must pass <NavBar username={} />  */}
-                    <h1 className={styles.navBarUser}>Hello, <a href={`/profile/${props.username}`}>{props.username}</a></h1>
-                </div>
-
-                <div className={styles.navBarRight}>
-                    <img className={styles.navBarLogo} src={logo} onClick={() => navigate('/home')}/>
-                </div>
+                {/* parent comp must pass <NavBar username={} />  */}
+                <h1 className={styles.navBarUser}>Hello, <a href={`/profile/${props.username}`}>{props.username}</a></h1>
             </div>
-        </>
+
+            <div className={styles.navBarRight}>
+                <img className={styles.navBarLogo} src={logo} onClick={() => navigate('/home')}/>
+            </div>
+        </header>
     )
 }
 

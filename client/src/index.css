@@ -106,7 +106,7 @@ button {
 }
 
 button:hover {
-  border-color: #646cff;
+  border-color: var(--color-accent-light);
   transition: all 100ms;
 }
 
