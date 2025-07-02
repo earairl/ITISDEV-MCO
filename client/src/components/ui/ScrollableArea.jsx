@@ -8,12 +8,12 @@ const TAGS = Array.from({ length: 50 }).map(
 );
 
 // add conditionals to determine what to render, e.g. data for games, times, notifs, etc.
-const ScrollableArea = ({ tabName, tabHeight = 22 }) => (
+const ScrollableArea = ({ tabName, tabHeight = 22, tabWidth = 35 }) => (
 	<div>
 		<h2 className={styles.TabTitle}>{ tabName }</h2>
 		<ScrollArea.Root 
 			className={styles.Root} 
-			style={{ height: `${tabHeight}vh` }}>
+			style={{ height: `${tabHeight}vh`, width: `${tabWidth}vw` }}>
 			<ScrollArea.Viewport className={styles.Viewport}>
 				<div style={{ padding: "0rem 2rem 0rem 0.8rem"}}>
 					{/* <div className={styles.Text}>Scrollable Area</div> */}

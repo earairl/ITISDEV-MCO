@@ -2,10 +2,6 @@ import MainLayout from "@/template/MainLayout"
 import { motion } from 'motion/react'
 import styles from "./ProfilePage.module.css";
 
-/* Radix UI */
-import ToggleSwitch from "@/components/ui/ToggleSwitch"
-import UserAvatar from "@/components/ui/UserAvatar"
-import NotifModal from "@/components/ui/NotifModal"
 import ScrollableArea from "@/components/ui/ScrollableArea"
 
 // implement conditionals to render variations of the page
@@ -35,8 +31,8 @@ function ProfilePage() {
                             <h2>5/10 Penalties</h2>
                         </article>
                         <article className={styles.ScrollTabs}>
-                            <ScrollableArea tabName="Current Games Queued" />
-                            <ScrollableArea tabName="Past Games Joined" />
+                            <ScrollableArea tabName="Current Games Queued" tabWidth="40"/>
+                            <ScrollableArea tabName="Past Games Joined" tabWidth="40"/>
                         </article>
                         <article className={styles.Penalty}>
                             <input type="button" value="Assign Penalty" />

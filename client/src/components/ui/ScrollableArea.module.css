@@ -1,6 +1,7 @@
 .Root {
 	margin: 0.25rem 0rem 1rem 0rem;
-	width: 35vw;
+	min-width: 35vw;
+	max-width: 45vw;
 	min-height: 15vh;
 	max-height: 40vh;
 	border-radius: 1rem;
