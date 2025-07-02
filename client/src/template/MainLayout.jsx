@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'motion/react'
 
 function MainLayout({ children }) {
     const [sidebarActive, setSidebarActive] = useState(false)
+    const username = sessionStorage.getItem('username');
 
     function toggleSideNav() {
         setSidebarActive(!sidebarActive)
@@ -23,11 +24,11 @@ function MainLayout({ children }) {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4 }}
                     >
-                        <SideNavBar username={'Yippee'} toggleSideNav={toggleSideNav} position='officer'/>
+                        <SideNavBar username={username} toggleSideNav={toggleSideNav} position='officer'/>
                     </motion.div>
                 </AnimatePresence>
             }
-            <NavBar username={'Yippee'} toggleSideNav={toggleSideNav} />
+            <NavBar username={username} toggleSideNav={toggleSideNav} />
             {/* places "pages" here */}
             { children }
         </div>
