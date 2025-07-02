@@ -1,4 +1,5 @@
 const User = require('../models/User');
+// const Member = require('../models/Member');
 const { serverGetUser } = require('./user');
 
 const generateUserId = async (requestedId) => {
@@ -37,7 +38,7 @@ const register = async (req, res) => {
         }
 
         if (existingUserId) {
-            return res.status(400).json({ message: 'The userId is already in use. Please provide another one.' });
+            return res.status(400).json({ message: 'The ID number is already in use. Please provide another one.' });
         }
 
         finalUserId = userId;
@@ -53,6 +54,12 @@ const register = async (req, res) => {
                 password: password
             }
         });
+        /*
+        const member = await Member.findOne({ idNum: userId });
+        if (member) {
+            newUser.member = member._id;
+        }
+        */
         await newUser.save(); // password is hashed automatically by the pre-save hook in User model
 
         const response = await serverGetUser(newUser._id);

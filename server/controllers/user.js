@@ -34,6 +34,7 @@ const deleteUser = async(req, res) => {
         const user = await User.findOne({ 'credentials.username': username });
 
         user.credentials.username = `[deleted]_${user._id}`;
+        user.credentials.email = null;
         user.credentials.password = null;
         user.deleted = true;
 

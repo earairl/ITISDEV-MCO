@@ -52,4 +52,35 @@ const getMemberInfo = async (req, res) => {
     }
 };
 
-module.exports = { addMember, getMemberInfo };
+const setMemberInactive = async(req, res) => {
+    const { idNum } = req.body;
+
+    try {
+        const member = await Member.findOne({ 'idNum': idNum });
+        member.isActive = false;
+        await member.save();
+        res.status(200).json({ message: 'Member set as inactive successfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error setting member as inactive', error });
+    }
+};
+
+const removeMember = async (req, res) => {
+    const { idNum } = req.body;         
+
+    try {
+        const deletedMember = await Member.findOneAndDelete({ idNum });
+
+        if (!deletedMember) {
+            return res.status(404).json({ message: 'Member not found.' });
+        }
+
+        res.status(200).json({ message: 'Member removed successfully.' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error removing member: ' + error.message });
+    }
+};
+
+module.exports = { addMember, getMemberInfo, setMemberInactive, removeMember };
