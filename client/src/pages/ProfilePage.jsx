@@ -1,5 +1,7 @@
 import MainLayout from "@/template/MainLayout"
 import { motion } from 'motion/react'
+import styles from "./ProfilePage.module.css";
+
 /* Radix UI */
 import ToggleSwitch from "@/components/ui/ToggleSwitch"
 import UserAvatar from "@/components/ui/UserAvatar"
@@ -16,7 +18,31 @@ function ProfilePage() {
             exit={{opacity: 0}}
         >
             <MainLayout>               
-                <h1 className='text-green-500'>Profile Page</h1>
+                <div className={styles.MainDiv}>
+                    <div className={styles.Content}>
+                        <header className={styles.ProfileHeader}>
+                            <div>
+                                <h1>John Doe</h1>
+                                <h3>johndoe@gmail.com</h3>
+                            </div>
+                            <div>
+                                <h2>Joined Feb 2023</h2>
+                                <h2>Member</h2>
+                            </div>
+                        </header>
+                        <article className={styles.ProfileStats}>
+                            <h2>85% Attendance Rate</h2>
+                            <h2>5/10 Penalties</h2>
+                        </article>
+                        <article className={styles.ScrollTabs}>
+                            <ScrollableArea tabName="Current Games Queued" />
+                            <ScrollableArea tabName="Past Games Joined" />
+                        </article>
+                        <article className={styles.Penalty}>
+                            <input type="button" value="Assign Penalty" />
+                        </article>
+                    </div>
+                </div>
             </MainLayout>    
         </motion.div>
     )

@@ -1,0 +1,82 @@
+.MainDiv {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Prevent scrollbars */
+    position: relative;
+}
+
+.Content{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    color: var(--color-text-bg-green);
+    font-family: var(--font-heading);
+    padding: 1rem 0.5rem;
+    width: 100vw;
+    height: auto;
+}
+
+.ProfileHeader{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    text-align: left;
+    margin: 1rem 0.5rem 0.5rem 0.5rem;
+}
+
+.ProfileStats, .ScrollTabs{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.ProfileHeader h1 {
+    color: black;
+    font-size: 3rem;
+}
+
+.ProfileHeader h2 {
+    justify-self: right;
+}
+
+.ProfileStats h2 {
+    text-align: center;
+    width: 35vw;
+    font-size: 2rem;
+    background-color: #00703c5b;
+    margin: 1rem 0rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.ProfileHeader h3, h2 {
+    color: gray;
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.Penalty > input{
+    width: 35vw;
+    margin: 1.5rem 0rem;
+    padding: 0.4em 1em 0.4em 1em;
+    font-size: 2rem;
+    font-family: var(--font-heading);
+    font-weight: 900;
+    border: 2px solid var(--color-text-bg-green);
+    border-radius: 1rem;
+    &:hover{
+        color: var(--color-text-bg-white);
+        background-color: var(--color-red-500);
+        border: 0px;
+        transition: all 100ms;
+    }
+    &:focus-visible {
+        color: var(--color-text-bg-white);
+        background-color: var(--color-red-500);
+        border: 0px;
+		outline: 2px solid var(--color-accent-dark);
+		outline-offset: 1px;
+	}
+}
