@@ -19,8 +19,8 @@ function HomePage() {
                 <div className={styles.MainDiv}>
                     <div className={styles.Content}>
                         <article className={styles.ScrollTabs}>
-                            <ScrollableArea tabName="Current Games Queued" tabHeight="40" tabWidth="40"/>
-                            <ScrollableArea tabName="Past Games Joined" tabHeight="40" tabWidth="40"/>
+                            <ScrollableArea tabName="Notifications" tabHeight="40" tabWidth="40"/>
+                            <ScrollableArea tabName="Upcoming Games" tabHeight="40" tabWidth="40"/>
                         </article>
                         <article className={styles.Buttons}>
                             <input type="button" value="Create New Schedule" />
