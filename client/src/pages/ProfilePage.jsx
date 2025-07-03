@@ -12,13 +12,15 @@ function ProfilePage() {
     const { username } = useParams();
     const [email, setEmail] = useState(""); // email initialized to "", setEmail: for updating value
     const [position, setPosition] = useState("");
+    const [dateJoined, setDateJoined] = useState("");
+    const [isMember, setIsMember] = useState(false);
 
     const fetchUser = async (username) => {
         try {
             const response = await fetch(`http://localhost:5000/getUser?username=${username}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
-            }); 
+            });
 
             const data = await response.json();
             if (response.ok) {
@@ -31,7 +33,7 @@ function ProfilePage() {
     };
 
     useEffect(() => {
-        const storedUser = sessionStorage.getItem("user"); 
+        const storedUser = sessionStorage.getItem("user");
         if (storedUser) {
             const user = JSON.parse(storedUser); //turn JSON string into JS object
 
@@ -42,6 +44,27 @@ function ProfilePage() {
         }
 
         fetchUser(username);
+
+        async function fetchUserData() {
+              try {
+                const userRes = await fetch(`http://localhost:5000/user/userId/${username}`);
+                if (!userRes.ok) return;
+                const data = await userRes.json();
+                const memberRes = await fetch(`http://localhost:5000/member/by-idnum/${data.userId}`);
+                const memberData = await memberRes.json();
+                if (memberData?.memberInfo) {
+                    setIsMember(true);
+                    setDateJoined(new Date(memberData.memberInfo.dateJoined).toLocaleDateString("en-US", { month: "short", year: "numeric" }));
+                } else {
+                    setIsMember(false); 
+                    setDateJoined("");  
+                }
+
+            } catch (err) {
+                console.error("Error fetching profile data:", err);
+            }
+        }
+        fetchUserData();
     }, [username]); // runs whenever the username in url changes
 
     return (
@@ -59,8 +82,8 @@ function ProfilePage() {
                                 <h3>{email}</h3>
                             </div>
                             <div>
-                                <h2>Joined Feb 2023</h2>
-                                <h2>{ position }</h2>
+                                 {isMember && <h2>Joined {dateJoined}</h2>}
+                                <h2>{position}</h2>
                             </div>
                         </header>
                         <article className={styles.ProfileStats}>
