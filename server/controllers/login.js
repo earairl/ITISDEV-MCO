@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
 const logoutUser = (req, res) => {
     try {
         req.session.destroy();
-        res.status(200).json({ message: 'Session destroyed' });
+        res.status(200).json({ message: 'Log out successful' });
     } catch (err) {
         console.error('Error destroying session: ', err);
         res.status(500).json({ error: err });

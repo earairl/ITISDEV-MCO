@@ -49,10 +49,9 @@ function ProfilePage() {
                 const data = await res.json();
                 const userInfo = data.userInfo;
 
-                setPosition(userInfo.position || "Unknown");
-
                 if (userInfo.dateJoined) {
                     setIsMember(true);
+                    setPosition(userInfo.position);
                     setDateJoined(
                         new Date(userInfo.dateJoined).toLocaleDateString("en-US", {
                             month: "short",
@@ -61,6 +60,7 @@ function ProfilePage() {
                     );
                 } else {
                     setIsMember(false);
+                    setPosition("");
                     setDateJoined("");
                 }
 
@@ -90,7 +90,7 @@ function ProfilePage() {
                             </div>
                             <div>
                                 {isMember && <h2>Joined {dateJoined}</h2>}
-                                <h2>{position}</h2>
+                                {isMember && <h2>{position}</h2>}
                             </div>
                         </header>
                         <article className={styles.ProfileStats}>
