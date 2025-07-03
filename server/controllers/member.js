@@ -102,14 +102,4 @@ const removeMember = async (req, res) => {
     }
 };
 
-const getMemberInfoByIdNum = async (req, res) => {
-    try {
-        const { idNum } = req.params;
-        const result = await serverGetMemberInfo(idNum);
-        res.status(200).json({ memberInfo: result.memberInfo });
-    } catch (error) {
-        res.status(500).json({ message: 'Error in getting member info', error: error.message });
-    }
-};
-
-module.exports = { addMember, serverGetMemberInfo, getMemberInfo, setMemberInactive, removeMember, getMemberInfoByIdNum };
+module.exports = { addMember, serverGetMemberInfo, getMemberInfo, setMemberInactive, removeMember};

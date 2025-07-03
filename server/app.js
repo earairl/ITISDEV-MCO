@@ -5,8 +5,6 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const indexRoute = require('./routes');
-const userRoute = require('./routes/user');
-const memberRoute = require('./routes/member');
 
 // express app
 const app = express()
@@ -41,8 +39,6 @@ app.use(
 
 // routes
 app.use('/', indexRoute);
-app.use('/user', userRoute);
-app.use('/member', memberRoute);
 
 // listen for requests
 mongoose.connect(process.env.MONGODB).then(() => {
