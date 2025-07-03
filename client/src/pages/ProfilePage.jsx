@@ -2,6 +2,7 @@ import MainLayout from "@/template/MainLayout"
 import { motion } from 'motion/react'
 import styles from "./ProfilePage.module.css";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react"; // useState: stores data that changes, useEffect: run code in response to comp
 
 import ScrollableArea from "@/components/ui/ScrollableArea"
 
@@ -9,6 +10,15 @@ import ScrollableArea from "@/components/ui/ScrollableArea"
 // e.g. omitting a component if viewed as an officer, public user, etc.
 function ProfilePage() {
     const { username } = useParams();
+    const [email, setEmail] = useState(""); // email initialized to "", setEmail: for updating value
+
+    useEffect(() => {
+    const storedUser = sessionStorage.getItem("user"); // 
+    if (storedUser) {
+        const user = JSON.parse(storedUser); //turn JSON string into JS object
+        setEmail(user.email); // get email from sessionStorage
+    }
+    }, []); // [] makes effect runs once after first render
 
     return (
         <motion.div
@@ -22,7 +32,7 @@ function ProfilePage() {
                         <header className={styles.ProfileHeader}>
                             <div>
                                 <h1>{ username }</h1>
-                                <h3>johndoe@gmail.com</h3>
+                                <h3>{ email }</h3>
                             </div>
                             <div>
                                 <h2>Joined Feb 2023</h2>

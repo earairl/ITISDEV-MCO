@@ -5,7 +5,8 @@ const serverGetUser = async (userId) => {
     try {
         const user = await User.findById(userId);
         const userInfo = {
-            username: user.credentials.username
+            username: user.credentials.username,
+            email: user.credentials.email // for profile page 
         };
 
         console.log('user info: ', user);
