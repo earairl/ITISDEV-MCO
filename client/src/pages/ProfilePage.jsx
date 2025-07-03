@@ -13,12 +13,18 @@ function ProfilePage() {
     const [email, setEmail] = useState(""); // email initialized to "", setEmail: for updating value
 
     useEffect(() => {
-    const storedUser = sessionStorage.getItem("user"); // 
-    if (storedUser) {
-        const user = JSON.parse(storedUser); //turn JSON string into JS object
-        setEmail(user.email); // get email from sessionStorage
-    }
-    }, []); // [] makes effect runs once after first render
+        const storedUser = sessionStorage.getItem("user"); 
+        if (storedUser) {
+            const user = JSON.parse(storedUser); //turn JSON string into JS object
+
+            if (user.username === username) {
+                setEmail(user.email);
+            }
+            else {
+                setEmail(""); // no show email if username is not logged in user
+            }
+        }
+    }, [username]); // runs whenever the username in url changes
 
     return (
         <motion.div
