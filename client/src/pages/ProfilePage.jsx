@@ -1,12 +1,15 @@
 import MainLayout from "@/template/MainLayout"
 import { motion } from 'motion/react'
 import styles from "./ProfilePage.module.css";
+import { useParams } from "react-router-dom";
 
 import ScrollableArea from "@/components/ui/ScrollableArea"
 
 // implement conditionals to render variations of the page
 // e.g. omitting a component if viewed as an officer, public user, etc.
 function ProfilePage() {
+    const { username } = useParams();
+
     return (
         <motion.div
             initial={{opacity: 0}}
@@ -18,7 +21,7 @@ function ProfilePage() {
                     <div className={styles.Content}>
                         <header className={styles.ProfileHeader}>
                             <div>
-                                <h1>John Doe</h1>
+                                <h1>{ username }</h1>
                                 <h3>johndoe@gmail.com</h3>
                             </div>
                             <div>
