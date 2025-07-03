@@ -8,12 +8,17 @@ import { SideBarActions } from './SideBarActions'
 
 function SideNavBar(props) {
     const actions = [
-        { label: 'Home', icon: 'home', path: '/home' },
-        { label: 'Profile', icon: 'account_box', path: `/profile/${props.username}` },
-        ...(props.position === 'officer' ?
+        { label: 'Home', icon: 'home', path: '/' },
+        ...(props.position !== 'guest' ?
             [
-                { label: 'Database', icon: 'database', path: '/database' },
-            ] :
+                { label: 'Profile', icon: 'account_box', path: `/profile/${props.username}` },
+                ...(props.position === 'officer' ?
+                    [
+                        { label: 'Database', icon: 'database', path: '/database' },
+                    ] :
+                    []
+                ),
+            ] : 
             []
         ),
     ]
@@ -37,7 +42,7 @@ function SideNavBar(props) {
             if (response.ok) {
                 sessionStorage.removeItem('isLoggedIn');
                 sessionStorage.removeItem('user');
-                navigate('/');
+                navigate('/auth');
             }
         } catch (err) {
             console.error('Logout error:', err);
@@ -58,18 +63,30 @@ function SideNavBar(props) {
                 <div className={styles.navBarHeader}>
                     <img src={shuttlesyncGreen} />
                 </div>
-                <SideBarActions styles={styles} actions={actions} />
+                <SideBarActions styles={styles} actions={actions} navigate={navigate} toggleSideNav={props.toggleSideNav} />
             </div>
             
+
             <ul className={styles.navBarActions}>
-                <li key='logout' className={styles.navBarAction}>
-                    <span className="material-symbols-outlined" onClick={(e) => handleLogout(e)}>
-                        logout
-                    </span>
-                    <a href="#" onClick={(e) => handleLogout(e)}>
-                        Log out
-                    </a>
-                </li>
+                {( props.position === 'guest' ?
+                    <li key='login' className={styles.navBarAction} onClick={() => navigate('/auth')}>
+                        <span className="material-symbols-outlined">
+                            login
+                        </span>
+                        <a href='' onClick={() => navigate('/auth')}>
+                            Log in
+                        </a>
+                    </li>
+                   : 
+                   <li key='logout' className={styles.navBarAction} onClick={(e) => handleLogout(e)}>
+                        <span className="material-symbols-outlined">
+                            logout
+                        </span>
+                        <a href="#" onClick={(e) => handleLogout(e)}>
+                            Log out
+                        </a>
+                    </li>
+                )}
             </ul>
         </div>
     )

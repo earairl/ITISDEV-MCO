@@ -15,26 +15,24 @@ function HomePage() {
             animate={{opacity: 1}}
             exit={{opacity: 0}}
         >
-            <MainLayout>
-                <div className={styles.MainDiv}>
-                    <div className={styles.Content}>
-                        <article className={styles.ScrollTabs}>
-                            <ScrollableArea tabName="Notifications" tabHeight="40" tabWidth="40"/>
-                            <ScrollableArea tabName="Upcoming Games" tabHeight="40" tabWidth="40"/>
-                        </article>
-                        <article className={styles.Buttons}>
-                            <input type="button" value="Create New Schedule" />
-                            <input type="button" value="Generate Member Report" />
-                        </article>
-                    </div>
+            <div className={styles.MainDiv}>
+                <div className={styles.Content}>
+                    <article className={styles.ScrollTabs}>
+                        <ScrollableArea tabName="Notifications" tabHeight="40" tabWidth="40"/>
+                        <ScrollableArea tabName="Upcoming Games" tabHeight="40" tabWidth="40"/>
+                    </article>
+                    <article className={styles.Buttons}>
+                        <input type="button" value="Create New Schedule" />
+                        <input type="button" value="Generate Member Report" />
+                    </article>
                 </div>
-                {/* Uncomment to view components*/}
-                {/* <div style={{backgroundColor: "lightyellow", padding: "2rem"}}>
-                    <ToggleSwitch btnLabel="sample" btnName="Sample Toggle"></ToggleSwitch>
-                    <UserAvatar userImg="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80" initials="TadadsD"></UserAvatar>
-                    <NotifModal></NotifModal>
-                </div> */}
-            </MainLayout>    
+            </div>
+            {/* Uncomment to view components*/}
+            {/* <div style={{backgroundColor: "lightyellow", padding: "2rem"}}>
+                <ToggleSwitch btnLabel="sample" btnName="Sample Toggle"></ToggleSwitch>
+                <UserAvatar userImg="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80" initials="TadadsD"></UserAvatar>
+                <NotifModal></NotifModal>
+            </div> */}   
         </motion.div>
     )
 }

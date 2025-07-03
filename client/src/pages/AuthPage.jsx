@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames'
 import { motion, AnimatePresence } from 'motion/react'
 
@@ -11,6 +12,14 @@ import { ShuttleSyncLogo } from '../components/ui/ShuttleSyncLogo'
 // This is the main functional component
 function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(false)
+  }, [])
+
+  const navigate = useNavigate()
+
   const visBtn = classNames('material-symbols-outlined', styles.visibilityBtn)
   const modifiedStyles = {
     ...styles,
@@ -38,7 +47,7 @@ function AuthPage() {
             key='loginForm'
             className={styles.authContent}
 
-            initial={{ x: -100, opacity: 0 }} 
+            initial={ isMounted ? { x: -100, opacity: 0 } : false } 
             animate={{ x: 0, opacity: 1 }} 
             exit={{ x: 100, opacity: 0 }}
             transition={{ duration: 0.4, ease: 'easeInOut' }}
@@ -59,6 +68,14 @@ function AuthPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <button className={styles.guestBtn} onClick={() => navigate('/') }>
+        <span className="material-symbols-outlined">
+        account_circle
+        </span>
+        Login as Guest
+      </button>
+
     </motion.div>
   );
 }

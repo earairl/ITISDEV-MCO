@@ -6,20 +6,25 @@ import ProfilePage from '../pages/ProfilePage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 import { AnimatePresence } from 'motion/react'
+import MainLayout from "../template/MainLayout"
 
 function AnimatedRoutes() {
     const location = useLocation()
     return (
-        <AnimatePresence>
-            <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<AuthPage />} />
-                <Route path="/home" element={<HomePage />} />
-                {/* <Route path="/game-details" element={<GamePage />} /> */}
-                <Route path="/profile/:username" element={<ProfilePage />} />
-                {/* append user name as path id */}
-                <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-        </AnimatePresence>
+            <AnimatePresence mode='wait'>
+                <Routes location={location} key={location.pathname}>
+                    <Route path="/auth" element={<AuthPage />} />
+
+                    {/* routes that use MainLayout */}
+                    <Route path='/' element={<MainLayout />}>
+                        <Route path="" element={<HomePage />} />
+                        {/* <Route path="game-details" element={<GamePage />} /> */}
+                        <Route path="profile/:username" element={<ProfilePage />} />
+                        {/* append user name as path id */}
+                        <Route path="*" element={<NotFoundPage />} />
+                    </Route>
+                </Routes>
+            </AnimatePresence>
     )
 }
 

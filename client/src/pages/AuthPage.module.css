@@ -95,7 +95,7 @@
 
 .authBtn {
     width: 6em;
-    margin: 2em 0 3em 0;
+    margin: 1.5em 0 1.5em 0;
     padding: 0.5em 1em 0.5em 1em;
     font-weight: 900;
     &:focus-visible {
@@ -104,7 +104,27 @@
 	}
 }
 
-.authBtn:hover {
+.guestBtn {
+    display: flex;
+    align-items: center;
+    width: auto;
+    gap: 0.5em;
+    margin-top: 2.5em;
+    border-radius: 999em;
+    font-size: 1em;
+    font-weight: 900;
+    background-color: var(--color-text-bg-white);
+    &:focus-visible {
+		outline: 2px solid var(--color-accent-light);
+		outline-offset: 1px;
+	}
+}
+
+.guestBtn span {
+    font-size: 1.6em;
+}
+
+.authBtn:hover, .guestBtn:hover {
     color: var(--color-text-bg-white);
     background-color: var(--color-accent-dark);
     transition: all 200ms;

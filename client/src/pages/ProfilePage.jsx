@@ -80,33 +80,31 @@ function ProfilePage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            <MainLayout>
-                <div className={styles.MainDiv}>
-                    <div className={styles.Content}>
-                        <header className={styles.ProfileHeader}>
-                            <div>
-                                <h1>{username}</h1>
-                                <h3>{email}</h3>
-                            </div>
-                            <div>
-                                {isMember && <h2>Joined {dateJoined}</h2>}
-                                <h2>{position}</h2>
-                            </div>
-                        </header>
-                        <article className={styles.ProfileStats}>
-                            <h2>85% Attendance Rate</h2>
-                            <h2>5/10 Penalties</h2>
-                        </article>
-                        <article className={styles.ScrollTabs}>
-                            <ScrollableArea tabName="Current Games Queued" tabWidth="40" />
-                            <ScrollableArea tabName="Past Games Joined" tabWidth="40" />
-                        </article>
-                        <article className={styles.Penalty}>
-                            <input type="button" value="Assign Penalty" />
-                        </article>
-                    </div>
+            <div className={styles.MainDiv}>
+                <div className={styles.Content}>
+                    <header className={styles.ProfileHeader}>
+                        <div>
+                            <h1>{username}</h1>
+                            <h3>{email}</h3>
+                        </div>
+                        <div>
+                            {isMember && <h2>Joined {dateJoined}</h2>}
+                            <h2>{position}</h2>
+                        </div>
+                    </header>
+                    <article className={styles.ProfileStats}>
+                        <h2>85% Attendance Rate</h2>
+                        <h2>5/10 Penalties</h2>
+                    </article>
+                    <article className={styles.ScrollTabs}>
+                        <ScrollableArea tabName="Current Games Queued" tabWidth="40" />
+                        <ScrollableArea tabName="Past Games Joined" tabWidth="40" />
+                    </article>
+                    <article className={styles.Penalty}>
+                        <input type="button" value="Assign Penalty" />
+                    </article>
                 </div>
-            </MainLayout>
+            </div>
         </motion.div>
     )
 }

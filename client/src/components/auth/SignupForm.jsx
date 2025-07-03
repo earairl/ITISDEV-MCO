@@ -38,7 +38,7 @@ async function handleSubmit(e) {
         if (response.ok) {
             sessionStorage.setItem('isLoggedIn', true);
             sessionStorage.setItem('user', JSON.stringify(data.user));
-            navigate('/home');
+            navigate('/', { state: { fromAuth: true } });
         }
     } catch (err) {
         console.error('Register error:', err);

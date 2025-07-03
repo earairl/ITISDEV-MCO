@@ -22,12 +22,15 @@ function NavBar(props) {
                     menu
                 </span>
 
-                {/* parent comp must pass <NavBar username={} />  */}
-                <h1 className={styles.navBarUser}>Hello, <a href={`/profile/${props.username}`}>{props.username}</a></h1>
+                {( props.position === 'guest' ?
+                    <h1 className={styles.navBarUser}>ShuttleSync</h1> 
+                    :
+                    <h1 className={styles.navBarUser}>Hello, <a href={`/profile/${props.username}`}>{props.username}</a></h1>
+                )}
             </div>
 
             <div className={styles.navBarRight}>
-                <img className={styles.navBarLogo} src={logo} onClick={() => navigate('/home')}/>
+                <img className={styles.navBarLogo} src={logo} onClick={() => navigate('/')}/>
             </div>
         </header>
     )
