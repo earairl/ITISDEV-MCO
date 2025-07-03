@@ -1,5 +1,4 @@
 const User = require('../models/User');
-// const Member = require('../models/Member');
 const { serverGetUser } = require('./user');
 const { serverGetMemberInfo } = require('./member');
 
@@ -9,7 +8,7 @@ const generateUserId = async (requestedId) => {
     let exists = true;
 
     do {
-        candidate = (Math.floor(10000000 + Math.random() * 90000000)).toString(); // returns an 8-digit number.
+        candidate = (Math.floor(20000000 + Math.random() * 80000000)).toString(); // 8-digit number between 20000000 and 99999999
         exists = await User.exists({ 'credentials.userId': candidate });
     } while (exists);
 

@@ -11,10 +11,27 @@ import ScrollableArea from "@/components/ui/ScrollableArea"
 function ProfilePage() {
     const { username } = useParams();
     const [email, setEmail] = useState(""); // email initialized to "", setEmail: for updating value
+    const [position, setPosition] = useState("");
+
+    const fetchUser = async (username) => {
+        try {
+            const response = await fetch(`http://localhost:5000/getUser?username=${username}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            }); 
+
+            const data = await response.json();
+            if (response.ok) {
+                setPosition(data.userInfo.position);
+            }
+        } catch (err) {
+            console.error('Error:', err);
+            alert('Error');
+        }
+    };
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem("user"); 
-
         if (storedUser) {
             const user = JSON.parse(storedUser); //turn JSON string into JS object
             
@@ -23,6 +40,8 @@ function ProfilePage() {
             else 
                 setEmail(""); // no show email if username is not logged in user
         }
+
+        fetchUser(username);
     }, [username]); // runs whenever the username in url changes
 
     return (
@@ -41,7 +60,7 @@ function ProfilePage() {
                             </div>
                             <div>
                                 <h2>Joined Feb 2023</h2>
-                                <h2>Member</h2>
+                                <h2>{ position }</h2>
                             </div>
                         </header>
                         <article className={styles.ProfileStats}>
