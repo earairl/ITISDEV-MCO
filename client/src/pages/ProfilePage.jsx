@@ -14,15 +14,14 @@ function ProfilePage() {
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem("user"); 
+
         if (storedUser) {
             const user = JSON.parse(storedUser); //turn JSON string into JS object
-
-            if (user.username === username) {
+            
+            if (user.username === username) 
                 setEmail(user.email);
-            }
-            else {
+            else 
                 setEmail(""); // no show email if username is not logged in user
-            }
         }
     }, [username]); // runs whenever the username in url changes
 
