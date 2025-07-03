@@ -7,8 +7,8 @@ import { motion, AnimatePresence } from 'motion/react'
 
 function MainLayout({ children }) {
     const [sidebarActive, setSidebarActive] = useState(false)
-    const userRaw = sessionStorage.getItem('user');
-    const user = userRaw ? JSON.parse(userRaw) : { username: 'guest', position: 'guest' };
+    const userInfo = sessionStorage.getItem('user');
+    const user = userInfo ? JSON.parse(userInfo) : { username: 'guest', position: 'guest' };
 
     function toggleSideNav() {
         setSidebarActive(!sidebarActive)
