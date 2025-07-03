@@ -1,0 +1,36 @@
+.tableWrapper {
+  width: 90%;
+  overflow-x: auto;
+  background-color: #00703c10;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.membersTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headerRow {
+  background-color: #00703c5b;
+}
+
+.headerCell {
+  color: var(--color-accent-dark);
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-family: var(--font-heading);
+}
+
+.dataRow {
+  text-align: center;
+}
+
+.dataCell {
+  padding: 0.8rem;
+  color: var(--color-text-bg-green);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  border-top: 1px solid #ccc;
+}
