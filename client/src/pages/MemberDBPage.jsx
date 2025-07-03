@@ -22,7 +22,6 @@ function MemberDBPage() {
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-        <MainLayout>
             <div className={styles.MainDiv}>
             <div className={styles.Content}>
                 <header className={styles.ProfileHeader}>
@@ -68,7 +67,6 @@ function MemberDBPage() {
                 </div>
             </div>
             </div>
-        </MainLayout>
         </motion.div>
     );
 }

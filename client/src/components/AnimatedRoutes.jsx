@@ -22,8 +22,8 @@ function AnimatedRoutes() {
                         {/* <Route path="game-details" element={<GamePage />} /> */}
                         <Route path="profile/:username" element={<ProfilePage />} />
                         {/* append user name as path id */}
-                        <Route path="/database" element={<MemberDBPage />} />
-                <Route path="*" element={<NotFoundPage />} />
+                        <Route path="database" element={<MemberDBPage />} />
+                        <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Routes>
             </AnimatePresence>
