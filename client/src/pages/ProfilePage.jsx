@@ -15,7 +15,7 @@ function ProfilePage() {
     const [dateJoined, setDateJoined] = useState("");
     const [isMember, setIsMember] = useState(false);
 
-    const fetchUser = async (username) => {
+    /*const fetchUser = async (username) => {
         try {
             const response = await fetch(`http://localhost:5000/getUser?username=${username}`, {
                 method: 'GET',
@@ -31,40 +31,47 @@ function ProfilePage() {
             alert('Error');
         }
     };
+    */
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem("user");
-        if (storedUser) {
-            const user = JSON.parse(storedUser); //turn JSON string into JS object
 
-            if (user.username === username)
-                setEmail(user.email);
-            else
-                setEmail(""); // no show email if username is not logged in user
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            setEmail(user.username === username ? user.email : "");
         }
 
-        fetchUser(username);
+        async function fetchUserProfile() {
+            try {
+                const res = await fetch(`http://localhost:5000/getUser?username=${username}`);
+                if (!res.ok) return;
 
-        async function fetchUserData() {
-              try {
-                const userRes = await fetch(`http://localhost:5000/user/userId/${username}`);
-                if (!userRes.ok) return;
-                const data = await userRes.json();
-                const memberRes = await fetch(`http://localhost:5000/member/by-idnum/${data.userId}`);
-                const memberData = await memberRes.json();
-                if (memberData?.memberInfo) {
+                const data = await res.json();
+                const userInfo = data.userInfo;
+
+                setPosition(userInfo.position || "Unknown");
+
+                if (userInfo.dateJoined) {
                     setIsMember(true);
-                    setDateJoined(new Date(memberData.memberInfo.dateJoined).toLocaleDateString("en-US", { month: "short", year: "numeric" }));
+                    setDateJoined(
+                        new Date(userInfo.dateJoined).toLocaleDateString("en-US", {
+                            month: "short",
+                            year: "numeric",
+                        })
+                    );
                 } else {
-                    setIsMember(false); 
-                    setDateJoined("");  
+                    setIsMember(false);
+                    setDateJoined("");
                 }
 
             } catch (err) {
                 console.error("Error fetching profile data:", err);
+                setIsMember(false);
+                setDateJoined("");
             }
         }
-        fetchUserData();
+
+        fetchUserProfile();
     }, [username]); // runs whenever the username in url changes
 
     return (
@@ -82,7 +89,7 @@ function ProfilePage() {
                                 <h3>{email}</h3>
                             </div>
                             <div>
-                                 {isMember && <h2>Joined {dateJoined}</h2>}
+                                {isMember && <h2>Joined {dateJoined}</h2>}
                                 <h2>{position}</h2>
                             </div>
                         </header>

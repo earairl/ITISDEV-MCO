@@ -6,7 +6,7 @@ const serverGetUser = async (userId) => {
         const user = await User.findById(userId);
         const userInfo = {
             username: user.credentials.username,
-            email: user.credentials.email // for profile page 
+            email: user.credentials.email  
         };
 
         console.log('user info: ', user);
@@ -15,6 +15,7 @@ const serverGetUser = async (userId) => {
         console.log('user info: ', result.memberInfo);
         if (result && result.memberInfo) {
             userInfo.position = result.memberInfo.position;
+            userInfo.dateJoined = result.memberInfo.dateJoined;
         }
         else if (result && !result.memberInfo) userInfo.position = 'Participant (non-member)';
 
