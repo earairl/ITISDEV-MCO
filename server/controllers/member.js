@@ -78,10 +78,10 @@ const setMemberInactive = async(req, res) => {
         const member = await Member.findOne({ 'idNum': idNum });
         member.isActive = false;
         await member.save();
-        res.status(200).json({ message: 'Member set as inactive successfully' });
+        res.status(200).json({ message: 'Member set to inactive successfully.' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'Error setting member as inactive', error });
+        res.status(500).json({ message: 'Failed to set the member as inactive:', error });
     }
 };
 

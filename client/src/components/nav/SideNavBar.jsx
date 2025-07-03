@@ -36,7 +36,7 @@ function SideNavBar(props) {
             alert(data.message);
             if (response.ok) {
                 sessionStorage.removeItem('isLoggedIn');
-                sessionStorage.removeItem('username');
+                sessionStorage.removeItem('user');
                 navigate('/');
             }
         } catch (err) {

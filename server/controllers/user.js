@@ -16,7 +16,7 @@ const serverGetUser = async (userId) => {
         if (result && result.memberInfo) {
             userInfo.position = result.memberInfo.position;
         }
-        else if (result && !result.memberInfo) userInfo.position = 'member';
+        else if (result && !result.memberInfo) userInfo.position = 'Participant (non-member)';
 
         return { success: true, userInfo };
     } catch (error) {
@@ -26,9 +26,13 @@ const serverGetUser = async (userId) => {
 };
 
 const getUser = async (req, res) => {
-    const { userId } = req.body;
+    const { username } = req.query;
     try {
-        const result = await serverGetUser(userId);
+        const user = await User.findOne({ 'credentials.username': username });
+        if (!user) 
+            res.status(404).json({ message: 'User not found' });
+
+        const result = await serverGetUser(user._id);
         if (result.success) 
             res.status(200).json({ userInfo: result.userInfo });
         else 
