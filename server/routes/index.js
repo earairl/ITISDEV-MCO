@@ -3,7 +3,7 @@ const router = express.Router();
 const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, deleteUser } = require('../controllers/user');
-const { addMember, getMemberInfo, setMemberInactive, removeMember } = require('../controllers/member');
+const { addMember, getMemberInfo, setMemberInactive, removeMember, getMemberInfoByIdNum } = require('../controllers/member');
 
 // GET
 router.get('/', (req, res) => {

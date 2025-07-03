@@ -11,37 +11,63 @@ import ScrollableArea from "@/components/ui/ScrollableArea"
 function ProfilePage() {
     const { username } = useParams();
     const [email, setEmail] = useState(""); // email initialized to "", setEmail: for updating value
-
+    const [dateJoined, setDateJoined] = useState("");
+    const [isMember, setIsMember] = useState(false); 
     useEffect(() => {
-        const storedUser = sessionStorage.getItem("user"); 
+        const storedUser = sessionStorage.getItem("user");
 
         if (storedUser) {
             const user = JSON.parse(storedUser); //turn JSON string into JS object
-            
-            if (user.username === username) 
+
+            if (user.username === username)
                 setEmail(user.email);
-            else 
+            else
                 setEmail(""); // no show email if username is not logged in user
         }
+
+        async function fetchUserData() {
+            try {
+                const userRes = await fetch(`http://localhost:5000/user/userId/${username}`);
+                if (!userRes.ok) return;
+                const data = await userRes.json();
+                const memberRes = await fetch(`http://localhost:5000/member/by-idnum/${data.userId}`);
+                const memberData = await memberRes.json();
+                if (memberData?.memberInfo) {
+                    setIsMember(true);
+                    setDateJoined(new Date(memberData.memberInfo.dateJoined).toLocaleDateString("en-US", { month: "short", year: "numeric" }));
+                } else {
+                    setIsMember(false); 
+                    setDateJoined("");  
+                }
+
+            } catch (err) {
+                console.error("Error fetching profile data:", err);
+            }
+        }
+        fetchUserData();
     }, [username]); // runs whenever the username in url changes
 
     return (
         <motion.div
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            exit={{opacity: 0}}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
         >
-            <MainLayout>               
+            <MainLayout>
                 <div className={styles.MainDiv}>
                     <div className={styles.Content}>
                         <header className={styles.ProfileHeader}>
                             <div>
-                                <h1>{ username }</h1>
-                                <h3>{ email }</h3>
+                                <h1>{username}</h1>
+                                <h3>{email}</h3>
                             </div>
                             <div>
-                                <h2>Joined Feb 2023</h2>
-                                <h2>Member</h2>
+                                {isMember && (
+                                    <>
+                                        <h2>Joined {dateJoined}</h2>
+                                        <h2>Member</h2>
+                                    </> 
+                                )}
                             </div>
                         </header>
                         <article className={styles.ProfileStats}>
@@ -49,15 +75,15 @@ function ProfilePage() {
                             <h2>5/10 Penalties</h2>
                         </article>
                         <article className={styles.ScrollTabs}>
-                            <ScrollableArea tabName="Current Games Queued" tabWidth="40"/>
-                            <ScrollableArea tabName="Past Games Joined" tabWidth="40"/>
+                            <ScrollableArea tabName="Current Games Queued" tabWidth="40" />
+                            <ScrollableArea tabName="Past Games Joined" tabWidth="40" />
                         </article>
                         <article className={styles.Penalty}>
                             <input type="button" value="Assign Penalty" />
                         </article>
                     </div>
                 </div>
-            </MainLayout>    
+            </MainLayout>
         </motion.div>
     )
 }
