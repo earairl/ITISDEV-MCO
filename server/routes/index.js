@@ -3,7 +3,7 @@ const router = express.Router();
 const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, deleteUser } = require('../controllers/user');
-const { addMember, getMemberInfo, setMemberInactive, removeMember, getMemberInfoByIdNum } = require('../controllers/member');
+const { addMember, getMemberInfo, getMembers, setMemberInactive, removeMember } = require('../controllers/member');
 
 // GET
 router.get('/', (req, res) => {
@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
 router.get('/logout', logoutUser);
 router.get('/getUser', getUser);
 router.get('/getMemberInfo', getMemberInfo);
+router.get('/getMembers', getMembers);
 
 // // POST
 // router.post('/', (req, res) => {

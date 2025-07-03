@@ -71,6 +71,15 @@ const getMemberInfo = async (req, res) => {
     }
 };
 
+const getMembers = async (req, res) => {
+  try {
+    const members = await Member.find();
+    res.json(members);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const setMemberInactive = async(req, res) => {
     const { idNum } = req.body;
 
@@ -102,4 +111,4 @@ const removeMember = async (req, res) => {
     }
 };
 
-module.exports = { addMember, serverGetMemberInfo, getMemberInfo, setMemberInactive, removeMember};
+module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, setMemberInactive, removeMember};

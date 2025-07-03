@@ -3,6 +3,7 @@ import { Routes, Route, Link, useLocation } from "react-router-dom"
 import AuthPage from '../pages/AuthPage'
 import HomePage from '../pages/HomePage'
 import ProfilePage from '../pages/ProfilePage'
+import MemberDBPage from '../pages/MemberDBPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 import { AnimatePresence } from 'motion/react'
@@ -21,7 +22,8 @@ function AnimatedRoutes() {
                         {/* <Route path="game-details" element={<GamePage />} /> */}
                         <Route path="profile/:username" element={<ProfilePage />} />
                         {/* append user name as path id */}
-                        <Route path="*" element={<NotFoundPage />} />
+                        <Route path="/database" element={<MemberDBPage />} />
+                <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Routes>
             </AnimatePresence>
