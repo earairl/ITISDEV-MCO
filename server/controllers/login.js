@@ -9,19 +9,19 @@ const loginUser = async (req, res) => {
         const user = await User.findOne({ 'credentials.username': username });
         
         if (!user) {
-            return res.status(400).json({ message: "Username doesn't exist" });
+            return res.status(400).json({ message: "Username doesn't exist." });
         }
 
         const isMatch = await bcrypt.compare(password, user.credentials.password); //compare plaintext password with hashed password
         if (!isMatch) {
-            return res.status(401).json({ message: 'Incorrect password' });
+            return res.status(401).json({ message: 'Incorrect password.' });
         }
 
         const response = await serverGetUser(user._id);
         req.session.userid = user._id;
         req.session.remember = false;
 
-        res.status(200).json({ message: 'Login successful', user: response.userInfo });
+        res.status(200).json({ message: 'Login successful!', user: response.userInfo });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
 const logoutUser = (req, res) => {
     try {
         req.session.destroy();
-        res.status(200).json({ message: 'Log out successful' });
+        res.status(200).json({ message: 'Log out successful!' });
     } catch (err) {
         console.error('Error destroying session: ', err);
         res.status(500).json({ error: err });

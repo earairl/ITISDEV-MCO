@@ -25,6 +25,14 @@ const register = async (req, res) => {
         const existingEmail = await User.findOne({ 'credentials.email': email });
         const existingUserId = await User.exists({ 'credentials.userId': userId });
         
+        if (username.length < 5) {
+            return res.status(400).json({ message: 'Username must be at least 5 characters.' });
+        }
+
+        if (password.length < 8) {
+            return res.status(400).json({ message: 'Password must be at least 8 characters.' });
+        }
+
         if (existingUsername) {
             return res.status(400).json({ message: 'Username already taken.' });
         }
