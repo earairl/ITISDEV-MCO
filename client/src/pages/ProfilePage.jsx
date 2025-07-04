@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react"; // useState: stores data that changes, useEffect: run code in response to comp
 
 import ScrollableArea from "@/components/ui/ScrollableArea"
-
+import SelectMenu from "@/components/ui/SelectMenu";
 // implement conditionals to render variations of the page
 // e.g. omitting a component if viewed as an officer, public user, etc.
 function ProfilePage() {
@@ -85,9 +85,13 @@ function ProfilePage() {
                             <h1>{username}</h1>
                             <h3>{email}</h3>
                         </div>
-                        <div>
+                        <div className={styles.HeaderRight}>
                             {isMember && <h2>Joined {dateJoined}</h2>}
-                            {isMember && <h2>{position}</h2>}
+                            {loggedInUsername !== username && loggedInPosition === "officer" ? (
+                                <SelectMenu position={position} />
+                            ) : (
+                                <h2>{position}</h2>
+                            )}
                         </div>
                     </header>
                     <article className={styles.ProfileStats}>

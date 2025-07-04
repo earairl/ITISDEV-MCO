@@ -25,6 +25,12 @@
     margin: 1rem 0.5rem 0.5rem 0.5rem;
 }
 
+.HeaderRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 .ProfileStats, .ScrollTabs{
     width: 90%;
     display: flex;
@@ -38,7 +44,9 @@
 }
 
 .ProfileHeader h2 {
-    justify-self: right;
+    justify-self: flex;
+    margin-top: 0.67em; 
+    /* default h1 margin to match height */
 }
 
 .ProfileStats h2 {
