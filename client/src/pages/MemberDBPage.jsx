@@ -43,7 +43,7 @@ function MemberDBPage() {
                         <th className={stylesDB.headerCell}>Position</th>
                         <th className={stylesDB.headerCell}>Date Joined</th>
                         <th className={stylesDB.headerCell}>Last Match</th>
-                        <th className={stylesDB.headerCell}>Active</th>
+                        <th className={stylesDB.headerCell}>Status</th>
                     </tr>
                     </thead>
                     <tbody>
