@@ -1,4 +1,5 @@
 import MainLayout from "@/template/MainLayout";
+import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import styles from "./ProfilePage.module.css";         
@@ -59,7 +60,8 @@ function MemberDBPage() {
                         <td className={stylesDB.dataCell}>
                             {m.lastMatchJoined ? new Date(m.lastMatchJoined).toLocaleDateString() : ""}
                         </td>
-                        <td className={stylesDB.dataCell}>{m.isActive ? "<check icon>" : "<X icon>"}</td>
+                        <td className={`${stylesDB.dataCell} ${stylesDB.iconCell}`}>{m.isActive ? 
+                        <CheckIcon />: <Cross2Icon />}</td>
                         </tr>
                     ))}
                     </tbody>

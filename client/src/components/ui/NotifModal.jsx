@@ -1,14 +1,14 @@
 import * as React from "react";
-import { ArrowRightIcon, ColorWheelIcon } from '@radix-ui/react-icons';
+import { ArrowRightIcon } from '@radix-ui/react-icons';
 import { AlertDialog } from "radix-ui";
 import { Link } from "react-router-dom";
 import styles from "./NotifModal.module.css";
 
-const NotifModal = () => (
+const NotifModal = ({ btnName = "Modal" }) => (
 	<AlertDialog.Root className={styles.Root}>
 		<AlertDialog.Trigger asChild>
 			{/* Use className={`${importName.moduleClass} globalClass`} if combining multiple css classes */}
-			<button className={`${styles.Button} dialogBtn`}>Sample Modal</button>
+			<button className={`${styles.Button} dialogBtn`}>{ btnName }</button>
 		</AlertDialog.Trigger>
 		<AlertDialog.Portal>
 			<AlertDialog.Overlay className={styles.Overlay} />

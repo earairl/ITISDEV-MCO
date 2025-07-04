@@ -18,21 +18,16 @@ const ScrollableArea = ({ tabName, data = [], tabHeight = 22, tabWidth = 35 }) =
 				<div style={{ padding: "0rem 2rem 0rem 0.8rem"}}>
 					{/* <div className={styles.Text}>Scrollable Area</div> */}
 					{data.length > 0 ? ( // if data is not empty
-						data.map((item, index) => ( // loops through each element in data array
-							<div className={styles.Tag} key={index}>
+						data.map((item) => ( // loops through each element in data array
+							// use of item id leads to better performance
+							<div className={styles.Tag} key={item.id}>
 								{item} {/*asume item is a string*/}
+								{/* {item.propertyToDisplay} */}
 							</div>
 						))
 					) : ( // if data is empty
 						<div className={styles.Tag}>No data to display</div>
 					)} 
-					{/*}
-					{TAGS.map((tag) => (
-						// might use a custom component to display info
-						<div className={styles.Tag} key={tag}>
-							{tag}
-						</div>
-					))}*/}
 				</div>
 			</ScrollArea.Viewport>
 			<ScrollArea.Scrollbar className={styles.Scrollbar} orientation="vertical">
