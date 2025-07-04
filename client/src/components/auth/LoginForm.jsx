@@ -8,7 +8,6 @@ const [showPassword, setShowPassword] = useState(false);
 const navigate = useNavigate()
 const styles = props.styles
 
-// function to handle submission
 async function handleSubmit(e) {
     e.preventDefault();
     console.log('Login attempted with:', { username, password });

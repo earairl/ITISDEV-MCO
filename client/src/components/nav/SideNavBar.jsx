@@ -73,7 +73,7 @@ function SideNavBar(props) {
                         <span className="material-symbols-outlined">
                             login
                         </span>
-                        <a href='' onClick={() => navigate('/auth')}>
+                        <a href=''>
                             Log in
                         </a>
                     </li>
@@ -82,7 +82,7 @@ function SideNavBar(props) {
                         <span className="material-symbols-outlined">
                             logout
                         </span>
-                        <a href="#" onClick={(e) => handleLogout(e)}>
+                        <a href="#">
                             Log out
                         </a>
                     </li>
