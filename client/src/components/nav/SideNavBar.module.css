@@ -15,7 +15,7 @@
     min-height: 100vh;
     width: 100%;
     padding: 1em;
-    padding-left: 1.8em;
+    padding-left: 10%;
     background-color: var(--color-text-bg-white);
     border: 1.5px solid var(--color-accent-dark);
 }
@@ -66,7 +66,6 @@
     padding: 0.2em 1em 0.2em 0.7em;
     border-radius: 9999px;
     margin-bottom: 0.3em;
-    font-weight: 900;
     font-size: 1.2em;
     transition: background-color 0.3s ease-out;
 }

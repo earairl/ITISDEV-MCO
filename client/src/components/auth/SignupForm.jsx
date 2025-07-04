@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import classNames from 'classnames'
+import { useToast } from '@/components/ui/Toaster'
 
 function SignupForm(props) {
 const [username, setUsername] = useState('');
@@ -10,7 +10,10 @@ const [email, setEmail] = useState('');
 const [userId, setUserId] = useState('');
 const [showPassword, setShowPassword] = useState(false);
 const [activeIdInp, setActiveIdInp] = useState(false);
+
 const styles = props.styles;
+
+const { showToast } = useToast()
 
 const navigate = useNavigate()
 
@@ -19,6 +22,9 @@ async function handleSubmit(e) {
     e.preventDefault();
     console.log('Signup attempted with:', { username, password });
 
+    showToast({
+        description: 'Signing up...',
+    })
     // registration logic
     try {
         const response = await fetch('http://localhost:5000/register', {
@@ -34,15 +40,20 @@ async function handleSubmit(e) {
         });
 
         const data = await response.json();
-        alert(data.message);
+        showToast({
+            description: data.message,
+        })
         if (response.ok) {
             sessionStorage.setItem('isLoggedIn', true);
             sessionStorage.setItem('user', JSON.stringify(data.user));
             navigate('/', { state: { fromAuth: true } });
         }
     } catch (err) {
-        console.error('Register error:', err);
-        alert('Register error');
+        console.error('Signup error:', err);
+        showToast({
+            title: 'Signup Error',
+            description: err,
+        })
     }
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useToast } from '@/components/ui/Toaster'
 
 function LoginForm(props) {
 const [username, setUsername] = useState('');
@@ -8,10 +9,15 @@ const [showPassword, setShowPassword] = useState(false);
 const navigate = useNavigate()
 const styles = props.styles
 
+const { showToast } = useToast()
+
 async function handleSubmit(e) {
     e.preventDefault();
     console.log('Login attempted with:', { username, password });
 
+    showToast({
+        description: 'Logging in...',
+    })
     // login logic here
     try {
         const response = await fetch('http://localhost:5000/login', {
@@ -22,7 +28,9 @@ async function handleSubmit(e) {
         });
 
         const data = await response.json();
-        alert(data.message);
+        showToast({
+            description: data.message,
+        })
         if (response.ok) {
             sessionStorage.setItem('isLoggedIn', true);
             sessionStorage.setItem('user', JSON.stringify(data.user));
@@ -30,7 +38,10 @@ async function handleSubmit(e) {
         }
     } catch (err) {
         console.error('Login error:', err);
-        alert('Login error');
+        showToast({
+            title: 'Login Error',
+            description: err,
+        })
     }
 }
 

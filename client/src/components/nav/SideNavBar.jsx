@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames'
+import { useToast } from '@/components/ui/Toaster'
 
 import styles from './SideNavBar.module.css'
 import shuttlesyncGreen from '@/assets/shuttlesync-green.png'
@@ -7,6 +8,8 @@ import shuttlesyncGreen from '@/assets/shuttlesync-green.png'
 import { SideBarActions } from './SideBarActions'
 
 function SideNavBar(props) {
+    const { showToast } = useToast()
+
     const actions = [
         ...(props.position !== 'guest' ?
             [ { label: 'Home', icon: 'home', path: '/' }, ]
@@ -34,6 +37,9 @@ function SideNavBar(props) {
     const handleLogout = async (e) => {
         e.preventDefault();
 
+        showToast({
+            description: 'Logging out...',
+        })
         try {
             const response = await fetch('http://localhost:5000/logout', { 
                 method: 'GET', 
@@ -42,7 +48,9 @@ function SideNavBar(props) {
             });
 
             const data = await response.json();
-            alert(data.message);
+            showToast({
+                description: data.message,
+            })
             if (response.ok) {
                 sessionStorage.removeItem('isLoggedIn');
                 sessionStorage.removeItem('user');
@@ -50,7 +58,10 @@ function SideNavBar(props) {
             }
         } catch (err) {
             console.error('Logout error:', err);
-            alert('Logout error');
+            showToast({
+                title: 'Logout Error',
+                description: err,
+            })
         }
     };
 

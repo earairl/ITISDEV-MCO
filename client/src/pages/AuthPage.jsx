@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames'
 import { motion, AnimatePresence } from 'motion/react'
 
+import { useToast } from '@/components/ui/Toaster'
+
 // Import necessary React features and assets
 import styles from './AuthPage.module.css'
 import LoginForm from "@/components/auth/LoginForm";
@@ -13,6 +15,8 @@ import { ShuttleSyncLogo } from '../components/ui/ShuttleSyncLogo'
 function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
   const [isMounted, setIsMounted] = useState(false)
+
+  const { showToast } = useToast()
 
   useEffect(() => {
     setIsMounted(false)
@@ -69,7 +73,15 @@ function AuthPage() {
         )}
       </AnimatePresence>
 
-      <button className={styles.guestBtn} onClick={() => navigate('/games') }>
+      <button 
+        className={styles.guestBtn} 
+        onClick={() => {
+          navigate('/games')
+          showToast({
+              description: 'Logged in as guest',
+          })
+        }}
+      >
         <span className="material-symbols-outlined">
         account_circle
         </span>

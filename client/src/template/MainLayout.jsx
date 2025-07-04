@@ -45,9 +45,9 @@ function MainLayout({ children }) {
                             className={styles.sideNavWrap}
 
                             key='sidebar'
-                            initial={{ x: -500 }} 
-                            animate={{ x: -15 }} 
-                            exit={{ x: -500 }}
+                            initial={{ x: '-100vw' }} 
+                            animate={{ x: '-2vw' }} 
+                            exit={{ x: '-100vw' }}
                             transition={{ duration: 0.6, ease: 'easeInOut', type: 'spring', bounce: 0.2 }}
                         >
                             <SideNavBar username={user.username} toggleSideNav={toggleSideNav} position={user.position} />

@@ -10,7 +10,7 @@ function NavBar(props) {
     const menuBtn = classNames('material-symbols-outlined', styles.menuBtn)
 
     // debugging purposes
-    console.log('Location context:', location);
+    // console.log('Location context:', location);
 
     return (
         <header className={styles.navBarWrap}>
