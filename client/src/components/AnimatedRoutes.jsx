@@ -19,7 +19,10 @@ function AnimatedRoutes() {
                     {/* routes that use MainLayout */}
                     <Route path='/' element={<MainLayout />}>
                         <Route path="" element={<HomePage />} />
-                        {/* <Route path="game-details" element={<GamePage />} /> */}
+                        {/* all games view */}
+                        <Route path="games" element={<NotFoundPage />} />
+                        {/* replace with <GamePage /> once available */}
+                        <Route path="games/:gameId" element={<NotFoundPage />} />
                         <Route path="profile/:username" element={<ProfilePage />} />
                         <Route path="database" element={<MemberDBPage />} />
                         <Route path="*" element={<NotFoundPage />} />

@@ -30,7 +30,14 @@ function NavBar(props) {
             </div>
 
             <div className={styles.navBarRight}>
-                <img className={styles.navBarLogo} src={logo} onClick={() => navigate('/')}/>
+                <img 
+                    className={styles.navBarLogo} 
+                    src={logo} 
+                    onClick={ () => { props.position === 'guest' ?
+                        navigate('/games')
+                        : navigate('/')
+                    }}
+                />
             </div>
         </header>
     )

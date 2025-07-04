@@ -59,7 +59,7 @@ function MainLayout({ children }) {
             <NavBar username={user.username} position={user.position} toggleSideNav={toggleSideNav} />
 
             {/* places "pages" here */}
-            <Outlet />
+            <Outlet context={user} />
         </motion.div>
     )
 }

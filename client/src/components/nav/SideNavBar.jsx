@@ -8,16 +8,20 @@ import { SideBarActions } from './SideBarActions'
 
 function SideNavBar(props) {
     const actions = [
-        { label: 'Home', icon: 'home', path: '/' },
+        ...(props.position !== 'guest' ?
+            [ { label: 'Home', icon: 'home', path: '/' }, ]
+            : []
+        ),
+        { label: 'Games', icon: 'badminton', path: '/games'},
         ...(props.position !== 'guest' ?
             [
-                { label: 'Profile', icon: 'account_box', path: `/profile/${props.username}` },
                 ...(props.position === 'officer' ?
                     [
                         { label: 'Database', icon: 'database', path: '/database' },
                     ] :
                     []
                 ),
+                { label: 'Profile', icon: 'account_box', path: `/profile/${props.username}` },
             ] : 
             []
         ),

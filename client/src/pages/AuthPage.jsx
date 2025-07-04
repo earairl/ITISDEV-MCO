@@ -69,7 +69,7 @@ function AuthPage() {
         )}
       </AnimatePresence>
 
-      <button className={styles.guestBtn} onClick={() => navigate('/') }>
+      <button className={styles.guestBtn} onClick={() => navigate('/games') }>
         <span className="material-symbols-outlined">
         account_circle
         </span>
