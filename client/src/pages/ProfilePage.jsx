@@ -16,34 +16,28 @@ function ProfilePage() {
     const [isMember, setIsMember] = useState(false);
     const [currentGames, setCurrentGames] = useState([]);
     const [pastGames, setPastGames] = useState([]);
-
-    /*const fetchUser = async (username) => {
-        try {
-            const response = await fetch(`http://localhost:5000/getUser?username=${username}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                setPosition(data.userInfo.position);
-            }
-        } catch (err) {
-            console.error('Error:', err);
-            alert('Error');
-        }
-    };
-    */
+    const [loggedInUsername, setLoggedInUsername] = useState("");
+    const [loggedInPosition, setLoggedInPosition] = useState("");
 
     useEffect(() => {
-        const storedUser = sessionStorage.getItem("user");
+        async function fetchProfileData() {
+            const storedUser = sessionStorage.getItem("user");
 
-        if (storedUser) {
-            const user = JSON.parse(storedUser);
-            setEmail(user.username === username ? user.email : "");
-        }
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                setLoggedInUsername(user.username);
+                setEmail(user.username === username ? user.email : "");
 
-        async function fetchUserProfile() {
+                try {
+                    const res = await fetch(`http://localhost:5000/getUser?username=${user.username}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        setLoggedInPosition(data.userInfo.position);
+                    }
+                } catch (err) {
+                    console.error("Error fetching logged-in user:", err);
+                }
+            }
             try {
                 const res = await fetch(`http://localhost:5000/getUser?username=${username}`);
                 if (!res.ok) return;
@@ -75,7 +69,7 @@ function ProfilePage() {
             }
         }
 
-        fetchUserProfile();
+        fetchProfileData();
     }, [username]); // runs whenever the username in url changes
 
     return (
@@ -104,9 +98,11 @@ function ProfilePage() {
                         <ScrollableArea tabName="Current Games Queued" tabWidth="40" data={currentGames} />
                         <ScrollableArea tabName="Past Games Joined" tabWidth="40" data={pastGames} />
                     </article>
-                    <article className={styles.Penalty}>
-                        <input type="button" value="Assign Penalty" />
-                    </article>
+                    {loggedInUsername !== username && loggedInPosition === "officer" && (
+                        <article className={styles.Penalty}>
+                            <input type="button" value="Assign Penalty" />
+                        </article>
+                    )}
                 </div>
             </div>
         </motion.div>
