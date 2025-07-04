@@ -14,6 +14,8 @@ function ProfilePage() {
     const [position, setPosition] = useState("");
     const [dateJoined, setDateJoined] = useState("");
     const [isMember, setIsMember] = useState(false);
+    const [currentGames, setCurrentGames] = useState([]);
+    const [pastGames, setPastGames] = useState([]);
 
     /*const fetchUser = async (username) => {
         try {
@@ -48,6 +50,8 @@ function ProfilePage() {
 
                 const data = await res.json();
                 const userInfo = data.userInfo;
+
+                //fetch games from backend
 
                 if (userInfo.dateJoined) {
                     setIsMember(true);
@@ -97,8 +101,8 @@ function ProfilePage() {
                         <h2>5/10 Penalties</h2>
                     </article>
                     <article className={styles.ScrollTabs}>
-                        <ScrollableArea tabName="Current Games Queued" tabWidth="40" />
-                        <ScrollableArea tabName="Past Games Joined" tabWidth="40" />
+                        <ScrollableArea tabName="Current Games Queued" tabWidth="40" data={currentGames} />
+                        <ScrollableArea tabName="Past Games Joined" tabWidth="40" data={pastGames} />
                     </article>
                     <article className={styles.Penalty}>
                         <input type="button" value="Assign Penalty" />
