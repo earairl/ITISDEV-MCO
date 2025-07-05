@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import classNames from 'classnames'
 import { useToast } from '@/components/ui/Toaster'
 
@@ -88,18 +88,14 @@ function SideNavBar(props) {
                         <span className="material-symbols-outlined">
                             login
                         </span>
-                        <a href=''>
-                            Log in
-                        </a>
+                        <Link to=''>Log in</Link>
                     </li>
                    : 
                    <li key='logout' className={styles.navBarAction} onClick={(e) => handleLogout(e)}>
                         <span className="material-symbols-outlined">
                             logout
                         </span>
-                        <a href="#">
-                            Log out
-                        </a>
+                        <Link to='#'>Log out</Link>
                     </li>
                 )}
             </ul>
