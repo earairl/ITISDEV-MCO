@@ -363,12 +363,14 @@ function MemberDBPage() {
                                                     </button>
                                                     </>
                                                 ) : (
+                                                    <>
                                                     <button onClick={() => handleEditStart(m)} className={stylesDB.editButton}>
                                                          <Pencil2Icon />
                                                     </button>
                                                     <button onClick={() => handleDeleteMember(m.idNum)} className={stylesDB.editButton}>
                                                         <TrashIcon />
                                                     </button>
+                                                    </>
                                                     )}
                                                 </div>
                                             </td>
