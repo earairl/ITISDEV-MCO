@@ -132,6 +132,73 @@ const updatePosition = async (req, res) => {
     }
 }
 
+const updateMember = async (req, res) => {
+    const { idNum, newFirstName, newLastName,
+        newCollege, newPosition, newDateJoined,
+        newLastMatchJoined } = req.body;
+
+    try {
+        const member = await Member.findOne({ idNum });
+
+        if (!member) {
+            return res.status(404).json({ message: 'Member not found.' });
+        }
+
+        let updated = false;
+
+        if (newFirstName) {
+            member.firstName = newFirstName;
+            updated = true;
+        }
+
+        if (newLastName) {
+            member.lastName = newLastName;
+            updated = true;
+        }
+
+        if (newCollege) {
+            member.college = newCollege;
+            updated = true;
+        }
+
+        if (newPosition && ['member', 'officer'].includes(newPosition)) {
+            member.position = newPosition;
+            updated = true;
+        }
+
+        if (newDateJoined) {
+            member.dateJoined = new Date(newDateJoined);
+            updated = true;
+        }
+
+        if (newLastMatchJoined) {
+            member.lastMatchJoined = new Date(newLastMatchJoined);
+            updated = true;
+        }
+
+        if (!updated) {
+            return res.status(400).json({ message: 'No valid fields provided for update.' });
+        }
+
+        await member.save();
+
+        res.status(200).json({
+            message: 'Member updated successfully',
+            updatedFields: {
+                ...(newFirstName && { firstName: newFirstName }),
+                ...(newLastName && { lastName: newLastName }),
+                ...(newCollege && { college: newCollege }),
+                ...(newPosition && { position: newPosition }),
+                ...(newDateJoined && { dateJoined: newDateJoined }),
+                ...(newLastMatchJoined && { lastMatchJoined: newLastMatchJoined }),
+            },
+        });
+    } catch (error) {
+        console.error('Error updating member:', error);
+        res.status(500).json({ message: 'Server error', error });
+    }
+};
+
 const removeMember = async (req, res) => {
     const { idNum } = req.body;         
 
@@ -149,4 +216,4 @@ const removeMember = async (req, res) => {
     }
 };
 
-module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, setMemberInactive, updatePosition, removeMember};
+module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, setMemberInactive, updatePosition, updateMember, removeMember};
