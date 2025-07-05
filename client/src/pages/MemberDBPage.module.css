@@ -27,6 +27,10 @@
   text-align: center;
 }
 
+.dataRow.hoverable:hover {
+  background-color: #00703c10;
+}
+
 .dataCell {
   padding: 0.8rem;
   color: var(--color-text-bg-green);
@@ -39,4 +43,191 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+.statusWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.statusIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-accent-dark);
+}
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.editButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.dataRow:hover {
+  background-color: #00703c10; 
+}
+
+.dataRow:hover .editButton {
+  opacity: 1; 
+}
+
+.saveButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent-dark);
+  transition: background-color 0.2s ease;
+}
+
+.saveButton:hover {
+  background-color: #00703c20;
+}
+
+.cancelButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-red-500);
+  transition: background-color 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: #ff000020;
+}
+
+.editInput {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  background-color: white;
+  color: var(--color-text-bg-green);
+}
+
+.editInput:focus {
+  outline: 2px solid var(--color-accent-dark);
+  outline-offset: 1px;
+  border-color: var(--color-accent-dark);
+}
+
+.dataCell input.editInput[type="text"] {
+  width: 100px; 
+  min-width: 80px;
+}
+
+.editSelect {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  background-color: white;
+  color: var(--color-text-bg-green);
+  cursor: pointer;
+}
+
+.editSelect:focus {
+  outline: 2px solid var(--color-accent-dark);
+  outline-offset: 1px;
+  border-color: var(--color-accent-dark);
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.searchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #666;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 300px;
+  padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+  border: 1px solid #ccc;
+  border-radius: 2rem;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  background-color: white;
+  color: var(--color-text-bg-green);
+}
+
+.searchInput:focus {
+  outline: 2px solid var(--color-accent-dark);
+  outline-offset: 1px;
+  border-color: var(--color-accent-dark);
+}
+
+.searchInput::placeholder {
+  color: #999;
+}
+
+.generateReportBtn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: #00703c;
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.advancedFilterBtn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: var(--color-text-bg-green);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.advancedFilterBtn:hover {
+  background-color: #00703c10;
+  border-color: var(--color-accent-dark);
 }
