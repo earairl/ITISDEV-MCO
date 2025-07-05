@@ -3,7 +3,7 @@ const router = express.Router();
 const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, updateEmail, deleteUser } = require('../controllers/user');
-const { addMember, getMemberInfo, getMembers, setMemberInactive, updatePosition, removeMember } = require('../controllers/member');
+const { addMember, getMemberInfo, getMembers, setMemberInactive, updatePosition, updateMember, removeMember } = require('../controllers/member');
 
 // GET
 router.get('/', (req, res) => {
@@ -41,5 +41,6 @@ router.delete('/removeMember', removeMember);
 router.patch('/updatePosition', updatePosition);
 router.put('/setMemberInactive', setMemberInactive);
 router.put('/updateEmail', updateEmail);
+router.patch('/updateMember', updateMember);
 
 module.exports = router;
