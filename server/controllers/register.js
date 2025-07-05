@@ -74,6 +74,7 @@ const register = async (req, res) => {
 
         const response = await serverGetUser(newUser._id);
         req.session.userid = newUser._id;
+        req.session.username = username;
         req.session.remember = false;
 
         res.status(201).json({ message: 'User registered successfully!', user: response.userInfo, success: true });

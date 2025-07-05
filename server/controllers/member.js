@@ -1,4 +1,5 @@
 const Member = require('../models/Member');
+const logAudit = require('../utils/auditLogger');
 
 const addMember = async (req, res) => {
     const { idNum, firstName, lastName, college, position, dateJoined } = req.body;
@@ -82,9 +83,19 @@ const getMembers = async (req, res) => {
 
 const setMemberInactive = async(req, res) => {
     const { idNum } = req.body;
+    const editor = req.session.user;
 
     try {
         const member = await Member.findOne({ 'idNum': idNum });
+
+        await logAudit({
+            editor,
+            action: "setInactive",
+            field: "isActive",
+            oldValue: member.isActive,
+            newValue: false
+        });
+
         member.isActive = false;
         await member.save();
         res.status(200).json({ message: 'Member set to inactive successfully.' });
@@ -96,10 +107,22 @@ const setMemberInactive = async(req, res) => {
 
 const updatePosition = async (req, res) => {
     const { idNum, position } = req.body;
+    const editor = req.session.user;
+
     try {
         const member = await Member.findOne({ idNum });
         if (!member) {
             return res.status(404).json({ message: 'Member not found.' });
+        }
+
+        if(member.position !== position) {
+            await logAudit({
+                editor,
+                action: "updatePosition",
+                field: "position",
+                oldValue: member.position,
+                newValue: position
+            })
         }
         member.position = position;
         await member.save();
