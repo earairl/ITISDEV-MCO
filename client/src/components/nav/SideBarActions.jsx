@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function SideBarActions(props) {
     const styles = props.styles;
     const actions = props.actions;
@@ -20,9 +22,9 @@ function SideBarActions(props) {
                     <span className="material-symbols-outlined">
                         {action.icon}
                     </span>
-                    <a href={action.path}>
+                    <Link to={action.path}>
                         {action.label}
-                    </a>
+                    </Link>
                 </li>
             ))}
         </ul>

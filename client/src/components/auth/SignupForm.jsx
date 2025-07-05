@@ -1,70 +1,64 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { useToast } from '@/components/ui/Toaster'
 
 function SignupForm(props) {
-const [username, setUsername] = useState('');
-const [password, setPassword] = useState('');
-const [email, setEmail] = useState('');
-const [userId, setUserId] = useState('');
-const [showPassword, setShowPassword] = useState(false);
-const [activeIdInp, setActiveIdInp] = useState(false);
+    const navigate = props.navigate
+    const styles = props.styles
+    const showToast = props.showToast
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [userId, setUserId] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [activeIdInp, setActiveIdInp] = useState(false);
 
-const styles = props.styles;
+    async function handleSubmit(e) {
+        e.preventDefault();
+        console.log('Signup attempted with:', { username, password });
 
-const { showToast } = useToast()
-
-const navigate = useNavigate()
-
-// function to handle submission
-async function handleSubmit(e) {
-    e.preventDefault();
-    console.log('Signup attempted with:', { username, password });
-
-    showToast({
-        description: 'Signing up...',
-    })
-    // registration logic
-    try {
-        const response = await fetch('http://localhost:5000/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ 
-                userId: activeIdInp ? userId : '', 
-                username, 
-                email, 
-                password, 
-                activeIdInp, }),
-        });
-
-        const data = await response.json();
         showToast({
-            description: data.message,
+            description: 'Signing up...',
         })
-        if (response.ok) {
-            sessionStorage.setItem('isLoggedIn', true);
-            sessionStorage.setItem('user', JSON.stringify(data.user));
-            navigate('/home', { state: { fromAuth: true } });
+        
+        try {
+            const response = await fetch('http://localhost:5000/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ 
+                    userId: activeIdInp ? userId : '', 
+                    username, 
+                    email, 
+                    password, 
+                    activeIdInp, }),
+            });
+
+            const data = await response.json();
+            showToast({
+                description: data.message,
+            })
+            if (response.ok) {
+                sessionStorage.setItem('isLoggedIn', true);
+                sessionStorage.setItem('user', JSON.stringify(data.user));
+                navigate('/home', { state: { fromAuth: true } });
+            }
+        } catch (err) {
+            console.error('Signup error:', err);
+            showToast({
+                title: 'Signup Error',
+                description: err,
+            })
         }
-    } catch (err) {
-        console.error('Signup error:', err);
-        showToast({
-            title: 'Signup Error',
-            description: err,
-        })
     }
-}
 
-function toggleView(e) {
-    e.preventDefault()
-    props.toggleView()
-}
+    function toggleView(e) {
+        e.preventDefault()
+        props.toggleView()
+    }
 
-function toggleUserIdInp() {
-    setActiveIdInp(!activeIdInp)
-}
+    function toggleUserIdInp() {
+        setActiveIdInp(prev => !prev)
+    }
 
     return (
         <> 
@@ -73,9 +67,9 @@ function toggleUserIdInp() {
                 <div className={styles.inpContent}>
                     <label htmlFor="signupEmail">Email</label><br/>
                     <input 
+                        id="signupEmail"
                         type="text" 
                         className={styles.authEmail} 
-                        name="email" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -85,9 +79,9 @@ function toggleUserIdInp() {
                 <div className={styles.inpContent}>
                     <label htmlFor="signupUser">Username</label><br/>
                     <input 
+                        id="signupUser"
                         type="text" 
                         className={styles.authUser} 
-                        name="username" 
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
@@ -98,16 +92,16 @@ function toggleUserIdInp() {
                     <label htmlFor="signupPass">Password</label><br/>
                     <div className={styles.passWrap}>
                         <input 
-                        type={showPassword ? "text" : "password"} 
-                        className={styles.authPass} 
-                        name="password" 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
+                            id="signupPass"
+                            type={showPassword ? "text" : "password"} 
+                            className={styles.authPass} 
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
                         />
                         <span 
-                        className={styles.visBtn}
-                        onClick={() => setShowPassword(!showPassword)}
+                            className={styles.visBtn}
+                            onClick={() => setShowPassword(!showPassword)}
                         >
                         {showPassword ? "visibility_off" : "visibility"}
                         </span>
@@ -136,9 +130,9 @@ function toggleUserIdInp() {
                     >
                         <label htmlFor="signupUserId">Full ID Number</label><br/>
                         <input 
+                            id="signupUserId"
                             type="text" 
                             className={styles.authUserId} 
-                            name="userId" 
                             value={userId}
                             onChange={(e) => setUserId(e.target.value)}
                             required

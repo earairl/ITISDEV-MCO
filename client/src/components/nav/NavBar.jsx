@@ -1,5 +1,5 @@
 import logo from '../../assets/logo.png';
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import classNames from 'classnames'
 
 import styles from './NavBar.module.css'
@@ -25,7 +25,7 @@ function NavBar(props) {
                 {( props.position === 'guest' ?
                     <h1 className={styles.navBarUser}>ShuttleSync</h1> 
                     :
-                    <h1 className={styles.navBarUser}>Hello, <a href={`/profile/${props.username}`}>{props.username}</a></h1>
+                    <h1 className={styles.navBarUser}>Hello, <Link to={`/profile/${props.username}`}>{props.username}</Link></h1>
                 )}
             </div>
 

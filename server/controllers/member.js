@@ -94,6 +94,21 @@ const setMemberInactive = async(req, res) => {
     }
 };
 
+const updatePosition = async (req, res) => {
+    const { idNum, position } = req.body;
+    try {
+        const member = await Member.findOne({ idNum });
+        if (!member) {
+            return res.status(404).json({ message: 'Member not found.' });
+        }
+        member.position = position;
+        await member.save();
+        res.status(200).json({ message: 'Position updated successfully.' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating position: ' + error.message });
+    }
+}
+
 const removeMember = async (req, res) => {
     const { idNum } = req.body;         
 
@@ -111,4 +126,4 @@ const removeMember = async (req, res) => {
     }
 };
 
-module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, setMemberInactive, removeMember};
+module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, setMemberInactive, updatePosition, removeMember};

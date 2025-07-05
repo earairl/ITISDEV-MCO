@@ -18,6 +18,7 @@ const serverGetUser = async (userId) => {
         if (result && result.memberInfo) {
             userInfo.position = result.memberInfo.position;
             userInfo.dateJoined = result.memberInfo.dateJoined;
+            userInfo.idNum = result.memberInfo.idNum;
         }
 
         return { success: true, userInfo };

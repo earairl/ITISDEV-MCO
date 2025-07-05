@@ -1,7 +1,7 @@
 import MainLayout from "@/template/MainLayout"
 import { motion } from 'motion/react'
 import styles from "./ProfilePage.module.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"; // useState: stores data that changes, useEffect: run code in response to comp
 import editIcon from "@/assets/edit.png";
 import { useRef } from "react";
@@ -13,8 +13,10 @@ import SelectMenu from "@/components/ui/SelectMenu";
 // implement conditionals to render variations of the page
 // e.g. omitting a component if viewed as an officer, public user, etc.
 function ProfilePage() {
+    const navigate = useNavigate();
     const { username } = useParams();
     const [email, setEmail] = useState(""); // email initialized to "", setEmail: for updating value
+    const [idNum, setIdNum] = useState("");
     const [position, setPosition] = useState("");
     const [dateJoined, setDateJoined] = useState("");
     const [isMember, setIsMember] = useState(false);
@@ -28,11 +30,14 @@ function ProfilePage() {
     const [draftEmail, setDraftEmail] = useState("");
     const inputRef = useRef(null);
     const { showToast } = useToast();
+    // const [loading, setLoading] = useState(true); // prevent non-existent page from loading in
 
     useEffect(() => {
         async function fetchProfileData() {
+            // setLoading(true);
             const storedUser = sessionStorage.getItem("user");
 
+            // logged user
             if (storedUser) {
                 const user = JSON.parse(storedUser);
                 setLoggedInUsername(user.username);
@@ -48,16 +53,22 @@ function ProfilePage() {
                     console.error("Error fetching logged-in user:", err);
                 }
             }
+            // user being viewed
             try {
                 const res = await fetch(`http://localhost:5000/getUser?username=${username}`);
-                if (!res.ok) return;
+                if (!res.ok) {
+                    setIsMember(false)
+                    setPosition("")
+                    setDateJoined("")
+                    navigate("/notFound", { replace: true });
+                    return;
+                }
 
                 const data = await res.json();
                 const userInfo = data.userInfo;
                 setEmail(userInfo?.email ?? "");
 
                 //fetch games from backend
-
                 if (userInfo.dateJoined) {
                     setIsMember(true);
                     setPosition(userInfo.position);
@@ -67,10 +78,12 @@ function ProfilePage() {
                             year: "numeric",
                         })
                     );
-                } else {
+                    setIdNum(userInfo.idNum);
+                } else { // clear old data from state
                     setIsMember(false);
                     setPosition("");
                     setDateJoined("");
+                    setIdNum("");
                 }
 
                 if (userInfo.attendanceRate !== undefined) {
@@ -144,13 +157,32 @@ function ProfilePage() {
             });
         }
     }
+    
+    const changePosition = async (newPosition) => {
+        try {
+            const res = await fetch('http://localhost:5000/updatePosition', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify({ idNum, position: newPosition })
+            });
+            if (res.ok) {
+                setPosition(newPosition)
+            } else {
+                const data = await res.json();
+                alert(data.message || "Failed to update position")
+            }
+        } catch (error) {
+            alert("Error updating position.")
+            console.error(error)
+        }
+    }
 
     return (
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-        >
+        > 
             <div className={styles.MainDiv}>
                 <div className={styles.Content}>
                     <header className={styles.ProfileHeader}>
@@ -197,8 +229,8 @@ function ProfilePage() {
                         </div>
                         <div className={styles.HeaderRight}>
                             {isMember && <h2>Joined {dateJoined}</h2>}
-                            {loggedInUsername !== username && loggedInPosition === "officer" ? (
-                                <SelectMenu position={position} />
+                            {loggedInUsername !== username && loggedInPosition === "officer" && position === "member" ? (
+                                    <SelectMenu position={position} onChange={changePosition}/>
                             ) : (
                                 <h2>{position}</h2>
                             )}
