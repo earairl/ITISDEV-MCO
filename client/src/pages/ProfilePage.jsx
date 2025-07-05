@@ -3,9 +3,13 @@ import { motion } from 'motion/react'
 import styles from "./ProfilePage.module.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react"; // useState: stores data that changes, useEffect: run code in response to comp
+import editIcon from "@/assets/edit.png";
+import { useRef } from "react";
+import { useToast } from '@/components/ui/Toaster';
 
 import ScrollableArea from "@/components/ui/ScrollableArea"
 import SelectMenu from "@/components/ui/SelectMenu";
+
 // implement conditionals to render variations of the page
 // e.g. omitting a component if viewed as an officer, public user, etc.
 function ProfilePage() {
@@ -20,6 +24,10 @@ function ProfilePage() {
     const [loggedInPosition, setLoggedInPosition] = useState("");
     const [attendanceRate, setAttendanceRate] = useState(null);
     const [penalties, setPenalties] = useState([]);
+    const [isEditing, setIsEditing]   = useState(false);
+    const [draftEmail, setDraftEmail] = useState("");
+    const inputRef = useRef(null);
+    const { showToast } = useToast();
 
     useEffect(() => {
         async function fetchProfileData() {
@@ -46,6 +54,7 @@ function ProfilePage() {
 
                 const data = await res.json();
                 const userInfo = data.userInfo;
+                setEmail(userInfo?.email ?? "");
 
                 //fetch games from backend
 
@@ -82,6 +91,60 @@ function ProfilePage() {
         fetchProfileData();
     }, [username]); // runs whenever the username in url changes
 
+    function handleEditClick() {
+        setDraftEmail(email);
+        setIsEditing(true);
+        setTimeout(() => inputRef.current?.focus(), 0);
+    }
+
+    async function handleSaveClick() {
+        const trimmedEmail = draftEmail.trim();
+        if (!trimmedEmail) { 
+            setIsEditing(false);
+            showToast({
+                description: 'Email address cannot be empty.',
+            });
+            return;
+        } else if (trimmedEmail === email) { 
+            setIsEditing(false);
+            showToast({
+                description: 'No changes were made.',
+            });
+            return;
+        }
+
+        try {
+            const res = await fetch("http://localhost:5000/updateEmail", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, newEmail: trimmedEmail }),
+            });
+
+            const data = await res.json();
+            showToast({
+                description: data.message,
+            });
+
+            if (res.ok) {
+                setEmail(trimmedEmail);
+                const saved = sessionStorage.getItem("user");
+                if (saved) {
+                    const updated = { ...JSON.parse(saved), email: trimmedEmail };
+                    sessionStorage.setItem("user", JSON.stringify(updated));
+                }
+                setIsEditing(false);
+            } else {
+                console.error("Failed to update email. Server returned:", res.status);
+            }
+        } catch (err) {
+            console.error("Email update failed:", err);
+            showToast({
+                title: 'Login Error',
+                description: err,
+            });
+        }
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -93,7 +156,44 @@ function ProfilePage() {
                     <header className={styles.ProfileHeader}>
                         <div>
                             <h1>{username}</h1>
-                            <h3>{email}</h3>
+                            <div className={styles.EmailRow}>
+                                {!isEditing && (
+                                    <>
+                                    <h3>{email}</h3>
+                                    {loggedInUsername === username && (
+                                        <button
+                                            className={styles.EditIcon}
+                                            aria-label="Edit E-mail address"
+                                            type="button"
+                                            onClick={handleEditClick}
+                                        >
+                                            <img src={editIcon} alt="Edit" className={styles.IconImage}/>
+                                        </button>
+                                    )}
+                                    </>
+                                )}
+
+                                {isEditing && (
+                                    <>
+                                    <h3><input
+                                        ref={inputRef}
+                                        id="email-input"
+                                        type="email"
+                                        value={draftEmail}
+                                        onChange={(e) => setDraftEmail(e.target.value)}
+                                        className={styles.EmailInput}
+                                    /></h3> 
+
+                                    <button
+                                        type="button"
+                                        className={styles.Savebtn}
+                                        onClick={handleSaveClick}
+                                    >
+                                        Save
+                                    </button>
+                                    </>
+                                )}
+                            </div>
                         </div>
                         <div className={styles.HeaderRight}>
                             {isMember && <h2>Joined {dateJoined}</h2>}

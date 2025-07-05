@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
-const { getUser, deleteUser } = require('../controllers/user');
+const { getUser, updateEmail, deleteUser } = require('../controllers/user');
 const { addMember, getMemberInfo, getMembers, setMemberInactive, removeMember } = require('../controllers/member');
 
 // GET
@@ -39,5 +39,6 @@ router.delete('/removeMember', removeMember);
 //     res.json({msg: 'Update Method'})
 // })
 router.put('/setMemberInactive', setMemberInactive);
+router.put('/updateEmail', updateEmail);
 
 module.exports = router;

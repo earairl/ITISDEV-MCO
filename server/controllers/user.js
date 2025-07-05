@@ -45,6 +45,24 @@ const getUser = async (req, res) => {
     }
 };
 
+const updateEmail = async (req, res) => {
+    const { username, newEmail } = req.body;
+    try {
+        const user = await User.findOne({ 'credentials.username': username });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        user.credentials.email = newEmail;
+        await user.save();
+        
+        res.status(200).json({ message: 'Email updated successfully!' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error editing email', error });
+    }
+};
+
 const deleteUser = async(req, res) => {
     const { username } = req.body;
 
@@ -65,4 +83,4 @@ const deleteUser = async(req, res) => {
     }
 };
 
-module.exports = { serverGetUser, getUser, deleteUser };
+module.exports = { serverGetUser, getUser, updateEmail, deleteUser };
