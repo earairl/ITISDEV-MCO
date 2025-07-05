@@ -25,6 +25,8 @@ function AnimatedRoutes() {
                         <Route path="games/:gameId" element={<NotFoundPage />} />
                         <Route path="profile/:username" element={<ProfilePage />} />
                         <Route path="database" element={<MemberDBPage />} />
+                        <Route path="/notFound" element={<NotFoundPage />} />
+                        {/* Global Catch-All */}
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Routes>

@@ -3,7 +3,7 @@ const router = express.Router();
 const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, deleteUser } = require('../controllers/user');
-const { addMember, getMemberInfo, getMembers, setMemberInactive, removeMember } = require('../controllers/member');
+const { addMember, getMemberInfo, getMembers, setMemberInactive, updatePosition, removeMember } = require('../controllers/member');
 
 // GET
 router.get('/', (req, res) => {
@@ -38,6 +38,7 @@ router.delete('/removeMember', removeMember);
 // router.patch('/:id', (req, res) => {
 //     res.json({msg: 'Update Method'})
 // })
+router.patch('/updatePosition', updatePosition);
 router.put('/setMemberInactive', setMemberInactive);
 
 module.exports = router;
