@@ -12,7 +12,7 @@ function SideNavBar(props) {
 
     const actions = [
         ...(props.position !== 'guest' ?
-            [ { label: 'Home', icon: 'home', path: '/' }, ]
+            [ { label: 'Home', icon: 'home', path: '/home' }, ]
             : []
         ),
         { label: 'Games', icon: 'badminton', path: '/games'},
@@ -54,7 +54,7 @@ function SideNavBar(props) {
             if (response.ok) {
                 sessionStorage.removeItem('isLoggedIn');
                 sessionStorage.removeItem('user');
-                navigate('/auth');
+                navigate('/');
             }
         } catch (err) {
             console.error('Logout error:', err);
@@ -84,7 +84,7 @@ function SideNavBar(props) {
 
             <ul className={styles.navBarActions}>
                 {( props.position === 'guest' ?
-                    <li key='login' className={styles.navBarAction} onClick={() => navigate('/auth')}>
+                    <li key='login' className={styles.navBarAction} onClick={() => navigate('/')}>
                         <span className="material-symbols-outlined">
                             login
                         </span>

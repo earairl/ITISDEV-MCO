@@ -34,7 +34,7 @@ async function handleSubmit(e) {
         if (response.ok) {
             sessionStorage.setItem('isLoggedIn', true);
             sessionStorage.setItem('user', JSON.stringify(data.user));
-            navigate('/', { state: { fromAuth: true } });
+            navigate('/home', { state: { fromAuth: true } });
         }
     } catch (err) {
         console.error('Login error:', err);

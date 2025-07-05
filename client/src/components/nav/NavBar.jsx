@@ -35,7 +35,7 @@ function NavBar(props) {
                     src={logo} 
                     onClick={ () => { props.position === 'guest' ?
                         navigate('/games')
-                        : navigate('/')
+                        : navigate('/home')
                     }}
                 />
             </div>

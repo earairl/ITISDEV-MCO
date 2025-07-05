@@ -14,11 +14,11 @@ function AnimatedRoutes() {
     return (
             <AnimatePresence mode='wait'>
                 <Routes location={location} key={location.pathname}>
-                    <Route path="/auth" element={<AuthPage />} />
+                    <Route path="/" element={<AuthPage />} />
 
                     {/* routes that use MainLayout */}
                     <Route path='/' element={<MainLayout />}>
-                        <Route path="" element={<HomePage />} />
+                        <Route path="home" element={<HomePage />} />
                         {/* all games view */}
                         <Route path="games" element={<NotFoundPage />} />
                         {/* replace with <GamePage /> once available */}
