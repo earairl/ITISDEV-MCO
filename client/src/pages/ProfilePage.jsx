@@ -94,10 +94,12 @@ function ProfilePage() {
                             )}
                         </div>
                     </header>
-                    <article className={styles.ProfileStats}>
-                        <h2>85% Attendance Rate</h2>
-                        <h2>5/10 Penalties</h2>
-                    </article>
+                    {(loggedInUsername === username || loggedInPosition === "officer") && (
+                        <article className={styles.ProfileStats}>
+                            <h2>85% Attendance Rate</h2>
+                            <h2>5/10 Penalties</h2>
+                        </article>
+                    )}
                     <article className={styles.ScrollTabs}>
                         <ScrollableArea tabName="Current Games Queued" tabWidth="40" data={currentGames} />
                         <ScrollableArea tabName="Past Games Joined" tabWidth="40" data={pastGames} />
