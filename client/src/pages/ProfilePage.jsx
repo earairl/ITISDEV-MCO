@@ -207,14 +207,16 @@ function ProfilePage() {
 
                                 {isEditing && (
                                     <>
-                                    <h3><input
-                                        ref={inputRef}
-                                        id="email-input"
-                                        type="email"
-                                        value={draftEmail}
-                                        onChange={(e) => setDraftEmail(e.target.value)}
-                                        className={styles.EmailInput}
-                                    /></h3> 
+                                    <div className={styles.EmailInputWrapper}>
+                                        <input
+                                            ref={inputRef}
+                                            id="email-input"
+                                            type="email"
+                                            value={draftEmail}
+                                            onChange={(e) => setDraftEmail(e.target.value)}
+                                            className={styles.EmailInput}
+                                        />
+                                    </div> 
 
                                     <button
                                         type="button"
