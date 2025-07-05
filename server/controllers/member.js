@@ -137,6 +137,9 @@ const updateMember = async (req, res) => {
         newCollege, newPosition, newDateJoined,
         newLastMatchJoined } = req.body;
 
+    const editor = req.session.user;
+    const changes = [];
+
     try {
         const member = await Member.findOne({ idNum });
 
@@ -147,31 +150,37 @@ const updateMember = async (req, res) => {
         let updated = false;
 
         if (newFirstName) {
+            changes.push({ field: "firstName", oldValue: member.firstName, newValue: newFirstName });
             member.firstName = newFirstName;
             updated = true;
         }
 
         if (newLastName) {
+            changes.push({ field: "lastName", oldValue: member.lastName, newValue: newLastName });
             member.lastName = newLastName;
             updated = true;
         }
 
         if (newCollege) {
+            changes.push({ field: "college", oldValue: member.college, newValue: newCollege });
             member.college = newCollege;
             updated = true;
         }
 
         if (newPosition && ['member', 'officer'].includes(newPosition)) {
+            changes.push({ field: "position", oldValue: member.position, newValue: newPosition });
             member.position = newPosition;
             updated = true;
         }
 
         if (newDateJoined) {
+            changes.push({ field: "dateJoined", oldValue: member.dateJoined, newValue: newDateJoined });
             member.dateJoined = new Date(newDateJoined);
             updated = true;
         }
 
         if (newLastMatchJoined) {
+            changes.push({ field: "lastMatchJoined", oldValue: member.lastMatchJoined, newValue: newLastMatchJoined });
             member.lastMatchJoined = new Date(newLastMatchJoined);
             updated = true;
         }
@@ -181,6 +190,12 @@ const updateMember = async (req, res) => {
         }
 
         await member.save();
+
+        await logAudit({
+            editor,
+            action: "updateMember",
+            changes
+        });
 
         res.status(200).json({
             message: 'Member updated successfully',
