@@ -19,6 +19,7 @@ function ProfilePage() {
     const [loggedInUsername, setLoggedInUsername] = useState("");
     const [loggedInPosition, setLoggedInPosition] = useState("");
     const [attendanceRate, setAttendanceRate] = useState(null);
+    const [penalties, setPenalties] = useState([]);
 
     useEffect(() => {
         async function fetchProfileData() {
@@ -67,6 +68,10 @@ function ProfilePage() {
                     setAttendanceRate(userInfo.attendanceRate);
                 }
 
+                if(Array.isArray(userInfo.penalties)) {
+                    setPenalties(userInfo.penalties);
+                }
+
             } catch (err) {
                 console.error("Error fetching profile data:", err);
                 setIsMember(false);
@@ -102,7 +107,7 @@ function ProfilePage() {
                     {(loggedInUsername === username || loggedInPosition === "officer") && (
                         <article className={styles.ProfileStats}>
                             <h2>{`${Math.round(attendanceRate * 100)}% Attendance Rate`}</h2>
-                            <h2>5/10 Penalties</h2>
+                            <h2>{`${penalties.length}/10 Penalties`}</h2>
                         </article>
                     )}
                     <article className={styles.ScrollTabs}>

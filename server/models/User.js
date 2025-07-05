@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
         email:          {type: String, required: true, unique: true},
         password:       {type: String, required: true}
     },
-    // penalties:          [{ type: mongoose.Schema.Types.ObjectId, ref: 'Penalty' }],
+    penalties:          [{ type: mongoose.Schema.Types.ObjectId, ref: 'Penalty' }],
     // currentlyQueued:    [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
     // matchHistory:       [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
     attendanceRate:     {type: Number, default: 0},

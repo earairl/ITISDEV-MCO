@@ -7,7 +7,8 @@ const serverGetUser = async (userId) => {
         const userInfo = {
             username: user.credentials.username,
             email: user.credentials.email,
-            attendanceRate: user.attendanceRate 
+            attendanceRate: user.attendanceRate, 
+            penalties: user.penalties
         };
 
         console.log('user info: ', user);
