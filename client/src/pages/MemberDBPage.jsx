@@ -1,9 +1,10 @@
 import MainLayout from "@/template/MainLayout";
-import { CheckIcon, Cross2Icon, Pencil1Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { CheckIcon, Cross2Icon, Pencil2Icon, MagnifyingGlassIcon, CalendarIcon, TrashIcon } from '@radix-ui/react-icons';
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import styles from "./ProfilePage.module.css";         
-import stylesDB from "./MemberDBPage.module.css";       
+import stylesDB from "./MemberDBPage.module.css"; 
+import { useToast } from '@/components/ui/Toaster';   
 
 function MemberDBPage() {
     const [members, setMembers] = useState([]);
@@ -12,6 +13,7 @@ function MemberDBPage() {
     const [editingRow, setEditingRow] = useState(null);
     const [editedData, setEditedData] = useState({});
     const [searchTerm, setSearchTerm] = useState("");
+    const { showToast } = useToast();
 
     useEffect(() => {
         async function fetchMembers() {
@@ -83,27 +85,102 @@ function MemberDBPage() {
 
     const handleEditSave = async (memberId) => {
         try {
-            const updatedMembers = members.map(member => {
-                if (member._id === memberId) {
-                    return {
-                        ...member, // copies all existing properties from member, overrides changes
-                        firstName: editedData.firstName,
-                        lastName: editedData.lastName,
-                        college: editedData.college,
-                        position: editedData.position,
-                        dateJoined: editedData.dateJoined ? new Date(editedData.dateJoined).toISOString() : null,
-                        lastMatchJoined: editedData.lastMatchJoined ? new Date(editedData.lastMatchJoined).toISOString() : null,
-                        isActive: editedData.isActive
-                    };
-                }
-                return member;
+            const member = members.find(m => m._id === memberId);
+            if (!member) {
+            return;
+            }
+
+            const response = await fetch('http://localhost:5000/updateMember', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    idNum: member.idNum,
+                    newFirstName: editedData.firstName,
+                    newLastName: editedData.lastName,
+                    newCollege: editedData.college,
+                    newPosition: editedData.position,
+                    newDateJoined: editedData.dateJoined,
+                    newLastMatchJoined: editedData.lastMatchJoined,
+                    isActive: editedData.isActive
+                })
             });
+
+            const data = await response.json();
             
-            setMembers(updatedMembers);
+            if (!response.ok) {
+                showToast({
+                    description: data.message || 'Failed to update member',
+                    variant: 'destructive'
+                });
+                return;
+            }
+
+            const membersRes = await fetch("http://localhost:5000/getMembers");
+            if (membersRes.ok) {
+                const updatedMembers = await membersRes.json();
+                setMembers(updatedMembers);
+                setFilteredMembers(updatedMembers);
+            }
+            
             setEditingRow(null);
             setEditedData({});
-        } catch (err) {
-            console.error("Error updating member:", err);
+            
+            showToast({
+                description: 'Member updated successfully',
+            });
+
+        } catch (error) {
+            console.error("Update error:", error);
+            showToast({
+                description: 'Error updating member',
+                variant: 'destructive'
+            });
+        }
+    };
+
+    const handleDeleteMember = async (idNum) => {
+        if (!window.confirm("Are you sure you want to delete this member permanently?")) return;
+        
+        try {
+            const response = await fetch('http://localhost:5000/removeMember', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ idNum })
+            });
+
+            const data = await response.json();
+            
+            if (!response.ok) {
+                showToast({
+                    description: data.message || 'Failed to delete member',
+                    variant: 'destructive'
+                });
+                return;
+            }
+
+            // Refresh member list
+            const membersRes = await fetch("http://localhost:5000/getMembers");
+            const updatedMembers = await membersRes.json();
+            
+            setMembers(updatedMembers);
+            setFilteredMembers(updatedMembers);
+            
+            showToast({
+                description: 'Member deleted successfully',
+            });
+
+        } catch (error) {
+            console.error("Delete error:", error);
+            showToast({
+                description: 'Error deleting member',
+                variant: 'destructive'
+            });
         }
     };
 
@@ -290,7 +367,7 @@ function MemberDBPage() {
                                                     onClick={() => handleEditStart(m)}
                                                     className={stylesDB.editButton}
                                                     >
-                                                    <Pencil1Icon />
+                                                    <Pencil2Icon />
                                                     </button>
                                                     )}
                                                 </div>
@@ -304,9 +381,13 @@ function MemberDBPage() {
 
                     <div className={stylesDB.bottomControls}>
                         <button className={stylesDB.generateReportBtn}>
+                            Add Member
+                        </button>
+                        <span> </span>
+                        <button className={stylesDB.generateReportBtn}>
                             Generate Report
                         </button>
-                </div>
+                    </div>
             </div>
             </div>
         </motion.div>
