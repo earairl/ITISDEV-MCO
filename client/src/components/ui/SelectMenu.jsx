@@ -8,8 +8,8 @@ import {
 } from "@radix-ui/react-icons";
 import styles from "./SelectMenu.module.css";
 
-const SelectMenu = ({ position = "Position", onChange}) => (
-	<Select.Root onValueChange={onChange}>
+const SelectMenu = ({ position = "Position", onChange, value}) => (
+	<Select.Root value={value} onValueChange={onChange}>
 		<Select.Trigger className={styles.Trigger} aria-label="Position">
 			<Select.Icon className={styles.Icon}>
 				<ChevronDownIcon width={25} height={25} />
@@ -25,6 +25,7 @@ const SelectMenu = ({ position = "Position", onChange}) => (
 					<Select.Group>
 						<Select.Label className={styles.Label}>Assign Position</Select.Label>
 						<Select.Separator className={styles.Separator} />
+						{/* (if needed) Eventually update to take an array of items */}
 						<SelectItem value="officer">Officer</SelectItem>
 						<SelectItem value="member">Member</SelectItem>
 					</Select.Group>

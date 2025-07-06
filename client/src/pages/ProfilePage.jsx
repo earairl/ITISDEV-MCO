@@ -9,6 +9,7 @@ import { useToast } from '@/components/ui/Toaster';
 
 import ScrollableArea from "@/components/ui/ScrollableArea"
 import SelectMenu from "@/components/ui/SelectMenu";
+import AlertModal from "@/components/ui/AlertModal";
 
 // implement conditionals to render variations of the page
 // e.g. omitting a component if viewed as an officer, public user, etc.
@@ -28,6 +29,8 @@ function ProfilePage() {
     const [penalties, setPenalties] = useState([]);
     const [isEditing, setIsEditing]   = useState(false);
     const [draftEmail, setDraftEmail] = useState("");
+    const [pendingPosition, setPendingPosition] = useState(null);
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     const inputRef = useRef(null);
     const { showToast } = useToast();
     // const [loading, setLoading] = useState(true); // prevent non-existent page from loading in
@@ -158,9 +161,9 @@ function ProfilePage() {
         }
     }
     
-    const changePosition = async (newPosition) => {
+    const handleChangePosition = async (newPosition) => {
         try {
-            const res = await fetch('http://localhost:50010/updatePosition', {
+            const res = await fetch('http://localhost:5000/updatePosition', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({ idNum, position: newPosition})
@@ -169,7 +172,6 @@ function ProfilePage() {
                 setPosition(newPosition)
                 showToast({
                     description: "Role applied successfully",
-                    duration: 4000
                 });
             } else {
                 const data = await res.json();
@@ -188,6 +190,26 @@ function ProfilePage() {
             console.error(error)
         }
     }
+
+    // Intercept SelectMenu change
+    const handleSelectChange = (newPosition) => {
+        setPendingPosition(newPosition);
+        setShowConfirmDialog(true);
+    };
+
+    const handleConfirmPosition = async () => {
+        await handleChangePosition(pendingPosition);
+        setShowConfirmDialog(false);
+        setPendingPosition(null);
+    };
+
+    const handleCancelPosition = () => {
+        setShowConfirmDialog(false);
+        setPendingPosition(null);
+        showToast({
+            description: "Role assignment cancelled"
+        });
+    };
 
     return (
         <motion.div
@@ -244,7 +266,10 @@ function ProfilePage() {
                         <div className={styles.HeaderRight}>
                             {isMember && <h2>Joined {dateJoined}</h2>}
                             {loggedInUsername !== username && loggedInPosition === "officer" && position === "member" ? (
-                                    <SelectMenu position={position} onChange={changePosition}/>
+                                    <SelectMenu position={position} 
+                                                onChange={handleSelectChange} 
+                                                value={position}/>
+                            // consider using state variable for value if using more complex UI/needing better control
                             ) : (
                                 <h2>{position}</h2>
                             )}
@@ -264,6 +289,17 @@ function ProfilePage() {
                         <article className={styles.Penalty}>
                             <input type="button" value="Assign Penalty" />
                         </article>
+                    )}
+                    {/* Position Set Confirmation */}
+                    {showConfirmDialog && (
+                        <AlertModal
+                            open={showConfirmDialog}
+                            onOpenChange={setShowConfirmDialog}
+                            title="Confirm Position Change"
+                            description={`Are you sure you want to change this member's position to "${pendingPosition}"? This action is irreversible.`}
+                            onConfirm={handleConfirmPosition}
+                            onCancel={handleCancelPosition}
+                        />
                     )}
                 </div>
             </div>
