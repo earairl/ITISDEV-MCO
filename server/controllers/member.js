@@ -81,30 +81,6 @@ const getMembers = async (req, res) => {
   }
 };
 
-const setMemberInactive = async(req, res) => {
-    const { idNum } = req.body;
-    const editor = req.session.user;
-
-    try {
-        const member = await Member.findOne({ 'idNum': idNum });
-
-        await logAudit({
-            editor,
-            action: "setInactive",
-            field: "isActive",
-            oldValue: member.isActive,
-            newValue: false
-        });
-
-        member.isActive = false;
-        await member.save();
-        res.status(200).json({ message: 'Member set to inactive successfully.' });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'Failed to set the member as inactive:', error });
-    }
-};
-
 const updatePosition = async (req, res) => {
     const { idNum, position } = req.body;
     const editor = req.session.user;
@@ -135,13 +111,15 @@ const updatePosition = async (req, res) => {
 const updateMember = async (req, res) => {
     const { idNum, newFirstName, newLastName,
         newCollege, newPosition, newDateJoined,
-        newLastMatchJoined } = req.body;
+        newLastMatchJoined, isActive } = req.body;
 
     const editor = req.session?.username || 'test-user';
     const changes = [];
     
     try {
         const member = await Member.findOne({ idNum });
+        const parsedNewDateJoined = new Date(newDateJoined);
+        const parsedNewLastMatchJoined = new Date(newLastMatchJoined);
 
         if (!member) {
             return res.status(404).json({ message: 'Member not found.' });
@@ -149,44 +127,50 @@ const updateMember = async (req, res) => {
 
         let updated = false;
 
-        if (newFirstName) {
+        if (newFirstName && member.firstName !== newFirstName) {
             changes.push({ field: "firstName", oldValue: member.firstName, newValue: newFirstName });
             member.firstName = newFirstName;
             updated = true;
         }
 
-        if (newLastName) {
+        if (newLastName && member.lastName !== newLastName) {
             changes.push({ field: "lastName", oldValue: member.lastName, newValue: newLastName });
             member.lastName = newLastName;
             updated = true;
         }
 
-        if (newCollege) {
+        if (newCollege && member.college !== newCollege) {
             changes.push({ field: "college", oldValue: member.college, newValue: newCollege });
             member.college = newCollege;
             updated = true;
         }
 
-        if (newPosition && ['member', 'officer'].includes(newPosition)) {
+        if (newPosition && ['member', 'officer'].includes(newPosition) && member.position !== newPosition) {
             changes.push({ field: "position", oldValue: member.position, newValue: newPosition });
             member.position = newPosition;
             updated = true;
         }
 
-        if (newDateJoined) {
+        if (newDateJoined && member.dateJoined.getTime() !== parsedNewDateJoined.getTime()) {
             changes.push({ field: "dateJoined", oldValue: member.dateJoined, newValue: newDateJoined });
             member.dateJoined = new Date(newDateJoined);
             updated = true;
         }
 
-        if (newLastMatchJoined) {
+        if (newLastMatchJoined && member.lastMatchJoined.getTime() !== parsedNewLastMatchJoined.getTime()) {
             changes.push({ field: "lastMatchJoined", oldValue: member.lastMatchJoined, newValue: newLastMatchJoined });
             member.lastMatchJoined = new Date(newLastMatchJoined);
             updated = true;
         }
 
+        if (typeof isActive === "boolean" && member.isActive !== isActive) {
+            changes.push({ field: "isActive", oldValue: member.isActive, newValue: isActive });
+            member.isActive = isActive;
+            updated = true;
+        }
+
         if (!updated) {
-            return res.status(400).json({ message: 'No valid fields provided for update.' });
+            return res.status(400).json({ message: 'No valid or changed data was provided.' });
         }
 
         await member.save();
@@ -197,17 +181,7 @@ const updateMember = async (req, res) => {
             changes
         });
 
-        res.status(200).json({
-            message: 'Member updated successfully',
-            updatedFields: {
-                ...(newFirstName && { firstName: newFirstName }),
-                ...(newLastName && { lastName: newLastName }),
-                ...(newCollege && { college: newCollege }),
-                ...(newPosition && { position: newPosition }),
-                ...(newDateJoined && { dateJoined: newDateJoined }),
-                ...(newLastMatchJoined && { lastMatchJoined: newLastMatchJoined }),
-            },
-        });
+        res.status(200).json({ message: 'Member updated successfully' });
     } catch (error) {
         console.error('Error updating member:', error);
         res.status(500).json({ message: 'Server error', error });
@@ -231,4 +205,4 @@ const removeMember = async (req, res) => {
     }
 };
 
-module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, setMemberInactive, updatePosition, updateMember, removeMember};
+module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, updatePosition, updateMember, removeMember};
