@@ -34,7 +34,7 @@ function ProfilePage() {
 
     useEffect(() => {
         async function fetchProfileData() {
-            // setLoading(true);
+            //setLoading(true);
             const storedUser = sessionStorage.getItem("user");
 
             // logged user
@@ -153,26 +153,38 @@ function ProfilePage() {
             console.error("Email update failed:", err);
             showToast({
                 title: 'Login Error',
-                description: err,
+                description: err?.message || String(err) || "An unexpected error occurred."
             });
         }
     }
     
     const changePosition = async (newPosition) => {
         try {
-            const res = await fetch('http://localhost:5000/updatePosition', {
+            const res = await fetch('http://localhost:50010/updatePosition', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({ idNum, position: newPosition })
+                body: JSON.stringify({ idNum, position: newPosition})
             });
             if (res.ok) {
                 setPosition(newPosition)
+                showToast({
+                    description: "Role applied successfully",
+                    duration: 4000
+                });
             } else {
                 const data = await res.json();
-                alert(data.message || "Failed to update position")
+                console.error(data.message || "Failed to update role")
+                showToast({
+                    title: "Failed to update role",
+                    description: data.message || "An unknown error occurred."
+                });
             }
         } catch (error) {
-            alert("Error updating position.")
+            showToast({
+                title: "Error updating role",
+                // optional chaining to display msg property of error Object, then typecasting if null/empty
+                description: error?.message || String(error) || "An unexpected error occurred."
+            });
             console.error(error)
         }
     }
