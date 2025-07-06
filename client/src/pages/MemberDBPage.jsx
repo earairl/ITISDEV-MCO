@@ -92,6 +92,7 @@ function MemberDBPage() {
 
             const response = await fetch('http://localhost:5000/updateMember', {
                 method: 'PATCH',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${sessionStorage.getItem('token')}`

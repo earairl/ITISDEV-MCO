@@ -137,9 +137,9 @@ const updateMember = async (req, res) => {
         newCollege, newPosition, newDateJoined,
         newLastMatchJoined } = req.body;
 
-    const editor = req.session.user;
+    const editor = req.session?.username || 'test-user';
     const changes = [];
-
+    
     try {
         const member = await Member.findOne({ idNum });
 
