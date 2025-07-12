@@ -3,18 +3,16 @@ import { useState } from "react";
 
 const ScheduleModal = ({ userId, onSuccess }) => {
     const [form, setForm] = useState({ date: "", time: "", venue: "", maxPlayers: "" });
-    const [conflict, setConflict] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [open, setOpen] = useState(false);
 
     const handleChange = (e) => {
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-        setConflict(null);
     };
 
     const handleSubmit = () => {
         setSubmitting(true);
-        
+        // fetch
         setSubmitting(false);
     };
 
@@ -45,11 +43,6 @@ const ScheduleModal = ({ userId, onSuccess }) => {
             <label>Max Players:
             <input type="number" name="maxPlayers" value={form.maxPlayers} onChange={handleChange} required />
             </label>
-            {conflict && (
-            <p style={{ color: "red", marginTop: "1rem" }}>
-                Conflict: Game already scheduled at {conflict.venue} on {new Date(conflict.date).toLocaleString()}
-            </p>
-            )}
         </FormModal>
         </>
     );

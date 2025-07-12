@@ -32,7 +32,7 @@ const FormModal = ({
 
             <div style={{ display: "flex", justifyContent: "space-evenly", gap: "10px" }}>
                 <AlertDialog.Cancel asChild>
-                <button className={`${styles.Button} cancel`}>Cancel</button>
+                <button className={`${styles.Button} cancel`}>{cancelLabel}</button>
                 </AlertDialog.Cancel>
                 <AlertDialog.Action asChild>
                 <button
