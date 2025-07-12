@@ -1,0 +1,169 @@
+.Overlay {
+	background-color: black;
+	opacity: 50%;
+	position: fixed;
+	inset: 0;
+	animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.Content {
+	background-color: var(--color-text-bg-white);
+	border: 0.2rem solid var(--color-text-bg-green);
+    border-radius: 1rem;
+	box-shadow: var(--shadow-6);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 60%;
+	height: 63%;
+	padding: 0.5rem 0rem 1.5rem 0rem;
+	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+	&:focus {
+		outline: none;
+	}
+}
+
+.ModalHeader{
+	text-align: center;
+	background-color: var(--color-accent-light);
+	padding: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+.Title {
+	margin: 0;
+	color: var(--color-text-bg-green);
+	font-size: 1.2rem;
+	font-weight: 500;
+	font-family: var(--font-heading);
+}
+
+.Description {
+	text-align: center;
+	color: var(--color-text-bg-green);
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.Description > h1 {
+	display: inline;
+	font-size: 1.8rem;
+	font-family: var(--font-heading);
+}
+
+.Description > sub {
+	display: block;
+	padding: 1rem;
+}
+
+.Description > p {
+	font-size: 0.9rem;
+	color: black;
+	margin: 1rem;
+}
+.Description > .RightArrow{
+	color: gray;
+	display: inline;
+	vertical-align: text-bottom;
+}
+
+.Button {
+	all: unset;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	padding: 0 15px;
+	font-size: 0.9rem;
+	line-height: 1;
+	font-weight: 500;
+	height: 1.5rem;
+	min-width: 5rem;
+	user-select: none;
+	&:focus:not(:focus-visible) {
+		outline: 0;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-accent-light);
+		outline-offset: 1px;
+	}
+/* Take note of these global classes, might have to localize them */
+	&:global(.dialogBtn) {
+		background-color: var(--color-text-bg-white);
+		border-radius: 0.5rem;
+		border: 2px solid var(--color-accent-dark);
+		color: var(--color-accent-dark);
+		outline-color: var(--color-text-bg-white);
+		&:hover {
+			background-color: var(--color-accent-dark);
+			border-color: var(--color-text-bg-white);
+			color: var(--color-text-bg-white);
+		}
+
+		&:focus-visible {
+			/* background-color: var(--color-accent-dark);
+			color: var(--color-text-bg-white); */
+			outline: 2px solid var(--color-text-bg-green);
+			border-width: 0;
+		}
+	}
+
+	&:global(.confirm) {
+		background-color: var(--color-text-bg-green);
+		border-radius: 0.5rem;
+		border: 2px solid var(--color-text-bg-green);
+		color: var(--color-text-bg-white);
+		outline-color: var(--red-7);
+		&:hover {
+			background-color: var(--color-accent-light);
+			border-color: var(--color-text-bg-white);
+			color: var(--color-accent-dark);
+		}
+		&:focus-visible {
+			background-color: var(--color-accent-light);
+			color: var(--color-accent-dark);
+			outline: 2px solid var(--color-accent-light);
+			border-width: 0;
+		}
+	}
+
+	&:global(.cancel) {
+		background-color: var(--color-text-bg-white);
+		border: 2px solid var(--color-text-bg-green);
+		border-radius: 0.5rem;
+		color: var(--color-text-bg-green);
+		outline-color: var(--mauve-7);
+		&:hover {
+			background-color: var(--color-red-400);
+			border-color: var(--color-text-bg-white);
+			color: var(--color-text-bg-white);
+		}
+		&:focus-visible {
+			background-color: var(--color-red-400);
+			color: var(--color-text-bg-white);
+			outline: 2px solid var(--color-accent-light);
+			border-width: 0;
+		}
+	}
+}
+
+.Description input {
+    display: block;
+    width: 90%;
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    border: 1px solid gray;
+    border-radius: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+}
+
+.Description label {
+    display: block;
+    margin-top: 0.5rem;
+    text-align: left;
+    margin-left: 5%;
+    color: var(--color-text-bg-green);
+}

@@ -7,6 +7,7 @@ import styles from "./HomePage.module.css";
 import ToggleSwitch from "@/components/ui/ToggleSwitch"
 import UserAvatar from "@/components/ui/UserAvatar"
 import NotifModal from "@/components/ui/NotifModal"
+import ScheduleModal from "@/components/ui/ScheduleModal";
 import ScrollableArea from "@/components/ui/ScrollableArea"
 
 function HomePage() {
@@ -27,7 +28,7 @@ function HomePage() {
                     {console.log(user)}
                     { (user.position !== 'guest') &&
                         <article className={styles.Buttons}>
-                            <input type="button" value="Create New Schedule" />
+                            <ScheduleModal userId={user.idNum} onSuccess={() => window.location.reload()} />
                             <input type="button" value="Generate Member Report" />
                         </article>
                     }
