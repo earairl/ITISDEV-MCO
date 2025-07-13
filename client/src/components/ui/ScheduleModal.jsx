@@ -14,6 +14,11 @@ const ScheduleModal = ({ userId, onSuccess }) => {
         setSubmitting(true);
         // fetch
         setSubmitting(false);
+        setOpen(false);
+    };
+
+    const resetForm = () => {
+        setForm({ date: "", time: "", venue: "", maxPlayers: "" });
     };
 
     return (
@@ -30,6 +35,7 @@ const ScheduleModal = ({ userId, onSuccess }) => {
             title="Schedule Game"
             description="Complete the form to create a new queuing schedule."
             onConfirm={handleSubmit}
+            onCancel={resetForm}
             submitting={submitting}
         >
             <label>Date:
