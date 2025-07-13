@@ -28,6 +28,7 @@ const ScheduleModal = ({ userId, onSuccess }) => {
             open={open}
             onOpenChange={setOpen}
             title="Schedule Game"
+            description="Complete the form to create a new queuing schedule."
             onConfirm={handleSubmit}
             submitting={submitting}
         >

@@ -5,7 +5,7 @@ const FormModal = ({
     open,
     onOpenChange,
     title = "Form Modal",
-    description = "",
+    description,
     children,
     onConfirm,
     confirmLabel = "Submit",
@@ -14,38 +14,39 @@ const FormModal = ({
 }) => {
     return (
         <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
-        <AlertDialog.Portal>
-            <AlertDialog.Overlay className={styles.Overlay} />
-            <AlertDialog.Content className={styles.Content}>
-            <div className={styles.ModalHeader}>
-                <AlertDialog.Title className={styles.Title}>{title}</AlertDialog.Title>
-            </div>
-            {description && (
-                <div className={styles.Description}>
-                <p>{description}</p>
-                </div>
-            )}
+            <AlertDialog.Portal>
+                <AlertDialog.Overlay className={styles.Overlay} />
+                <AlertDialog.Content className={styles.Content}>
+                    <div className={styles.ModalHeader}>
+                        <AlertDialog.Title className={styles.Title}>{title}</AlertDialog.Title>
+                    </div>
 
-            <form className={styles.Description} onSubmit={(e) => e.preventDefault()}>
-                {children}
-            </form>
+                    {description && (
+                        <AlertDialog.Description className={styles.Description}>
+                            {description}
+                        </AlertDialog.Description>
+                    )}
 
-            <div style={{ display: "flex", justifyContent: "space-evenly", gap: "10px" }}>
-                <AlertDialog.Cancel asChild>
-                <button className={`${styles.Button} cancel`}>{cancelLabel}</button>
-                </AlertDialog.Cancel>
-                <AlertDialog.Action asChild>
-                <button
-                    className={`${styles.Button} confirm`}
-                    onClick={onConfirm}
-                    disabled={submitting}
-                >
-                    {submitting ? "Submitting..." : confirmLabel}
-                </button>
-                </AlertDialog.Action>
-            </div>
-            </AlertDialog.Content>
-        </AlertDialog.Portal>
+                    <form className={styles.FormContent} onSubmit={(e) => e.preventDefault()}>
+                        {children}
+                    </form>
+
+                    <div style={{ display: "flex", justifyContent: "space-evenly", gap: "10px" }}>
+                        <AlertDialog.Cancel asChild>
+                            <button className={`${styles.Button} cancel`}>{cancelLabel}</button>
+                        </AlertDialog.Cancel>
+                        <AlertDialog.Action asChild>
+                            <button
+                                className={`${styles.Button} confirm`}
+                                onClick={onConfirm}
+                                disabled={submitting}
+                            >
+                                {submitting ? "Submitting..." : confirmLabel}
+                            </button>
+                        </AlertDialog.Action>
+                    </div>
+                </AlertDialog.Content>
+            </AlertDialog.Portal>
         </AlertDialog.Root>
     );
 };
