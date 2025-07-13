@@ -25,13 +25,12 @@ function HomePage() {
                         <ScrollableArea tabName="Notifications" tabHeight="40" tabWidth="40"/>
                         <ScrollableArea tabName="Upcoming Games" tabHeight="40" tabWidth="40"/>
                     </article>
-                    {console.log(user)}
-                    { (user.position !== 'guest') &&
+                    {/* { (user.position !== 'guest') &&
                         <article className={styles.Buttons}>
                             <ScheduleModal userId={user.idNum} onSuccess={() => window.location.reload()} />
                             <input type="button" value="Generate Member Report" />
                         </article>
-                    }
+                    } */}
                 </div>
             </div>
             {/* Uncomment to view components*/}

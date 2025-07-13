@@ -1,19 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useOutletContext } from 'react-router-dom'
 
 import { GamesList } from '../components/game/GamesList'
 import { GameTabs } from '../components/game/GameTabs'
+import ScheduleModal from "@/components/ui/ScheduleModal";
+
+import styles from './GamesPage.module.css'
 
 export default function GamesPage() {
+    const user = useOutletContext()
+    const [games, setGames] = useState([])
     const [filter, setFilter] = useState('all')
 
     // fetch all games (open, full, and ongoing)
-    const games = [
-        { id: 1, date: '2025-07-15', time: '10:00 AM', venue: 'Hall A', status: 'open', players: 12, maxPlayers: 30 },
-        { id: 2, date: '2025-07-16', time: '2:00 PM', venue: 'Hall B', status: 'full', players: 30, maxPlayers: 30 },
-        { id: 3, date: '2025-09-16', time: '5:00 PM', venue: 'Hall C', status: 'open', players: 0, maxPlayers: 40 },
-    ]
+    useEffect(() => {
+        async function fetchGames() {
+            try {
+                const res = await fetch("http://localhost:5000/getFormattedGames");
+                const data = await res.json();
+                setGames(data)
+            } catch (err) {
+                console.error("Error fetching games:", err);
+            }
+        }
 
-    // const games = []
+        fetchGames();
+    }, []);
 
     const filteredGames = games.filter(game => {
         if (filter === 'all') return true
@@ -21,10 +33,17 @@ export default function GamesPage() {
     })
 
     return (
-        <>
-            <h1>Games</h1>
-            <GameTabs onChange={setFilter} />
-            <table>
+        <div className={styles.body}>
+            <div className={styles.header}>
+                <h1>Games</h1>
+                <div>
+                    { user.position === 'officer' &&
+                        <ScheduleModal userId={user.idNum} onSuccess={() => { return }} />
+                    }
+                </div>
+            </div>
+            <GameTabs filter={filter} setFilter={setFilter} styles={styles} />
+            <table className={styles.gamesTable}>
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -35,9 +54,9 @@ export default function GamesPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    <GamesList games={filteredGames} />
+                    <GamesList games={filteredGames} styles={styles} />
                 </tbody>
             </table>
-        </>
+        </div>
     )
 }

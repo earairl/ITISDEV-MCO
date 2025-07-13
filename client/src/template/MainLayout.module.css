@@ -1,6 +1,5 @@
 .Main{
-    /* background-color: var(--color-text-bg-white); */
-    background-color: black;
+    background-color: var(--color-text-bg-white);
     display: flex;
     flex-direction: column;
     width: 100vw;

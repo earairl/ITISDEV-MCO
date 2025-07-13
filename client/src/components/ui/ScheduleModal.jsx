@@ -52,7 +52,7 @@ const ScheduleModal = ({ userId, onSuccess }) => {
         <>
         <input
             type="button"
-            value="Create New Schedule"
+            value="Schedule New Game"
             onClick={() => setOpen(true)}
         />
 

@@ -1,0 +1,93 @@
+.body {
+    margin: 2em 5em 0 5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+}
+
+.header h1 {
+    font-size: 3rem;
+}
+
+.tabsWrap {
+    display: flex;
+    background-color: var(--color-text-bg-green);
+    gap: 0.3em;
+}
+
+.tabsWrap button {
+    color: var(--color-text-bg-white);
+    font-size: 1.5em;
+    background-color: transparent;
+    text-transform: capitalize;
+    font-weight: 700;
+    margin: 0.2em;
+    border-radius: 9999em;
+}
+
+.tabsWrap button:hover,
+.active {
+    text-decoration: underline;
+    border: none;
+}
+
+.tabsWrap button:focus,
+.tabsWrap button:focus-visible {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+.gamesTable {
+    font-size: 1.13em;
+    position: relative;
+    min-width: 100%;
+    border-collapse: collapse;
+    border: solid 1px black;
+    table-layout: fixed;
+    text-align: center;
+}
+
+.gamesTable th:nth-child(1) { width: 20%; }
+.gamesTable th:nth-child(2) { width: 20%; }
+.gamesTable th:nth-child(3) { width: 30%; }
+.gamesTable th:nth-child(4) { width: 15%; }
+.gamesTable th:nth-child(5) { width: 15%; }
+
+.gamesTable thead th {
+    color: black;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-accent-light);
+    z-index: 1;
+    font-size: 1.2em;
+}
+
+.gamesTable tr {
+    color: black;
+}
+
+.gamesTable td {
+    padding: 0.5em 0 0.5em 0;
+}
+
+.gameInfo {
+    position: relative;
+}
+
+.gameInfo:hover {
+    background-color: var(--color-accent-dark);
+    color: var(--color-text-bg-white);
+}
+
+.gameLink {
+    position: absolute;
+    inset: 0;
+}

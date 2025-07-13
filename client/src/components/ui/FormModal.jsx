@@ -19,8 +19,8 @@ const FormModal = ({
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
             <Dialog.Portal>
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, zIndex: 9999 }}
+                    animate={{ opacity: 1, zIndex: 9999 }}
                     transition={{ duration: 0.2 }}    
                 >
                     <Dialog.Overlay className={styles.Overlay} />

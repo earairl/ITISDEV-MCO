@@ -2,6 +2,7 @@ import { GamePreview } from './GamePreview'
 
 export function GamesList(props) {
     const games = props.games
+    const styles = props.styles
 
     return (
         <>
@@ -11,7 +12,7 @@ export function GamesList(props) {
                 </tr>
                 : <> 
                     {games.map(game => (
-                        <GamePreview key={game.id} game={game} />
+                        <GamePreview key={game._id} game={game} styles={styles} />
                     ))}
                 </>
             }

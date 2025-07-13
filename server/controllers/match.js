@@ -5,7 +5,9 @@ const logAudit = require('../utils/auditLogger');
 
 const getGames = async (res) => {
     try {
-        const games = await Match.find()
+        const games = await Match.find({
+            status: { $in: ['open', 'ongoing', 'full'] },
+            })
             .populate([
                 { path: 'players', select: 'ceredentials.username' },
                 { path: 'waitlist', select: 'ceredentials.username' },
@@ -16,7 +18,7 @@ const getGames = async (res) => {
     }
 }
 
-const getFormattedGames = async (res) => {
+const getFormattedGames = async (req, res) => {
     try {
         const initialGames = await Match.find()
             .populate([
@@ -28,7 +30,7 @@ const getFormattedGames = async (res) => {
         const games = initialGames.map(game => {
             const initialDate = new Date(game.date)
             return {
-                ...games,
+                ...game,
                 date: initialDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }),
                 time: initialDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
             }
