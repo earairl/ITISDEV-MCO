@@ -4,6 +4,7 @@ import AuthPage from '../pages/AuthPage'
 import HomePage from '../pages/HomePage'
 import ProfilePage from '../pages/ProfilePage'
 import MemberDBPage from '../pages/MemberDBPage'
+import GamesPage from '../pages/GamesPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 import { AnimatePresence } from 'motion/react'
@@ -20,7 +21,7 @@ function AnimatedRoutes() {
                     <Route path='/' element={<MainLayout />}>
                         <Route path="home" element={<HomePage />} />
                         {/* all games view */}
-                        <Route path="games" element={<NotFoundPage />} />
+                        <Route path="games" element={<GamesPage />} />
                         {/* replace with <GamePage /> once available */}
                         <Route path="games/:gameId" element={<NotFoundPage />} />
                         <Route path="profile/:username" element={<ProfilePage />} />

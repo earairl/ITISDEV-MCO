@@ -7,7 +7,7 @@ const matchSchema = new mongoose.Schema({
     createdBy:  {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     players:    [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}], // array of users in the queue
     waitlist:   [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}], // array of users on waitlist
-    status:     {type: String, enum: ['open', 'closed', 'ongoing', 'cancelled'], required: true, default: 'open'} 
+    status:     {type: String, enum: ['open', 'full', 'closed', 'ongoing', 'cancelled'], required: true, default: 'open'} 
 }, {collection: 'Matches'});
 
 const Match = mongoose.model('Match', matchSchema);

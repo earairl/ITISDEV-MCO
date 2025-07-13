@@ -1,6 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import styles from "./FormModal.module.css";
 
+import { motion } from 'motion/react'
+
 const FormModal = ({
     open,
     onOpenChange,
@@ -16,7 +18,14 @@ const FormModal = ({
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
             <Dialog.Portal>
-                <Dialog.Overlay className={styles.Overlay} />
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}    
+                >
+                    <Dialog.Overlay className={styles.Overlay} />
+                </motion.div>
+                
                 <Dialog.Content className={styles.Content}>
                     <div className={styles.ModalHeader}>
                         <Dialog.Title className={styles.Title}>{title}</Dialog.Title>
@@ -37,7 +46,7 @@ const FormModal = ({
                     >
                         {children}
 
-                        <div style={{ display: "flex", justifyContent: "space-evenly", gap: "10px", marginTop: "1.5rem" }}>
+                        <div className={styles.BtnsWrap}>
                             <Dialog.Close asChild>
                                 <button 
                                     type="button" 

@@ -70,6 +70,9 @@
 }
 
 .FormContent {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
     text-align: center;
     color: var(--color-text-bg-green);
     font-size: 1rem;
@@ -93,6 +96,13 @@
     text-align: left;
     margin-left: 5%;
     color: var(--color-text-bg-green);
+}
+
+.BtnsWrap {
+	display: flex;
+	justify-content: space-evenly;
+	gap: 1em;
+	margin-top: 3em;
 }
 
 .Button {
@@ -174,4 +184,12 @@
 			border-width: 0;
 		}
 	}
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
 }
