@@ -25,19 +25,23 @@ const ScheduleModal = ({ userId, onSuccess }) => {
             const data = await response.json();
             showToast({
                 description: data.message,
-            })
+                duration: 2000,
+            });
             if (response.ok) {
-                setOpen(false);
-                onSuccess?.();
+                setTimeout(() => {
+                    setOpen(false);
+                    onSuccess?.();
+                    setSubmitting(false);
+                }, 2000);
             }
         } catch (err) {
             console.error('Create match error:', err);
             showToast({
                 title: 'Create Match Error',
                 description: err,
-            })
+            });
+            setSubmitting(false);
         }
-        setSubmitting(false);
     };
 
     const resetForm = () => {
