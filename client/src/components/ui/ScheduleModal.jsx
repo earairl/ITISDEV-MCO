@@ -1,20 +1,43 @@
 import FormModal from "@/components/ui/FormModal";
 import { useState } from "react";
+import { useToast } from '@/components/ui/Toaster';
 
 const ScheduleModal = ({ userId, onSuccess }) => {
     const [form, setForm] = useState({ date: "", time: "", venue: "", maxPlayers: "" });
     const [submitting, setSubmitting] = useState(false);
     const [open, setOpen] = useState(false);
+    const { showToast } = useToast();
 
     const handleChange = (e) => {
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setSubmitting(true);
-        // fetch
+        try {
+            const response = await fetch("http://localhost:5000/createMatch", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: 'include',
+                body: JSON.stringify({ ...form, userId })
+            });
+            
+            const data = await response.json();
+            showToast({
+                description: data.message,
+            })
+            if (response.ok) {
+                setOpen(false);
+                onSuccess?.();
+            }
+        } catch (err) {
+            console.error('Create match error:', err);
+            showToast({
+                title: 'Create Match Error',
+                description: err,
+            })
+        }
         setSubmitting(false);
-        setOpen(false);
     };
 
     const resetForm = () => {
