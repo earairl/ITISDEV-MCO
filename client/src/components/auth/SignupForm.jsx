@@ -14,8 +14,7 @@ function SignupForm(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log('Signup attempted with:', { username, password });
-
+        
         showToast({
             description: 'Signing up...',
         })

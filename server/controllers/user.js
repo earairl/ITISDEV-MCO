@@ -11,10 +11,8 @@ const serverGetUser = async (userId) => {
             penalties: user.penalties
         };
 
-        console.log('user info: ', user);
-
         const result = await serverGetMemberInfo(user.credentials.userId);
-        console.log('user info: ', result.memberInfo);
+
         if (result && result.memberInfo) {
             userInfo.position = result.memberInfo.position;
             userInfo.dateJoined = result.memberInfo.dateJoined;

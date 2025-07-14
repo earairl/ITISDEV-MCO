@@ -10,7 +10,6 @@ function LoginForm(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log('Login attempted with:', { username, password });
 
         showToast({
             description: 'Logging in...',
