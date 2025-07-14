@@ -28,17 +28,19 @@ const ScheduleModal = ({ userId, onSuccess }) => {
                 duration: 2000,
             });
             if (response.ok) {
-                setTimeout(() => {
-                    setOpen(false);
-                    onSuccess?.();
-                    setSubmitting(false);
-                }, 2000);
+                sessionStorage.setItem('createMatchSuccessToast', JSON.stringify({
+                    description: data.message
+                }));
+                setOpen(false);
+                onSuccess?.();
+            } else {
+                setSubmitting(false);
             }
         } catch (err) {
             console.error('Create match error:', err);
             showToast({
                 title: 'Create Match Error',
-                description: err,
+                description: err.message || 'An unknown error occurred.'
             });
             setSubmitting(false);
         }
