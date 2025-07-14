@@ -12,18 +12,17 @@ export default function GamesPage() {
     const [games, setGames] = useState([])
     const [filter, setFilter] = useState('all')
 
-    // fetch all games (open, full, and ongoing)
-    useEffect(() => {
-        async function fetchGames() {
-            try {
-                const res = await fetch("http://localhost:5000/getFormattedGames");
-                const data = await res.json();
-                setGames(data)
-            } catch (err) {
-                console.error("Error fetching games:", err);
-            }
+    const fetchGames = async () => {
+        try {
+            const res = await fetch("http://localhost:5000/getFormattedGames");
+            const data = await res.json();
+            setGames(data);
+        } catch (err) {
+            console.error("Error fetching games:", err);
         }
+    };
 
+    useEffect(() => {
         fetchGames();
     }, []);
 
@@ -38,7 +37,7 @@ export default function GamesPage() {
                 <h1>Games</h1>
                 <div>
                     { user.position === 'officer' &&
-                        <ScheduleModal userId={user.idNum} onSuccess={() => { return }} />
+                        <ScheduleModal userId={user.idNum} onSuccess={fetchGames} />
                     }
                 </div>
             </div>
