@@ -2,8 +2,6 @@ import MainLayout from "@/template/MainLayout"
 import { motion } from 'motion/react'
 import { useOutletContext } from "react-router-dom"
 import styles from "./HomePage.module.css";
-import { useEffect } from "react";
-import { useToast } from "@/components/ui/Toaster";
 
 /* Radix UI */
 import ToggleSwitch from "@/components/ui/ToggleSwitch"
@@ -13,17 +11,7 @@ import ScheduleModal from "@/components/ui/ScheduleModal";
 import ScrollableArea from "@/components/ui/ScrollableArea"
 
 function HomePage() {
-    const user = useOutletContext();
-    const { showToast } = useToast();
-
-    useEffect(() => {
-        const toastData = sessionStorage.getItem('createMatchSuccessToast');
-        if (toastData) {
-            const toast = JSON.parse(toastData);
-            showToast(toast);
-            sessionStorage.removeItem('createMatchSuccessToast');
-        }
-    }, []);
+    const user = useOutletContext()
 
     return (
         <motion.div

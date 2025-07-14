@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom'
 import { GamesList } from '../components/game/GamesList'
 import { GameTabs } from '../components/game/GameTabs'
 import ScheduleModal from "@/components/ui/ScheduleModal";
+import { useToast } from "@/components/ui/Toaster";
 
 import styles from './GamesPage.module.css'
 
@@ -11,6 +12,7 @@ export default function GamesPage() {
     const user = useOutletContext()
     const [games, setGames] = useState([])
     const [filter, setFilter] = useState('all')
+    const { showToast } = useToast();
 
     // fetch all games (open, full, and ongoing)
     useEffect(() => {
@@ -25,6 +27,13 @@ export default function GamesPage() {
         }
 
         fetchGames();
+
+        const toastData = sessionStorage.getItem('createMatchSuccessToast');
+        if (toastData) {
+            const toast = JSON.parse(toastData);
+            showToast(toast);
+            sessionStorage.removeItem('createMatchSuccessToast');
+        }
     }, []);
 
     const filteredGames = games.filter(game => {
@@ -38,7 +47,7 @@ export default function GamesPage() {
                 <h1>Games</h1>
                 <div>
                     { user.position === 'officer' &&
-                        <ScheduleModal userId={user.idNum} onSuccess={() => { return }} />
+                        <ScheduleModal userId={user.idNum} onSuccess={() => window.location.reload()} />
                     }
                 </div>
             </div>
