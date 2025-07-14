@@ -46,10 +46,17 @@ const createMatch = async (req, res) => {
 
     try {
         const matchDateTime = new Date(`${date}T${time}`);
+        const oneHourBefore = new Date(matchDateTime.getTime() - 59 * 60 * 1000);
+        const oneHourAfter = new Date(matchDateTime.getTime() + 59 * 60 * 1000);
         const parsedMaxPlayers = parseInt(maxPlayers, 10);
         
         const user = await User.findOne({ 'credentials.userId': userId });
         const member = await serverGetMemberInfo(userId);
+        const conflictingMatch = await Match.findOne({
+            venue: venue,
+            date: { $gte: oneHourBefore, $lte: oneHourAfter },
+            status: { $in: ['open', 'ongoing', 'full'] }
+        });
 
         let position = '';
         if (member){
@@ -62,6 +69,12 @@ const createMatch = async (req, res) => {
 
         if (matchDateTime < new Date()) {
             return res.status(400).json({ message: 'Invalid schedule. Match cannot be set in the past.' });
+        }
+        
+        if (conflictingMatch) {
+            return res.status(400).json({
+                message: `Schedule conflict: There is already a match scheduled at ${venue} within 1 hour of the selected time.`
+            });
         }
 
         if (parsedMaxPlayers <= 1) {
