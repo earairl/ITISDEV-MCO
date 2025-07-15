@@ -28,9 +28,6 @@ const ScheduleModal = ({ userId, onSuccess }) => {
                 duration: 2000,
             });
             if (response.ok) {
-                // sessionStorage.setItem('createMatchSuccessToast', JSON.stringify({
-                //     description: data.message
-                // }));
                 setSubmitting(false);
                 setOpen(false);
                 onSuccess?.();

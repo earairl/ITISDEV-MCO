@@ -192,7 +192,7 @@ function MemberDBPage() {
         }));
     };
 
-    const colleges = ["Engineering", "Science", "Business", "Arts", "Criminology", "Health Sciences", "Music", "Theater Arts", "Culinary Arts"];
+    const colleges = ["BAGCED", "CCS", "CLA", "COS", "GCOE", "RVRCOB", "SOE", "TDSOL"];
     const positions = ["member", "officer"];
 
     return (
