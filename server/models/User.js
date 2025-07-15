@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema({
         password:       {type: String, required: true}
     },
     penalties:          [{ type: mongoose.Schema.Types.ObjectId, ref: 'Penalty' }],
-    // currentlyQueued:    [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
-    // matchHistory:       [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
+    currentlyQueued:    [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
+    matchHistory:       [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
     attendanceRate:     {type: Number, default: 0},
     deleted:            { type: Boolean, default: false }
 }, {collection: 'Users'});

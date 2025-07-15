@@ -4,6 +4,10 @@ const memberSchema = new mongoose.Schema({
     idNum:          {type: String, unique: true, required: true},
     firstName:      {type: String, required: true},
     lastName:       {type: String, required: true},
+    contactNo:      {type: String, required: true},
+    email:          {type: String, required: true},
+    fbLink:         {type: String, required: true},
+    telegram:       {type: String},
     college:        {type: String, required: true},
     position:       {
         type: String,
