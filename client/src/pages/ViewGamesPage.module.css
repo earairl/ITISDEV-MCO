@@ -46,12 +46,12 @@
 }
 
 .gamesTable {
+    max-height: 50vh;
+    overflow-y: auto;
     font-size: 1.13em;
     position: relative;
     min-width: 100%;
-    border-collapse: collapse;
     border: solid 1px black;
-    table-layout: fixed;
     text-align: center;
 }
 

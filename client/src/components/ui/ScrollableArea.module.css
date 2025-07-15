@@ -90,3 +90,15 @@
 	padding: 0.4rem 0.5rem;
 	margin: 1rem 0rem;
 }
+
+.Tag:hover {
+	color: var(--color-text-bg-white);
+	background-color: var(--color-text-bg-green);
+}
+
+.NoData {
+	margin-top: 1rem;
+	font-size: 2rem;
+	justify-self: center;
+	color: var(--color-text-bg-green);
+}

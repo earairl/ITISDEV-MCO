@@ -1,5 +1,6 @@
 import { useParams, useOutletContext } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import styles from './GamePage.module.css'
 
 import { useToast } from '@/components/ui/Toaster'
 import ScrollableArea from '@/components/ui/ScrollableArea'
@@ -49,12 +50,14 @@ export default function GamePage() {
     return (
         <>
             { game ? (
-                <>
-                    <button onClick={joinGame}>Register</button>
-                    <ScrollableArea tabName={'Registered Players'} data={game.players} path={'profile'} param={'username'} />
-                    <ScrollableArea tabName={'Waitlisted Players'} data={game.waitlist} path={'profile'} param={'username'} />
-                </>
-            ) : ( <></> )
+                <article className={styles.MainDiv}>
+                    <div className={styles.GameDetails}>
+                        <ScrollableArea tabName={'Registered Players'} data={game.players} path={'profile'} param={'username'} />
+                        <ScrollableArea tabName={'Waitlisted Players'} data={game.waitlist} path={'profile'} param={'username'} />
+                    </div>
+                    <button className={styles.RegisterBtn} onClick={joinGame}>Register</button>
+                </article>
+                ) : ( <></> )
             }
         </>
     )

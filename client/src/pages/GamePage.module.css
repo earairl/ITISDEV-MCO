@@ -1,0 +1,32 @@
+.MainDiv {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.GameDetails {
+    margin: 3rem 0rem;
+    display: inherit;
+    justify-content: space-around;
+}
+
+.RegisterBtn {
+    margin-bottom: 2rem;
+    width: 50vh;
+    align-self: center;
+    font-size: 1.1rem;
+    color: var(--color-text-bg-white);
+    background-color: var(--color-accent-dark);
+}
+
+.RegisterBtn:hover {
+    transition: all 100ms;
+    transform: scale(1.1);
+    color: var(--color-text-bg-white);
+    background-color: var(--color-text-bg-green);
+}
+
+.RegisterBtn:focus-visible{
+    background-color: var(--color-text-bg-green);
+}

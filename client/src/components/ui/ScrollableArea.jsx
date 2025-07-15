@@ -21,21 +21,20 @@ const ScrollableArea = ({ tabName, data = [], tabHeight = 22, tabWidth = 35, pat
 					{data.length > 0 ? ( // if data is not empty
 						data.map((item, index) => ( // loops through each element in data array
 							// use of item id leads to better performance
-							<div className={styles.Tag} key={index}>
-								{ path ? 
-									(
-										<Link to={`/${path}/${item[param]}`}>{item[param]}</Link>
-									) : (
-										<>
-											{item} {/*assume item is a string*/}
-											{/* {item.propertyToDisplay} */}
-										</>
-									)
-								}
-							</div>
+							path ? (
+								<Link key={index} to={`/${path}/${item[param]}`}>
+									<div className={styles.Tag}>
+										{item[param]}
+									</div>
+								</Link>
+							) : (
+								<div className={styles.Tag}>
+									{item}
+								</div>
+							)
 						))
 					) : ( // if data is empty
-						<div className={styles.Tag}>No data to display</div>
+						<h1 className={styles.NoData}>No Data to Display</h1>
 					)} 
 				</div>
 			</ScrollArea.Viewport>

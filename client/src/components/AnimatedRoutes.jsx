@@ -4,7 +4,7 @@ import AuthPage from '../pages/AuthPage'
 import HomePage from '../pages/HomePage'
 import ProfilePage from '../pages/ProfilePage'
 import MemberDBPage from '../pages/MemberDBPage'
-import GamesPage from '../pages/GamesPage'
+import ViewGamesPage from '../pages/ViewGamesPage'
 import GamePage from '../pages/GamePage'
 import NotFoundPage from '../pages/NotFoundPage'
 
@@ -22,12 +22,12 @@ function AnimatedRoutes() {
                     <Route path='/' element={<MainLayout />}>
                         <Route path="home" element={<HomePage />} />
                         {/* all games view */}
-                        <Route path="games" element={<GamesPage />} />
+                        <Route path="games" element={<ViewGamesPage />} />
                         {/* replace with <GamePage /> once available */}
                         <Route path="games/:gameId" element={<GamePage />} />
                         <Route path="profile/:username" element={<ProfilePage />} />
                         <Route path="database" element={<MemberDBPage />} />
-                        <Route path="/notFound" element={<NotFoundPage />} />
+                        <Route path="notFound" element={<NotFoundPage />} />
                         {/* Global Catch-All */}
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>

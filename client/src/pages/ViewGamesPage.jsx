@@ -5,9 +5,9 @@ import { GamesList } from '../components/game/GamesList'
 import { GameTabs } from '../components/game/GameTabs'
 import ScheduleModal from "@/components/ui/ScheduleModal";
 
-import styles from './GamesPage.module.css'
+import styles from './ViewGamesPage.module.css'
 
-export default function GamesPage() {
+export default function ViewGamesPage() {
     const user = useOutletContext()
     const [games, setGames] = useState([])
     const [filter, setFilter] = useState('all')
@@ -42,20 +42,22 @@ export default function GamesPage() {
                 </div>
             </div>
             <GameTabs filter={filter} setFilter={setFilter} styles={styles} />
-            <table className={styles.gamesTable}>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Venue</th>
-                        <th>Players</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <GamesList games={filteredGames} styles={styles} />
-                </tbody>
-            </table>
+            <div className={styles.gamesTable}>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Venue</th>
+                            <th>Players</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <GamesList games={filteredGames} styles={styles} />
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
