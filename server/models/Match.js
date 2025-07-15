@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 const matchSchema = new mongoose.Schema({
-    date:       {type: Date, required: true}, // used also for time of match
+    // date:       {type: Date, required: true}, // used also for time of match
+    start:       {type: Date, required: true},
+    end:       {type: Date, required: true},
     venue:      {type: String, required: true},
     maxPlayers: {type: Number, required: true},
     createdBy:  {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},

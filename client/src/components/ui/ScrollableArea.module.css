@@ -7,7 +7,7 @@
 	border-radius: 1rem;
 	overflow: hidden;
 	box-shadow: 0 2px 10px black;
-	background-color: #bcd9b8a2;
+	background-color: var(--color-text-bg-green-2);
 	--scrollbar-size: 0.6rem;
 }
 

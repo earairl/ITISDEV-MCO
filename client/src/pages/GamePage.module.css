@@ -7,8 +7,11 @@
 
 .GameDetails {
     margin: 3rem 0rem;
-    display: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-around;
+    gap: 2em;
 }
 
 .RegisterBtn {
@@ -29,4 +32,37 @@
 
 .RegisterBtn:focus-visible{
     background-color: var(--color-text-bg-green);
+}
+
+.GameInfoWrap {
+    /* background-color: var(--color-text-bg-green-2); */
+    width: 40%;
+    padding: 1.5em;
+    border: solid 3px var(--color-text-bg-green);
+    border-radius: 1em;
+}
+
+.GameInfoWrap * {
+    color: var(--color-text-bg-green);
+}
+
+.GameInfoWrap h1 {
+    justify-self: center;
+    font-size: 1.5em;
+    margin-bottom: 0.3em;
+}
+
+.GameInfoWrap ul * {
+    font-size: 1.1em;
+}
+
+.PlayerListsWrap {
+    display: flex;
+    gap: 5em;
+}
+
+.BtnsWrap {
+    align-self: center;
+    display: flex;
+    gap: 1em;
 }

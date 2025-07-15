@@ -7,7 +7,7 @@ export function GamePreview(props) {
     return (
         <tr className={styles.gameInfo}>
             <td>{game.date}</td>
-            <td>{game.time}</td>
+            <td>{game.start} - {game.end}</td>
             <td>{game.venue}</td>
             <td>{game.players.length} / {game.maxPlayers}</td>
             <td>{game.status}</td>

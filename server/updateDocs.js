@@ -12,16 +12,18 @@ async function main() {
     const db = mongoose.connection.db;    
     
     // edit code from here
-    const result = await db.collection('Users').updateMany(
+    const result = await db.collection('Matches').updateMany(
       {
-        currentlyQueued: { $exists: false },
-        matchHistory: { $exists: false },
+        date: { $exists: true },
       },
       {
-        $set: {
-          currentlyQueued: [],
-          matchHistory: [],
+        $unset: { // set to add fields and unset to remove fields
+          date: null,
         },
+        $set: {
+          start: new Date(),
+          end: new Date()
+        }
       }
     );
     // end

@@ -27,11 +27,12 @@ const getFormattedGame = async (req, res) => {
             ])
             .lean()
 
-        const initialDate = new Date(initialGame.date)
+        const initialDate = new Date(initialGame.start)
         const game = {
             ...initialGame,
             date: initialDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', weekday: 'long' }),
-            time: initialDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+            start: initialDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+            end: initialGame.end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
         }
 
         game.players = game.players.map(u => ({
@@ -54,11 +55,12 @@ const getFormattedGames = async (req, res) => {
         const initialGames = await Match.find().lean()
 
         const games = initialGames.map(game => {
-            const initialDate = new Date(game.date)
+            const initialDate = new Date(game.start)
             return {
                 ...game,
-                date: initialDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'long' }),
-                time: initialDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+                date: initialDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', weekday: 'long' }),
+                start: initialDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+                end: game.end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
             }
         })
         res.json(games)
@@ -99,12 +101,13 @@ const joinMatch = async (req, res) => {
 }
 
 const createMatch = async (req, res) => {
-    const { date, time, venue, maxPlayers, userId } = req.body;
+    const { date, start, end, venue, maxPlayers, userId } = req.body;
 
     try {
-        const matchDateTime = new Date(`${date}T${time}`);
-        const oneHourBefore = new Date(matchDateTime.getTime() - 59 * 60 * 1000);
-        const oneHourAfter = new Date(matchDateTime.getTime() + 59 * 60 * 1000);
+        const matchDateTimeStart = new Date(`${date}T${start}`);
+        const matchDateTimeEnd = new Date(`${date}T${end}`);
+        const oneHourBefore = new Date(matchDateTimeStart.getTime() - 59 * 60 * 1000);
+        const oneHourAfter = new Date(matchDateTimeEnd.getTime() + 59 * 60 * 1000);
         const parsedMaxPlayers = parseInt(maxPlayers, 10);
         
         const user = await User.findOne({ 'credentials.userId': userId });
@@ -124,7 +127,7 @@ const createMatch = async (req, res) => {
             return res.status(400).json({ message: 'You are not eligible to create a queueing match schedule.' });
         }
 
-        if (matchDateTime < new Date()) {
+        if (matchDateTimeStart < new Date()) {
             return res.status(400).json({ message: 'Invalid schedule. Match cannot be set in the past.' });
         }
         
@@ -139,7 +142,8 @@ const createMatch = async (req, res) => {
         }
 
         const newMatch = new Match({
-            date: matchDateTime,
+            start: matchDateTimeStart,
+            end: matchDateTimeEnd,
             venue,
             maxPlayers,
             createdBy: user,

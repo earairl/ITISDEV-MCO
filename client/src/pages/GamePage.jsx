@@ -4,6 +4,7 @@ import styles from './GamePage.module.css'
 
 import { useToast } from '@/components/ui/Toaster'
 import ScrollableArea from '@/components/ui/ScrollableArea'
+import { GameInfo } from '@/components/game/GameInfo'
 
 export default function GamePage() {
     const user = useOutletContext()
@@ -52,10 +53,16 @@ export default function GamePage() {
             { game ? (
                 <article className={styles.MainDiv}>
                     <div className={styles.GameDetails}>
-                        <ScrollableArea tabName={'Registered Players'} data={game.players} path={'profile'} param={'username'} />
-                        <ScrollableArea tabName={'Waitlisted Players'} data={game.waitlist} path={'profile'} param={'username'} />
+                        <GameInfo styles={styles} game={game} />
+                        <div className={styles.PlayerListsWrap}>
+                            <ScrollableArea tabName={'Registered Players'} data={game.players} path={'profile'} param={'username'} />
+                            <ScrollableArea tabName={'Waitlisted Players'} data={game.waitlist} path={'profile'} param={'username'} />
+                        </div>
                     </div>
-                    <button className={styles.RegisterBtn} onClick={joinGame}>Register</button>
+                    <div className={styles.BtnsWrap}>
+                        <button className={styles.RegisterBtn} onClick={joinGame}>Register</button>
+                        {/* prepping for future addtl buttons */}
+                    </div>
                 </article>
                 ) : ( <></> )
             }

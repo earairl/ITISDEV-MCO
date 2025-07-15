@@ -45,6 +45,10 @@
     border: none;
 }
 
+.gamesTable table {
+    width: 100%;
+}
+
 .gamesTable {
     max-height: 50vh;
     overflow-y: auto;

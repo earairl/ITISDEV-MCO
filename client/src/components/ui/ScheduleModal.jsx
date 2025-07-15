@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useToast } from '@/components/ui/Toaster';
 
 const ScheduleModal = ({ userId, onSuccess }) => {
-    const [form, setForm] = useState({ date: "", time: "", venue: "", maxPlayers: "" });
+    const [form, setForm] = useState({ date: "", start: "", end: "", venue: "", maxPlayers: "" });
     const [submitting, setSubmitting] = useState(false);
     const [open, setOpen] = useState(false);
     const { showToast } = useToast();
@@ -45,7 +45,7 @@ const ScheduleModal = ({ userId, onSuccess }) => {
     };
 
     const resetForm = () => {
-        setForm({ date: "", time: "", venue: "", maxPlayers: "" });
+        setForm({ date: "", start: "", end: "", venue: "", maxPlayers: "" });
     };
 
     return (
@@ -68,8 +68,11 @@ const ScheduleModal = ({ userId, onSuccess }) => {
             <label>Date:
             <input type="date" name="date" value={form.date} onChange={handleChange} required />
             </label>
-            <label>Time:
-            <input type="time" name="time" value={form.time} onChange={handleChange} required />
+            <label>Start Time:
+            <input type="time" name="start" value={form.start} onChange={handleChange} required />
+            </label>
+            <label>End Time:
+            <input type="time" name="end" value={form.end} onChange={handleChange} required />
             </label>
             <label>Venue:
             <input type="text" name="venue" value={form.venue} onChange={handleChange} required />
