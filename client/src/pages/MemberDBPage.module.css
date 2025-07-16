@@ -1,3 +1,10 @@
+.MainDivDBPage {
+  width: 100vw;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+}
+
 .tableWrapper {
   width: 90%;
   overflow-x: auto;
@@ -162,10 +169,17 @@
 }
 
 .headerControls {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
+/* .headerControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+} */
 
 .searchBar {
   position: relative;
@@ -225,9 +239,17 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
-}
 
-.advancedFilterBtn:hover {
-  background-color: #00703c10;
-  border-color: var(--color-accent-dark);
+  &:hover{
+    color: var(--color-text-bg-white);
+    background-color: var(--color-text-bg-green);
+    border: 0px;
+    outline: 1px solid var(--color-text-bg-green);
+		outline-offset: 1px;
+    transition: all 100ms;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+	}
 }

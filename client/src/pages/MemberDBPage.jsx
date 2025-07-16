@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import styles from "./ProfilePage.module.css";         
 import stylesDB from "./MemberDBPage.module.css"; 
 import { useToast } from '@/components/ui/Toaster';   
+import FilterMenu from "../components/ui/FilterMenu";
 
 function MemberDBPage() {
     const [members, setMembers] = useState([]);
@@ -13,6 +14,7 @@ function MemberDBPage() {
     const [editingRow, setEditingRow] = useState(null);
     const [editedData, setEditedData] = useState({});
     const [searchTerm, setSearchTerm] = useState("");
+    const [showFilter, setShowFilter] = useState(false);
     const { showToast } = useToast();
 
     useEffect(() => {
@@ -197,7 +199,7 @@ function MemberDBPage() {
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className={styles.MainDiv}>
+            <div className={styles.MainDivDBPage}>
                 <div className={styles.Content}>
                     <header className={styles.ProfileHeader}>
                         <div>
@@ -215,9 +217,16 @@ function MemberDBPage() {
                                     className={stylesDB.searchInput}
                                 />
                             </div>
-                            <button className={stylesDB.advancedFilterBtn}>
+                            <button className={stylesDB.advancedFilterBtn} onClick={() => setShowFilter(!showFilter)}>
                                 Advanced Filter
                             </button>
+                            {showFilter && (
+                                <FilterMenu
+                                    members={members}
+                                    setFilteredMembers={setFilteredMembers}
+                                    onClose={() => setShowFilter(false)}
+                                />
+                            )}
                         </div>
                     </header>
                     

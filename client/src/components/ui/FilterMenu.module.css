@@ -1,0 +1,201 @@
+.modalOverlay {
+  position: absolute;
+  top: 71%;
+  right: 0;
+  z-index: 999;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 10rem;
+  pointer-events: auto;
+}
+
+.modalContent {
+  background-color: white;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-weight: bold;
+}
+
+.resetAll {
+  background: none;
+  border: none;
+  color: var(--color-text-bg-green);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0.5rem 0 0.5rem 0;
+
+  &:hover {
+    color: var(--color-accent-dark);
+	}
+  &:focus {
+    outline: none;              
+    box-shadow: none;
+	}
+}
+
+.reset {
+  background: none;
+  border: none;
+  color: var(--color-text-bg-green);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+
+  &:hover {
+    color: var(--color-accent-dark);
+	}
+  &:focus {
+    outline: none;              
+    box-shadow: none;
+	}
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr; 
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.dropdownGroup {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sortOptions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sortOptions button {
+  border: 1px solid #ccc;
+  padding: 0.25rem 0.5rem;
+  background: white;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+
+  &:hover{
+    font-weight: bold;
+    outline: 1px solid var(--color-text-bg-green);
+  }
+  &:focus {              
+    box-shadow: none;
+    outline: 1px solid var(--color-text-bg-green);
+	}
+}
+
+.selected {
+  font-weight: bold;
+  outline: 1px solid var(--color-text-bg-green);
+}
+
+select,
+input[type="date"] {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-size: 0.95rem;
+
+  &:hover{
+    font-weight: bold;
+    outline: 1px solid var(--color-text-bg-green);
+  }
+  &:focus {              
+    font-weight: bold;
+    outline: 1px solid var(--color-text-bg-green);
+    box-shadow: none;
+	}
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  gap: 1rem;
+}
+
+.applyBtn {
+  background-color: var(--color-text-bg-green);
+  color: var(--color-text-bg-white);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover{
+    color: var(--color-text-bg-green);
+    background-color: var(--color-text-bg-white);
+    border: 0px;
+    outline: 2px solid var(--color-text-bg-green);
+		outline-offset: 1px;
+    transition: all 100ms;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+	}
+}
+
+.cancelBtn {
+  background-color: #ccc;
+  color: black;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover{
+    color: var(--color-text-bg-white);
+    background-color: var(--color-red-500);
+    border: 0px;
+    transition: all 100ms;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+	}
+}
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .dropdownGroup {
+    flex-direction: column;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
