@@ -3,13 +3,19 @@ import { useState } from "react";
 import { useToast } from '@/components/ui/Toaster';
 
 const ScheduleModal = ({ userId, onSuccess }) => {
-    const [form, setForm] = useState({ date: "", start: "", end: "", venue: "", maxPlayers: "" });
+    const [form, setForm] = useState({ date: "", start: "", end: "", venue: "", maxPlayers: "", allowOutsiders: false });
     const [submitting, setSubmitting] = useState(false);
     const [open, setOpen] = useState(false);
     const { showToast } = useToast();
 
     const handleChange = (e) => {
-        setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        // setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+
+        const { name, type, value, checked } = e.target;
+        setForm(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
     };
 
     const handleSubmit = async () => {
@@ -45,7 +51,7 @@ const ScheduleModal = ({ userId, onSuccess }) => {
     };
 
     const resetForm = () => {
-        setForm({ date: "", start: "", end: "", venue: "", maxPlayers: "" });
+        setForm({ date: "", start: "", end: "", venue: "", maxPlayers: "", allowOutsiders: false });
     };
 
     return (
@@ -79,6 +85,10 @@ const ScheduleModal = ({ userId, onSuccess }) => {
             </label>
             <label>Max Players:
             <input type="number" name="maxPlayers" value={form.maxPlayers} onChange={handleChange} required />
+            </label>
+            <label>
+            <input type="checkbox" name="allowOutsiders" value={form.allowOutsiders} onChange={handleChange} />
+                Allow outsiders
             </label>
         </FormModal>
         </>

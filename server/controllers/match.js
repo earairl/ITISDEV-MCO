@@ -69,6 +69,87 @@ const getFormattedGames = async (req, res) => {
     }
 }
 
+const editMatch = async (req, res) => {
+    const { date, start, end, venue, maxPlayers, allowOutsiders, gameId, userId } = req.body;
+
+    try {
+        const matchDateTimeStart = new Date(`${date}T${start}`);
+        const matchDateTimeEnd = new Date(`${date}T${end}`);
+        const oneHourBefore = new Date(matchDateTimeStart.getTime() - 59 * 60 * 1000);
+        const oneHourAfter = new Date(matchDateTimeEnd.getTime() + 59 * 60 * 1000);
+        const parsedMaxPlayers = parseInt(maxPlayers, 10);
+        
+        const user = await User.findOne({ 'credentials.userId': userId });
+        const member = await serverGetMemberInfo(userId);
+        const conflictingMatch = await Match.findOne({
+            venue: venue,
+            date: { $gte: oneHourBefore, $lte: oneHourAfter },
+            status: { $in: ['open', 'ongoing', 'full'] }
+        });
+
+        let position = '';
+        if (member){
+            position = member.memberInfo.position;
+        }
+
+        if (!user || position !== 'officer') {
+            return res.status(400).json({ message: 'You are not eligible to edit a queueing match schedule.' });
+        }
+
+        if (matchDateTimeStart < new Date()) {
+            return res.status(400).json({ message: 'Invalid schedule. Match cannot be set in the past.' });
+        }
+        
+        if (conflictingMatch) {
+            return res.status(400).json({
+                message: `Schedule conflict: There is already a match scheduled at ${venue} within 1 hour of the selected time.`
+            });
+        }
+
+        if (parsedMaxPlayers <= 1) {
+            return res.status(400).json({ message: 'You need at least two players to set a match.' });
+        }
+
+        const fields = ['start', 'end', 'venue', 'maxPlayers', 'allowOutsiders']
+        const initialMatch = await Match.findById(gameId)
+        const newMatch = new Match({
+            start: matchDateTimeStart,
+            end: matchDateTimeEnd,
+            venue,
+            maxPlayers,
+            allowOutsiders,
+        });
+
+        const hasChanges = fields.some(field => {
+            return initialMatch[field] !== newMatch[field]
+        })
+
+        if (hasChanges) {
+            initialMatch.start = matchDateTimeStart
+            initialMatch.end = matchDateTimeEnd
+            initialMatch.venue = venue
+            initialMatch.maxPlayers = maxPlayers
+            initialMatch.allowOutsiders = allowOutsiders
+
+            if (initialMatch.players.length > maxPlayers) {
+                const remaining = initialMatch.players.slice(0, maxPlayers)
+                const waitlisted = initialMatch.players.slice(maxPlayers)
+
+                initialMatch.players = remaining
+                initialMatch.waitlist = [...waitlisted, ...initialMatch.waitlist]
+            }
+
+            await initialMatch.save();
+            return res.status(200).json({ message: 'Match updated successfully!' });
+        }
+        else res.status(200).json({ message: 'No changes detected.' });
+
+    } catch (error) {
+        console.error('Error updating match:', error);
+        return res.status(500).json({ message: 'Error updating match.', error });
+    }
+}
+
 const joinMatch = async (req, res) => {
     const { username, gameId } = req.body
 
@@ -145,7 +226,7 @@ const leaveMatch = async (req, res) => {
 }
 
 const createMatch = async (req, res) => {
-    const { date, start, end, venue, maxPlayers, userId } = req.body;
+    const { date, start, end, venue, maxPlayers, allowOutsiders, userId } = req.body;
 
     try {
         const matchDateTimeStart = new Date(`${date}T${start}`);
@@ -193,7 +274,8 @@ const createMatch = async (req, res) => {
             createdBy: user,
             players: [],
             waitlist: [],
-            status: 'open'
+            status: 'open',
+            allowOutsiders,
         });
 
         await newMatch.save();
@@ -205,4 +287,19 @@ const createMatch = async (req, res) => {
     }
 };
 
-module.exports = { joinMatch, leaveMatch, createMatch, getGames, getFormattedGame, getFormattedGames };
+const updateMatchStatus = async (req, res) => {
+    const { gameId, status } = req.body
+
+    try {
+        const game = await Match.findById(gameId)
+        game.status = status
+
+        await game.save()
+        return res.status(200).json({ message: 'Match status updated successfully!' })
+    } catch (err) {
+        console.error('Error updating match status: ', error);
+        return res.status(500).json({ message: 'Error updating match status.', error });
+    }
+}
+
+module.exports = { updateMatchStatus, editMatch, joinMatch, leaveMatch, createMatch, getGames, getFormattedGame, getFormattedGames };

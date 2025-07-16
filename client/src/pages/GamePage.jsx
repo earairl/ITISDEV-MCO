@@ -1,16 +1,53 @@
-import { useParams, useOutletContext } from 'react-router-dom'
+import { useParams, useOutletContext, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import styles from './GamePage.module.css'
 
 import { useToast } from '@/components/ui/Toaster'
 import ScrollableArea from '@/components/ui/ScrollableArea'
 import { GameInfo } from '@/components/game/GameInfo'
+import ConfirmationForm from '@/components/ui/ConfirmationForm'
 
 export default function GamePage() {
     const user = useOutletContext()
     const [game, setGame] = useState(null)
     const { gameId } = useParams()
     const { showToast } = useToast()
+    const navigate = useNavigate()
+
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalAction, setModalAction] = useState('')
+    const [modalObject, setModalObject] = useState('')
+    const [newStatus, setNewStatus] = useState('')
+
+    function openConfirmation(action, object, status) {
+        setModalAction(action)
+        setModalObject(object)
+        setNewStatus(status)
+        setModalOpen(true)
+    }
+
+    async function handleConfirm() {
+
+        // await updateGameStatus(nextStatus);
+        try {
+            const res = await fetch('http://localhost:5000/updateMatchStatus', {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                credentials: 'include',
+                body: JSON.stringify({ gameId, status: newStatus })
+            })
+
+            const data = await res.json()
+            showToast({ description: data.message })
+
+            if (res.ok) {
+                navigate('/games')
+            }
+        } catch (err) {
+            console.error('Error editing game: ', err)
+        }
+        setModalOpen(false);
+    }
 
     const fetchGame = async () => {
         try {
@@ -29,6 +66,10 @@ export default function GamePage() {
     }, [gameId]);
 
     async function joinGame() {
+        if (user.position === 'guest') {
+            showToast({ description: 'Must be logged in to register' })
+            return navigate('/')
+        }
         try {
             const res = await fetch('http://localhost:5000/joinMatch', {
                 method: "POST",
@@ -73,23 +114,40 @@ export default function GamePage() {
             { game ? (
                 <article className={styles.MainDiv}>
                     <div className={styles.GameDetails}>
-                        <GameInfo styles={styles} game={game} />
+                        <div className={styles.GameDetailsHeader}>
+                            <GameInfo styles={styles} game={game} user={user} fetchGame={fetchGame} />
+                            { user.position === 'officer' && game.status !== 'closed' && game.status !== 'cancelled' ?
+                                <div className={styles.BtnsWrap}>
+                                    <button className={styles.Btn} onClick={() => openConfirmation('close', 'registration', 'closed')}>Close Registration</button>
+                                    <button className={styles.Btn} onClick={() => openConfirmation('delete', 'game schedule', 'cancelled')}>Cancel Game</button>
+                                </div> : <></>
+                            }
+                        </div>
                         <div className={styles.PlayerListsWrap}>
                             <ScrollableArea tabName={'Registered Players'} data={game.players} path={'profile'} param={'username'} />
                             <ScrollableArea tabName={'Waitlisted Players'} data={game.waitlist} path={'profile'} param={'username'} />
                         </div>
                     </div>
-                    <div className={styles.BtnsWrap}>
-                        { game.players.some(p => p.username === user.username) || game.waitlist.some(p => p.username === user.username) ?
-                            <button className={styles.RegisterBtn} onClick={leaveGame}>Cancel Registration</button>
-                            :
-                            <button className={styles.RegisterBtn} onClick={joinGame}>Register</button>
-                        }
-                        {/* prepping for future addtl buttons */}
-                    </div>
+                    { game.status !== 'closed' && game.status !== 'cancelled' ?
+                        <div className={styles.BtnsWrap}>
+                            { game.players.some(p => p.username === user.username) || game.waitlist.some(p => p.username === user.username) ?
+                                <button className={styles.Btn} onClick={leaveGame}>Cancel Registration</button>
+                                :
+                                <button className={styles.Btn} onClick={joinGame}>Register</button>
+                            }
+                            {/* prepping for future addtl buttons */}
+                        </div> : <></>
+                    }
                 </article>
                 ) : ( <></> )
             }
+            <ConfirmationForm
+                open={modalOpen}
+                setOpen={setModalOpen}
+                action={modalAction}
+                object={modalObject}
+                onConfirm={handleConfirm}
+            />
         </>
     )
 }

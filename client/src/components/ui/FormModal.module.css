@@ -19,8 +19,8 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 60%;
-	height: 68%;
-	padding: 0.5rem 0rem 1.5rem 0rem;
+	height: auto;
+	padding: 0.5em 0em 1.5em 0em;
 	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 	&:focus {
 		outline: none;
@@ -94,11 +94,22 @@
 }
 
 .FormContent label {
-    display: block;
+    display: flex;
+	flex-direction: column;
     margin-top: 0.5rem;
     text-align: left;
     margin-left: 5%;
     color: var(--color-text-bg-green);
+}
+
+.FormContent label:has(input[type="checkbox"]) {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin: 1em auto; 
+	white-space: nowrap;
+	gap: 0.8em;
 }
 
 .BtnsWrap {

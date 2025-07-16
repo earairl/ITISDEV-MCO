@@ -4,7 +4,7 @@ const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, updateEmail, deleteUser } = require('../controllers/user');
 const { addMember, getMemberInfo, getMembers, updatePosition, updateMember, removeMember } = require('../controllers/member');
-const { joinMatch, leaveMatch, createMatch, getFormattedGame, getFormattedGames } = require('../controllers/match');
+const { updateMatchStatus, editMatch, joinMatch, leaveMatch, createMatch, getFormattedGame, getFormattedGames } = require('../controllers/match');
 
 // GET
 router.get('/', (req, res) => {
@@ -47,5 +47,7 @@ router.delete('/removeMember', removeMember);
 router.patch('/updatePosition', updatePosition);
 router.put('/updateEmail', updateEmail);
 router.patch('/updateMember', updateMember);
+router.put('/editMatch', editMatch);
+router.patch('/updateMatchStatus', updateMatchStatus);
 
 module.exports = router;

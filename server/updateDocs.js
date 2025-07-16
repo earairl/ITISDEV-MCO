@@ -14,15 +14,14 @@ async function main() {
     // edit code from here
     const result = await db.collection('Matches').updateMany(
       {
-        date: { $exists: true },
+        allowOutsiders: { $exists: false },
       },
       {
-        $unset: { // set to add fields and unset to remove fields
-          date: null,
-        },
+        // $unset: { // set to add fields and unset to remove fields
+        //   date: null,
+        // },
         $set: {
-          start: new Date(),
-          end: new Date()
+          allowOutsiders: false,
         }
       }
     );

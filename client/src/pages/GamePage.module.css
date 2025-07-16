@@ -14,29 +14,36 @@
     gap: 2em;
 }
 
-.RegisterBtn {
+.GameDetailsHeader {
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    gap: 5em;
+}
+
+.Btn {
     margin-bottom: 2rem;
-    width: 50vh;
+    width: 20ch;
     align-self: center;
     font-size: 1.1rem;
     color: var(--color-text-bg-white);
     background-color: var(--color-accent-dark);
 }
 
-.RegisterBtn:hover {
+.Btn:hover {
     transition: all 100ms;
     transform: scale(1.1);
     color: var(--color-text-bg-white);
     background-color: var(--color-text-bg-green);
 }
 
-.RegisterBtn:focus-visible{
+.Btn:focus-visible{
     background-color: var(--color-text-bg-green);
 }
 
 .GameInfoWrap {
     /* background-color: var(--color-text-bg-green-2); */
-    width: 40%;
+    width: 70%;
     padding: 1.5em;
     border: solid 3px var(--color-text-bg-green);
     border-radius: 1em;
@@ -52,6 +59,14 @@
     margin-bottom: 0.3em;
 }
 
+.GameInfoWrap h1 span {
+    margin-left: 0.3em;
+}
+
+.GameInfoWrap h1 span:hover {
+    color: var(--color-accent-light)
+}
+
 .GameInfoWrap ul * {
     font-size: 1.1em;
 }
@@ -64,5 +79,6 @@
 .BtnsWrap {
     align-self: center;
     display: flex;
-    gap: 1em;
+    flex-direction: column;
+    gap: 0em;
 }
