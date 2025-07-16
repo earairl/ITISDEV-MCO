@@ -1,12 +1,13 @@
 import MainLayout from "@/template/MainLayout";
 import { CheckIcon, Cross2Icon, Pencil2Icon, MagnifyingGlassIcon, CalendarIcon, TrashIcon } from '@radix-ui/react-icons';
 import FacebookIcon from '@/assets/facebook.png'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "motion/react";
 import styles from "./ProfilePage.module.css";         
 import stylesDB from "./MemberDBPage.module.css"; 
 import { useToast } from '@/components/ui/Toaster';   
 import FilterMenu from "../components/ui/FilterMenu";
+import * as XLSX from 'xlsx';
 
 function MemberDBPage() {
     const [members, setMembers] = useState([]);
@@ -17,6 +18,7 @@ function MemberDBPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [showFilter, setShowFilter] = useState(false);
     const { showToast } = useToast();
+    const fileInputRef = useRef(null); 
 
     useEffect(() => {
         async function fetchMembers() {
@@ -201,6 +203,61 @@ function MemberDBPage() {
             });
         }
     };
+
+    const handleExcelUpload = (e) => {
+        const file = e.target.files[0]; // grab the first selected file
+        if(!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (evt) => {
+            const data = new Uint8Array(evt.target.result); // convert file to byte array for XLSX parsing
+            const workbook = XLSX.read(data, { type: 'array' });
+
+            const sheetName = workbook.SheetNames[0]; // first worksheet in file
+            const worksheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet); // array of JS objects (per row)
+
+            for (const entry of jsonData) {
+                if (typeof entry.dateJoined === 'number') { // excel serial number date format
+                    const parsed = XLSX.SSF.parse_date_code(entry.dateJoined);
+                    entry.dateJoined = new Date(parsed.y, parsed.m - 1, parsed.d);
+                } else {
+                    entry.dateJoined = new Date(entry.dateJoined);
+                }
+
+                if (typeof entry.lastMatchJoined === 'number') {
+                    const parsed = XLSX.SSF.parse_date_code(entry.lastMatchJoined);
+                    entry.lastMatchJoined = new Date(parsed.y, parsed.m - 1, parsed.d);
+                } else {
+                    entry.lastMatchJoined = new Date(entry.lastMatchJoined);
+                }
+            }
+            console.log("Parsed Excel data:", jsonData);
+
+            try {
+                const res = await fetch("http://localhost:5000/importMembers", {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ members: jsonData })
+                });
+
+                const response = await res.json();
+                if (res.ok) {
+                    if (response.createdCount === 0 && response.skippedCount > 0) {
+                        showToast({ description: 'No new members added. Entries were skipped.', variant: 'destructive' });
+                    } else {
+                        showToast({ description: `${response.createdCount} member(s) imported successfully. ${response.skippedCount} skipped.` });
+                    }
+                }
+            } catch (err) {
+                console.error("Error importing members:", err);
+                showToast({ description: "Upload failed", variant: "destructive" });
+            }
+        };
+        reader.readAsArrayBuffer(file); 
+    }
 
     const handleInputChange = (field, value) => {
         setEditedData(prev => ({
@@ -465,6 +522,18 @@ function MemberDBPage() {
                     </div>
 
                     <div className={stylesDB.bottomControls}>
+                        <input
+                            type="file"
+                            accept=".xlsx, .xls"
+                            onChange={handleExcelUpload}
+                            style={{ display: 'none' }}
+                            ref={fileInputRef}
+                        />
+                        <button className={stylesDB.generateReportBtn} 
+                            onClick={() => fileInputRef.current && fileInputRef.current.click()}>
+                                Import Members     
+                        </button>
+                        <span> </span>
                         <button className={stylesDB.generateReportBtn}>
                             Add Member
                         </button>

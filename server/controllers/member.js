@@ -241,4 +241,58 @@ const removeMember = async (req, res) => {
     }
 };
 
-module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, updatePosition, updateMember, removeMember};
+const importMembers = async (req, res) => {
+    const { members } = req.body;
+    const created = [];
+    const skipped = [];
+
+    if(!Array.isArray(members)) {
+        return res.status(400).json({ message: 'Invalid data format. Not an array of members.' });
+    }
+
+    try {
+        for (const entry of members) {
+            const { idNum, firstName, lastName, college, position, dateJoined, lastMatchJoined, fbLink, email, contactNo, telegram, isActive} = entry;
+
+            if (!idNum || !firstName || !lastName || !college || !position || !fbLink || !email || !contactNo) {
+                skipped.push({ idNum, reason: 'Missing required fields.' });
+                continue;
+            }
+
+            const exists = await Member.findOne({ idNum});
+            if (exists) {
+                skipped.push({ idNum, reason: 'ID number already exists.' });
+                continue;
+            }
+
+            const newMember = new Member({
+                idNum,
+                firstName,
+                lastName,
+                college,
+                position,
+                dateJoined: new Date(dateJoined),
+                lastMatchJoined: new Date(lastMatchJoined),
+                isActive,
+                fbLink,
+                email,
+                contactNo,
+                telegram  
+            });
+
+            await newMember.save();
+            created.push(newMember);
+        }
+
+        return res.status(200).json({
+            message: "Import completed",
+            createdCount: created.length,
+            skippedCount: skipped.length
+        });
+    } catch(err) {
+        console.error("Import error: ", err);
+        return res.status(500).json({ message: "Error importing members."});
+    }
+};
+
+module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, updatePosition, updateMember, removeMember, importMembers};
