@@ -2,7 +2,6 @@ import MainLayout from "@/template/MainLayout";
 import { CheckIcon, Cross2Icon, Pencil2Icon, MagnifyingGlassIcon, CalendarIcon, TrashIcon } from '@radix-ui/react-icons';
 import FacebookIcon from '@/assets/facebook.png'
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
 import { motion } from "motion/react";
 import styles from "./ProfilePage.module.css";         
 import stylesDB from "./MemberDBPage.module.css"; 
@@ -18,7 +17,6 @@ function MemberDBPage() {
     const [editedData, setEditedData] = useState({});
     const [searchTerm, setSearchTerm] = useState("");
     const [showFilter, setShowFilter] = useState(false);
-    const navigate = useNavigate();
     const { showToast } = useToast();
 
     useEffect(() => {
@@ -271,10 +269,7 @@ function MemberDBPage() {
                             </thead>
                             <tbody>
                                 {filteredMembers.map((m) => ( // loops through the filteredMembers array and generates a table row for each member
-                                    <tr key={m._id} className={`${stylesDB.dataRow} ${stylesDB.hoverable}`} style={{ position: "relative" }}
-                                        /*onClick={m.username && editingRow !== m._id ? () => navigate(`/profile/${m.username}`) : undefined}
-                                        style={{ cursor: m.username && editingRow !== m._id ? "pointer" : "default" }}*/
-                                    >
+                                    <tr key={m._id} className={`${stylesDB.dataRow} ${stylesDB.hoverable}`} style={{ position: "relative" }}>
                                         
                                         <td className={stylesDB.dataCell}>{m.idNum}</td>
                                         
