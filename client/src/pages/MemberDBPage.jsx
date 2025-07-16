@@ -7,6 +7,7 @@ import styles from "./ProfilePage.module.css";
 import stylesDB from "./MemberDBPage.module.css"; 
 import { useToast } from '@/components/ui/Toaster';   
 import FilterMenu from "../components/ui/FilterMenu";
+import { Link } from 'react-router-dom'
 import * as XLSX from 'xlsx';
 
 function MemberDBPage() {
@@ -325,7 +326,7 @@ function MemberDBPage() {
                             </thead>
                             <tbody>
                                 {filteredMembers.map((m) => ( // loops through the filteredMembers array and generates a table row for each member
-                                    <tr key={m._id} className={`${stylesDB.dataRow} ${stylesDB.hoverable}`}>
+                                    <tr key={m._id} className={`${stylesDB.dataRow} ${stylesDB.hoverable}`} style={{ position: "relative" }}>
                                         
                                         <td className={stylesDB.dataCell}>{m.idNum}</td>
                                         
@@ -514,6 +515,16 @@ function MemberDBPage() {
                                                     )}
                                                 </div>
                                             </td>
+                                        )}
+
+                                        {m.username && editingRow !== m._id && (
+                                        <td className={stylesDB.overlayCell}>
+                                        <Link
+                                            to={`/profile/${m.username}`}
+                                            className={stylesDB.profileOverlay}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+                                        </td>
                                         )}
                                     </tr>
                                 ))}

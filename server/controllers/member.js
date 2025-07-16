@@ -1,5 +1,5 @@
 const Member = require('../models/Member');
-const { updateUserEmail } = require('./emailSync');
+const { updateUserEmail, getUsername } = require('./emailSync');
 const logAudit = require('../utils/auditLogger');
 
 const addMember = async (req, res) => {
@@ -74,12 +74,24 @@ const getMemberInfo = async (req, res) => {
 };
 
 const getMembers = async (req, res) => {
-  try {
-    const members = await Member.find();
-    res.json(members);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+    try {
+        const members = await Member.find();
+
+        const enrichedMembers = await Promise.all(
+            members.map(async (member) => {
+                const memberObj = member.toObject();
+                const username = await getUsername(member.idNum);
+                if (username) {
+                    memberObj.username = username;
+                }
+                return memberObj;
+            })
+        );
+
+        res.json(enrichedMembers);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };
 
 const updatePosition = async (req, res) => {

@@ -29,4 +29,14 @@ const updateMemberEmail = async (idNum, newEmail) => {
     }
 };
 
-module.exports = { updateUserEmail, updateMemberEmail };
+const getUsername = async (memberId) => {
+    try {
+        const user = await User.findOne({ 'credentials.userId': memberId });
+        return user ? user.credentials.username : null;
+    } catch (error) {
+        console.error(`Error finding user by memberId ${memberId}:`, error);
+        return null;
+    }
+};
+
+module.exports = { updateUserEmail, updateMemberEmail, getUsername };
