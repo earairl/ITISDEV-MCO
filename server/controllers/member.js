@@ -1,4 +1,5 @@
 const Member = require('../models/Member');
+const { updateUserEmail } = require('./emailSync');
 const logAudit = require('../utils/auditLogger');
 
 const addMember = async (req, res) => {
@@ -167,6 +168,10 @@ const updateMember = async (req, res) => {
         if (newEmail && member.email !== newEmail) {
             changes.push({ field: "email", oldValue: member.email, newValue: newEmail });
             member.email = newEmail;
+
+            const isUser = await updateUserEmail(idNum, newEmail);
+            if(isUser.isUser)
+                console.log("Email updated successfully (User Schema).");
             updated = true;
         }
 

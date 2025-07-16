@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const { serverGetMemberInfo } = require('./member');
+const { updateMemberEmail } = require('./emailSync');
 
 const serverGetUser = async (userId) => {
     try {
@@ -54,6 +55,10 @@ const updateEmail = async (req, res) => {
 
         user.credentials.email = newEmail;
         await user.save();
+
+        const isMember = await updateMemberEmail(user.credentials.userId, newEmail);
+        if(isMember.isMember)
+            console.log("Email updated successfully (Member Schema).");
         
         res.status(200).json({ message: 'Email updated successfully!' });
     } catch (error) {
