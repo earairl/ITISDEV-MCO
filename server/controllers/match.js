@@ -162,6 +162,29 @@ const joinMatch = async (req, res) => {
         const user = await User.findOne({ 'credentials.username': username })
         const game = await Match.findById(gameId)
 
+        const newStart = game.start;
+        const newEnd = game.end;
+
+        const conflictingMatch = await Match.findOne({
+            _id: { $ne: gameId }, //exclude current game
+            $and: [
+                {
+                    $or: [ // user is either queued or on waitlist
+                        { players: user._id },
+                        { waitlist: user._id }
+                    ],
+                },
+                {
+                    start: { $lte: newEnd }, //<=
+                    end: { $gte: newStart }, //>=
+                }
+            ]
+        });
+
+        if (conflictingMatch) {
+            return res.status(409).json({ message: 'Conflicting timeslot with another game.' });
+        }
+
         // make frontend validate nlng??? lawrd
         if (game.players.includes(user._id) || game.waitlist.includes(user._id))
             return res.status(409).json({ message: 'Already registered for this game.' })
