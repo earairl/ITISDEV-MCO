@@ -111,7 +111,9 @@ const updatePosition = async (req, res) => {
 const updateMember = async (req, res) => {
     const { idNum, newFirstName, newLastName,
         newCollege, newPosition, newDateJoined,
-        newLastMatchJoined, isActive } = req.body;
+        newLastMatchJoined, isActive,
+        newContactNo, newEmail, newFbLink, newTelegram
+    } = req.body;
 
     const editor = req.session?.username || 'test-user';
     const changes = [];
@@ -120,6 +122,7 @@ const updateMember = async (req, res) => {
         const member = await Member.findOne({ idNum });
         const parsedNewDateJoined = new Date(newDateJoined);
         const parsedNewLastMatchJoined = new Date(newLastMatchJoined);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!member) {
             return res.status(404).json({ message: 'Member not found.' });
@@ -148,6 +151,34 @@ const updateMember = async (req, res) => {
         if (newPosition && ['member', 'officer'].includes(newPosition) && member.position !== newPosition) {
             changes.push({ field: "position", oldValue: member.position, newValue: newPosition });
             member.position = newPosition;
+            updated = true;
+        }
+
+        if (newContactNo && member.contactNo !== newContactNo) {
+            changes.push({ field: "contactNo", oldValue: member.contactNo, newValue: newContactNo });
+            member.contactNo = newContactNo;
+            updated = true;
+        }
+
+        if (!emailRegex.test(newEmail)) {
+            return res.status(400).json({ message: 'Invalid email format.' });
+        }
+
+        if (newEmail && member.email !== newEmail) {
+            changes.push({ field: "email", oldValue: member.email, newValue: newEmail });
+            member.email = newEmail;
+            updated = true;
+        }
+
+        if (newFbLink && member.fbLink !== newFbLink) {
+            changes.push({ field: "fbLink", oldValue: member.fbLink, newValue: newFbLink });
+            member.fbLink = newFbLink;
+            updated = true;
+        }
+
+        if (newTelegram !== undefined && member.telegram !== newTelegram) {
+            changes.push({ field: "telegram", oldValue: member.telegram, newValue: newTelegram });
+            member.telegram = newTelegram;
             updated = true;
         }
 

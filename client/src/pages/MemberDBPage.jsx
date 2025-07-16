@@ -1,5 +1,6 @@
 import MainLayout from "@/template/MainLayout";
 import { CheckIcon, Cross2Icon, Pencil2Icon, MagnifyingGlassIcon, CalendarIcon, TrashIcon } from '@radix-ui/react-icons';
+import FacebookIcon from '@/assets/facebook.png'
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import styles from "./ProfilePage.module.css";         
@@ -74,7 +75,11 @@ function MemberDBPage() {
             lastName: member.lastName,
             college: member.college,
             position: member.position,
-            dateJoined: member.dateJoined ? new Date(member.dateJoined).toISOString().split('T')[0] : '', // separates date from time and just takes the date
+            contactNo: member.contactNo,
+            email: member.email,
+            fbLink: member.fbLink,
+            telegram: member.telegram,
+            dateJoined: member.dateJoined ? new Date(member.dateJoined).toISOString().split('T')[0] : '',
             lastMatchJoined: member.lastMatchJoined ? new Date(member.lastMatchJoined).toISOString().split('T')[0] : '',
             isActive: member.isActive
         });
@@ -105,6 +110,10 @@ function MemberDBPage() {
                     newLastName: editedData.lastName,
                     newCollege: editedData.college,
                     newPosition: editedData.position,
+                    newContactNo: editedData.contactNo,
+                    newEmail: editedData.email,
+                    newFbLink: editedData.fbLink,
+                    newTelegram: editedData.telegram,
                     newDateJoined: editedData.dateJoined,
                     newLastMatchJoined: editedData.lastMatchJoined,
                     isActive: editedData.isActive
@@ -239,6 +248,10 @@ function MemberDBPage() {
                                     <th className={stylesDB.headerCell}>Last Name</th>
                                     <th className={stylesDB.headerCell}>College</th>
                                     <th className={stylesDB.headerCell}>Position</th>
+                                    <th className={stylesDB.headerCell}>Contact No</th>
+                                    <th className={stylesDB.headerCell}>Email</th>
+                                    <th className={stylesDB.headerCell}>Facebook</th>
+                                    <th className={stylesDB.headerCell}>Telegram</th>
                                     <th className={stylesDB.headerCell}>Date Joined</th>
                                     <th className={stylesDB.headerCell}>Last Match</th>
                                     <th className={stylesDB.headerCell}>Status</th>
@@ -310,7 +323,65 @@ function MemberDBPage() {
                                                 m.position
                                             )}
                                         </td>
-                                        
+
+                                        <td className={stylesDB.dataCell}>
+                                            {editingRow === m._id ? (
+                                                <input
+                                                    type="text"
+                                                    value={editedData.contactNo || ''}
+                                                    onChange={(e) => handleInputChange('contactNo', e.target.value)}
+                                                    className={stylesDB.editInput}
+                                                />
+                                            ) : (
+                                                m.contactNo
+                                            )}
+                                        </td>
+
+                                        <td className={stylesDB.dataCell}>
+                                            {editingRow === m._id ? (
+                                                <input
+                                                    type="email"
+                                                    value={editedData.email || ''}
+                                                    onChange={(e) => handleInputChange('email', e.target.value)}
+                                                    className={stylesDB.editInput}
+                                                />
+                                            ) : (
+                                                m.email
+                                            )}
+                                        </td>
+
+                                        <td className={stylesDB.dataCell}>
+                                            {editingRow === m._id ? (
+                                                <input
+                                                    type="text"
+                                                    value={editedData.fbLink || ''}
+                                                    onChange={(e) => handleInputChange('fbLink', e.target.value)}
+                                                    className={stylesDB.editInput}
+                                                />
+                                            ) : (
+                                                <a href={m.fbLink} target="_blank" rel="noopener noreferrer" className={stylesDB.fbContainer}>
+                                                    <img src={FacebookIcon} className={stylesDB.fbIcon}/>
+                                                </a>
+                                            )}
+                                        </td>
+
+                                                {/*<a href={m.fbLink} target="_blank" rel="noopener noreferrer">
+                                                    {m.fbLink}
+                                                </a>*/}
+
+                                        <td className={stylesDB.dataCell}>
+                                            {editingRow === m._id ? (
+                                                <input
+                                                    type="text"
+                                                    value={editedData.telegram || ''}
+                                                    onChange={(e) => handleInputChange('telegram', e.target.value)}
+                                                    className={stylesDB.editInput}
+                                                />
+                                            ) : (
+                                                m.telegram || "-"
+                                            )}
+                                        </td>
+
                                         <td className={stylesDB.dataCell}>
                                             {editingRow === m._id ? (
                                                 <input

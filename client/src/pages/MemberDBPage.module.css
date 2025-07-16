@@ -52,7 +52,6 @@
   justify-content: center;
 }
 
-
 .statusWrapper {
   display: flex;
   align-items: center;
@@ -64,6 +63,22 @@
   width: 16px;
   height: 16px;
   color: var(--color-accent-dark);
+}
+
+.fbContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fbIcon {
+  width: 30%;
+  height: 30%;
+  transition: filter 0.3s ease;
+
+  &:hover {
+    filter: brightness(1.5);
+  }
 }
 
 .actionButtons {
