@@ -2,11 +2,13 @@ import MainLayout from "@/template/MainLayout";
 import { CheckIcon, Cross2Icon, Pencil2Icon, MagnifyingGlassIcon, CalendarIcon, TrashIcon } from '@radix-ui/react-icons';
 import FacebookIcon from '@/assets/facebook.png'
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { motion } from "motion/react";
 import styles from "./ProfilePage.module.css";         
 import stylesDB from "./MemberDBPage.module.css"; 
 import { useToast } from '@/components/ui/Toaster';   
 import FilterMenu from "../components/ui/FilterMenu";
+import { Link } from 'react-router-dom'
 
 function MemberDBPage() {
     const [members, setMembers] = useState([]);
@@ -16,6 +18,7 @@ function MemberDBPage() {
     const [editedData, setEditedData] = useState({});
     const [searchTerm, setSearchTerm] = useState("");
     const [showFilter, setShowFilter] = useState(false);
+    const navigate = useNavigate();
     const { showToast } = useToast();
 
     useEffect(() => {
@@ -268,7 +271,10 @@ function MemberDBPage() {
                             </thead>
                             <tbody>
                                 {filteredMembers.map((m) => ( // loops through the filteredMembers array and generates a table row for each member
-                                    <tr key={m._id} className={`${stylesDB.dataRow} ${stylesDB.hoverable}`}>
+                                    <tr key={m._id} className={`${stylesDB.dataRow} ${stylesDB.hoverable}`} style={{ position: "relative" }}
+                                        /*onClick={m.username && editingRow !== m._id ? () => navigate(`/profile/${m.username}`) : undefined}
+                                        style={{ cursor: m.username && editingRow !== m._id ? "pointer" : "default" }}*/
+                                    >
                                         
                                         <td className={stylesDB.dataCell}>{m.idNum}</td>
                                         
@@ -457,6 +463,16 @@ function MemberDBPage() {
                                                     )}
                                                 </div>
                                             </td>
+                                        )}
+
+                                        {m.username && editingRow !== m._id && (
+                                        <td className={stylesDB.overlayCell}>
+                                        <Link
+                                            to={`/profile/${m.username}`}
+                                            className={stylesDB.profileOverlay}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+                                        </td>
                                         )}
                                     </tr>
                                 ))}
