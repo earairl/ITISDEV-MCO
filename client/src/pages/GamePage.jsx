@@ -48,6 +48,26 @@ export default function GamePage() {
         }
     }
 
+    async function leaveGame() {
+        try {
+            const res = await fetch('http://localhost:5000/leaveMatch', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: 'include',
+                body: JSON.stringify({ username: user.username, gameId })
+            })
+
+            const data = await res.json()
+            showToast({ description: data.message })
+
+            if (res.ok) {
+                await fetchGame()
+            }
+        } catch (err) {
+            console.error('Error leaving game: ', err)
+        }
+    }
+
     return (
         <>
             { game ? (
@@ -60,7 +80,11 @@ export default function GamePage() {
                         </div>
                     </div>
                     <div className={styles.BtnsWrap}>
-                        <button className={styles.RegisterBtn} onClick={joinGame}>Register</button>
+                        { game.players.some(p => p.username === user.username) || game.waitlist.some(p => p.username === user.username) ?
+                            <button className={styles.RegisterBtn} onClick={leaveGame}>Cancel Registration</button>
+                            :
+                            <button className={styles.RegisterBtn} onClick={joinGame}>Register</button>
+                        }
                         {/* prepping for future addtl buttons */}
                     </div>
                 </article>

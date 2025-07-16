@@ -4,7 +4,7 @@ const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, updateEmail, deleteUser } = require('../controllers/user');
 const { addMember, getMemberInfo, getMembers, updatePosition, updateMember, removeMember } = require('../controllers/member');
-const { joinMatch, createMatch, getFormattedGame, getFormattedGames } = require('../controllers/match');
+const { joinMatch, leaveMatch, createMatch, getFormattedGame, getFormattedGames } = require('../controllers/match');
 
 // GET
 router.get('/', (req, res) => {
@@ -31,6 +31,7 @@ router.post('/login', loginUser);
 router.post('/addMember', addMember);
 router.post('/createMatch', createMatch);
 router.post('/joinMatch', joinMatch);
+router.post('/leaveMatch', leaveMatch);
 
 // // DELETE
 // router.delete('/:id', (req, res) => {

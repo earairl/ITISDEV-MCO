@@ -81,12 +81,15 @@ const joinMatch = async (req, res) => {
         const user = await User.findOne({ 'credentials.username': username })
         const game = await Match.findById(gameId)
 
+        // make frontend validate nlng??? lawrd
         if (game.players.includes(user._id) || game.waitlist.includes(user._id))
             return res.status(409).json({ message: 'Already registered for this game.' })
 
         if (game.players.length < game.maxPlayers) {
             game.players.push(user._id);
             game.status = checkStatus(game.players.length, game.maxPlayers)
+            user.currentlyQueued.push(game._id)
+            await user.save()
             await game.save();
             return res.status(200).json({ message: 'Successfully joined the game!' });
         }
@@ -97,6 +100,47 @@ const joinMatch = async (req, res) => {
     } catch (error) {
         console.error('Error joining match:', error);
         res.status(500).json({ message: 'Error joining match.', error });
+    }
+}
+
+// call whenever a user backs out from a full match
+async function refreshQueue(game) {
+    const player = game.waitlist[0]
+    game.waitlist.pull(player)
+    game.players.push(player)
+
+    return await game.save()
+}
+
+// frontend must validate that user is registered in the match
+const leaveMatch = async (req, res) => {
+    const { username, gameId } = req.body
+
+    try {
+        const user = await User.findOne({ 'credentials.username': username })
+        const game = await Match.findById(gameId)
+
+        const isFull = game.players.length === game.maxPlayers ? true : false
+
+        // jic lang pero validations should be performed in frontend guro to be safe
+        if (!game.players.includes(user._id) && !game.waitlist.includes(user._id))
+            return res.status(409).json({ message: 'Did not register for this game.' })
+
+        if (game.players.includes(user._id)) {
+            game.players.pull(user._id)
+            user.currentlyQueued.pull(game._id)
+            await user.save()
+        }
+        else if (game.waitlist.includes(user._id)) game.waitlist.pull(user._id)
+
+        await game.save()
+
+        if (isFull && game.waitlist.length) await refreshQueue(game)
+        
+        return res.status(200).json({ message: 'Successfully withdrew from the game.' });
+    } catch (error) {
+        console.error('Error leaving match:', error);
+        res.status(500).json({ message: 'Error leaving match.', error });
     }
 }
 
@@ -161,4 +205,4 @@ const createMatch = async (req, res) => {
     }
 };
 
-module.exports = { joinMatch, createMatch, getGames, getFormattedGame, getFormattedGames };
+module.exports = { joinMatch, leaveMatch, createMatch, getGames, getFormattedGame, getFormattedGames };
