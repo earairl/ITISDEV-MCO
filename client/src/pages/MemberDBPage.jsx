@@ -365,10 +365,6 @@ function MemberDBPage() {
                                             )}
                                         </td>
 
-                                                {/*<a href={m.fbLink} target="_blank" rel="noopener noreferrer">
-                                                    {m.fbLink}
-                                                </a>*/}
-
                                         <td className={stylesDB.dataCell}>
                                             {editingRow === m._id ? (
                                                 <input
