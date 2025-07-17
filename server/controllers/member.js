@@ -3,32 +3,43 @@ const { updateUserEmail, getUsername } = require('./emailSync');
 const logAudit = require('../utils/auditLogger');
 
 const addMember = async (req, res) => {
-    const { idNum, firstName, lastName, college, position, dateJoined } = req.body;
-
     try {
-        const existingMember = await Member.findOne({ 'idNum': idNum });
-        
-        if (existingMember) {
-            return res.status(400).json({ message: 'ID number already taken.' });
+        const {
+            idNum, firstName, lastName, contactNo, email, fbLink, telegram,
+            college, position, dateJoined
+        } = req.body;
+
+        if (!idNum || !firstName || !lastName || !contactNo || !email || !fbLink || !college) {
+            return res.status(400).json({ message: 'Please fill out all required fields.' });
         }
 
-        if (!['member', 'officer'].includes(position.toLowerCase())) {
-            return res.status(400).json({ message: 'The chosen position must either be a member or an officer.' });
+        if (position && !['member', 'officer'].includes(position)) {
+            return res.status(400).json({ message: 'Invalid position value.' });
+        }
+
+        const existing = await Member.findOne({ idNum });
+        if (existing) {
+            return res.status(409).json({ message: 'A member with this ID number already exists.' });
         }
 
         const newMember = new Member({
-            idNum : idNum,
-            firstName: firstName,
-            lastName: lastName,
-            college: college,
-            position: position, 
-            dateJoined: dateJoined
+            idNum,
+            firstName,
+            lastName,
+            contactNo,
+            email,
+            fbLink,
+            telegram,
+            college,
+            position: position || 'member',
+            dateJoined: dateJoined ? new Date(dateJoined) : new Date(),
         });
-        await newMember.save();
 
-        res.status(201).json({ message: 'Member added successfully!' });
+        await newMember.save();
+        res.status(201).json({ message: 'Member successfully added.' });
     } catch (error) {
-        res.status(500).json({ message: 'Error adding member: ' + error.message });
+        console.error('Add Member Error:', error);
+        res.status(500).json({ message: 'Server error. Please try again later.' });
     }
 };
 

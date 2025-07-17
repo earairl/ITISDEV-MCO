@@ -1,9 +1,54 @@
-/* .MainDivDBPage {
+.MainDiv {
+    width: 100vw;
+    height: auto;
+    overflow: hidden; /* Prevent scrollbars */
+    position: relative;
+}
+
+.MainDivDBPage {
   width: 100vw;
   height: auto;
   position: relative;
   overflow: hidden;
-} */
+  background-color: var(--color-text-bg-white);
+}
+
+.Content{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    color: var(--color-text-bg-green);
+    font-family: var(--font-heading);
+    padding: 1rem 0.5rem;
+    width: 100vw;
+    height: auto;
+}
+
+.ProfileHeader{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    text-align: left;
+    margin: 1rem 0.5rem 0.5rem 0.5rem;
+}
+
+.ProfileHeader h1 {
+    color: black;
+    font-size: 3rem;
+}
+
+.ProfileHeader h2 {
+    justify-self: flex;
+    margin-top: 0.67em; 
+    /* default h1 margin to match height */
+}
+
+.ProfileHeader h3, h2 {
+    color: gray;
+    font-size: 1.2rem;
+    font-style: italic;
+}
 
 .tableWrapper {
   width: 90%;

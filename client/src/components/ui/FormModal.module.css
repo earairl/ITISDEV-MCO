@@ -19,7 +19,7 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 60%;
-	height: auto;
+	max-height: 70%;
 	padding: 0.5em 0em 1.5em 0em;
 	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 	&:focus {
@@ -82,7 +82,39 @@
     line-height: 1.5;
 }
 
-.FormContent input {
+.FormContent input{
+    display: block;
+    width: 90%;
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    border: 1px solid gray;
+    border-radius: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+
+	&:hover{
+		font-weight: bold;
+		outline: 1px solid var(--color-text-bg-green);
+	}
+	&:focus {              
+		font-weight: bold;
+		outline: 1px solid var(--color-text-bg-green);
+		box-shadow: none;
+	}
+}
+
+.FormContent input[type="date"] {
+	display: block;
+    width: 90%;
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    border: 1px solid gray;
+    border-radius: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+}
+
+.FormContent select{
     display: block;
     width: 90%;
     margin: 0.5rem auto;
@@ -110,6 +142,29 @@
 	margin: 1em auto; 
 	white-space: nowrap;
 	gap: 0.8em;
+}
+
+.row_2columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1rem 0rem 1rem;
+}
+
+.row_3columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1rem 0rem 1rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .BtnsWrap {

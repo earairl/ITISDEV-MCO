@@ -1,7 +1,7 @@
 .MainDiv {
     width: 100vw;
     height: auto;
-    overflow: hidden; /* Prevent scrollbars */
+    overflow: hidden;
     position: relative;
 }
 
