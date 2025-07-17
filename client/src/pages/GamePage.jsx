@@ -131,9 +131,9 @@ export default function GamePage() {
                     { game.status !== 'closed' && game.status !== 'cancelled' ?
                         <div className={styles.BtnsWrap}>
                             { game.players.some(p => p.username === user.username) || game.waitlist.some(p => p.username === user.username) ?
-                                <button className={styles.Btn} onClick={leaveGame}>Cancel Registration</button>
+                                <button className={styles.RegisterBtn} onClick={leaveGame}>Cancel Registration</button>
                                 :
-                                <button className={styles.Btn} onClick={joinGame}>Register</button>
+                                <button className={styles.RegisterBtn} onClick={joinGame}>Register</button>
                             }
                             {/* prepping for future addtl buttons */}
                         </div> : <></>

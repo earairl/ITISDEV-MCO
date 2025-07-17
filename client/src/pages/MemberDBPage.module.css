@@ -1,9 +1,9 @@
-.MainDivDBPage {
+/* .MainDivDBPage {
   width: 100vw;
   height: auto;
-  overflow: hidden;
   position: relative;
-}
+  overflow: hidden;
+} */
 
 .tableWrapper {
   width: 90%;
@@ -291,4 +291,34 @@
     outline: none;
     box-shadow: none;
 	}
+}
+
+.bottomControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  padding: 1rem;
+}
+
+.generateReportBtn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: #00703c;
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 0 1 auto;
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.generateReportBtn:hover {
+  background-color: #005a30;
+  transform: scale(1.05);
 }

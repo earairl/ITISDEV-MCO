@@ -17,6 +17,7 @@ export function GameInfo(props) {
                 }
             </h1>
             <ul>
+                { game.allowOutsiders ? <li><b> Open to Public </b></li> : <li><b> Private Match </b></li> }
                 <li><b>Venue: </b>{game.venue}</li>
                 <li><b>Date: </b>{game.date}</li>
                 <li><b>Time: </b>{game.start} - {game.end}</li>

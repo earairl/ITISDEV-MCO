@@ -3,6 +3,7 @@ import { CheckIcon, Cross2Icon, Pencil2Icon, MagnifyingGlassIcon, CalendarIcon, 
 import FacebookIcon from '@/assets/facebook.png'
 import { useEffect, useState, useRef } from "react";
 import { motion } from "motion/react";
+// why two styles?
 import styles from "./ProfilePage.module.css";         
 import stylesDB from "./MemberDBPage.module.css"; 
 import { useToast } from '@/components/ui/Toaster';   
@@ -544,16 +545,14 @@ function MemberDBPage() {
                             onClick={() => fileInputRef.current && fileInputRef.current.click()}>
                                 Import Members     
                         </button>
-                        <span> </span>
                         <button className={stylesDB.generateReportBtn}>
                             Add Member
                         </button>
-                        <span> </span>
                         <button className={stylesDB.generateReportBtn}>
                             Generate Report
                         </button>
                     </div>
-            </div>
+                </div>
             </div>
         </motion.div>
     );

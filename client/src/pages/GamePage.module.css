@@ -20,9 +20,11 @@
     display: flex;
     gap: 5em;
 }
-
 .Btn {
     margin-bottom: 2rem;
+}
+
+.Btn, .RegisterBtn {
     width: 20ch;
     align-self: center;
     font-size: 1.1rem;
@@ -30,20 +32,21 @@
     background-color: var(--color-accent-dark);
 }
 
-.Btn:hover {
+.Btn:hover, .RegisterBtn:hover {
     transition: all 100ms;
     transform: scale(1.1);
     color: var(--color-text-bg-white);
     background-color: var(--color-text-bg-green);
 }
 
-.Btn:focus-visible{
+.Btn:focus-visible, .RegisterBtn:focus-visible{
     background-color: var(--color-text-bg-green);
 }
 
 .GameInfoWrap {
     /* background-color: var(--color-text-bg-green-2); */
-    width: 70%;
+    min-width: 80%;
+    max-width: 350%;
     padding: 1.5em;
     border: solid 3px var(--color-text-bg-green);
     border-radius: 1em;
