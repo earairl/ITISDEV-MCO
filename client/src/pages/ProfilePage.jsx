@@ -10,6 +10,7 @@ import { useToast } from '@/components/ui/Toaster';
 import ScrollableArea from "@/components/ui/ScrollableArea"
 import SelectMenu from "@/components/ui/SelectMenu";
 import AlertModal from "@/components/ui/AlertModal";
+import ConfirmationForm from '@/components/ui/ConfirmationForm'
 
 // implement conditionals to render variations of the page
 // e.g. omitting a component if viewed as an officer, public user, etc.
@@ -34,6 +35,16 @@ function ProfilePage() {
     const inputRef = useRef(null);
     const { showToast } = useToast();
     // const [loading, setLoading] = useState(true); // prevent non-existent page from loading in
+
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalAction, setModalAction] = useState('')
+    const [modalObject, setModalObject] = useState('')
+
+    function openConfirmation(action, object) {
+        setModalAction(action)
+        setModalObject(object)
+        setModalOpen(true)
+    }
 
     useEffect(() => {
         async function fetchProfileData() {
@@ -211,6 +222,26 @@ function ProfilePage() {
         });
     };
 
+    async function handleConfirm() {
+        try {
+            const res = await fetch(`http://localhost:5000/deleteUser/${username}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                credentials: 'include',
+            })
+
+            const data = await res.json()
+            showToast({ description: data.message })
+
+            if (res.ok) {
+                navigate('/')
+            }
+        } catch (err) {
+            console.error('Error deleting user: ', err)
+        }
+        setModalOpen(false);
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -301,8 +332,19 @@ function ProfilePage() {
                             onCancel={handleCancelPosition}
                         />
                     )}
+
+                    {(loggedInUsername === username) && (
+                        <button className={styles.DeleteBtn} onClick={() => openConfirmation('delete', 'your account')}>Delete My Account</button>
+                    )}
                 </div>
             </div>
+            <ConfirmationForm
+                open={modalOpen}
+                setOpen={setModalOpen}
+                action={modalAction}
+                object={modalObject}
+                onConfirm={handleConfirm}
+            />
         </motion.div>
     )
 }

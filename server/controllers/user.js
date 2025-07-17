@@ -70,23 +70,32 @@ const updateEmail = async (req, res) => {
     }
 };
 
-const deleteUser = async(req, res) => {
-    const { username } = req.body;
+const deleteUser = async (req, res) => {
+    const { username } = req.params;
+
+    if (!username) {
+        return res.status(400).json({ message: 'Username is required' });
+    }
 
     try {
         const user = await User.findOne({ 'credentials.username': username });
 
-        user.credentials.username = `[deleted]_${user._id}`;
-        user.credentials.email = null;
-        user.credentials.password = null;
-        user.deleted = true;
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
+        user.credentials.userId = `[deleted]_${user._id}`;
+        user.credentials.username = `[deleted]_${user._id}`;
+        user.credentials.email = `[deleted]_${user._id}`;
+        user.credentials.password = user._id;
+        user.deleted = true;
+        user.currentlyQueued = [];
         await user.save();
 
-        res.status(200).json({ message: 'User deleted successfully' });
+        res.status(200).json({ message: 'User deleted successfully.' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'Error deleting user', error });
+        console.error('Error deleting user:', error);
+        res.status(500).json({ message: 'Internal server error', error });
     }
 };
 

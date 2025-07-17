@@ -38,7 +38,7 @@ router.post('/leaveMatch', leaveMatch);
 // router.delete('/:id', (req, res) => {
 //     res.json({msg: 'Delete Method'})
 // })
-router.delete('/deleteUser', deleteUser);
+router.delete('/deleteUser/:username', deleteUser);
 router.delete('/removeMember', removeMember);
 
 // // UPDATE

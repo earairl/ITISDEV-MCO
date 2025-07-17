@@ -162,3 +162,29 @@
 .Savebtn:focus-visible {
     opacity: 0.8;
 }
+
+.BtnsWrap {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0em;
+}
+
+.DeleteBtn {
+    width: 20ch;
+    align-self: center;
+    font-size: 1.1rem;
+    color: var(--color-text-bg-white);
+    background-color: var(--color-accent-dark);
+}
+
+.DeleteBtn:hover {
+    transition: all 100ms;
+    transform: scale(1.1);
+    color: var(--color-text-bg-white);
+    background-color: var(--color-red-500);
+}
+
+.DeleteBtn:focus-visible{
+    background-color: var(--color-text-bg-green);
+}

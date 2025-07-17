@@ -18,7 +18,7 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 60%;
+	width: 40%;
 	max-height: 70%;
 	padding: 0.5em 0em 1.5em 0em;
 	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -47,6 +47,8 @@
 	color: var(--color-text-bg-green);
 	font-size: 1rem;
 	line-height: 1.5;
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 .Description > h1 {
@@ -77,6 +79,7 @@
 	flex-direction: column;
 	justify-content: center;
     text-align: center;
+	padding: 1%;
     color: var(--color-text-bg-green);
     font-size: 1rem;
     line-height: 1.5;
@@ -85,7 +88,7 @@
 .FormContent input{
     display: block;
     width: 90%;
-    margin: 0.5rem auto;
+    margin: 0.5rem;
     padding: 0.5rem;
     border: 1px solid gray;
     border-radius: 0.5rem;
@@ -106,7 +109,7 @@
 .FormContent input[type="date"] {
 	display: block;
     width: 90%;
-    margin: 0.5rem auto;
+    margin: 0.5rem;
     padding: 0.5rem;
     border: 1px solid gray;
     border-radius: 0.5rem;
@@ -128,10 +131,9 @@
 .FormContent label {
     display: flex;
 	flex-direction: column;
-    margin-top: 0.5rem;
     text-align: left;
-    margin-left: 5%;
     color: var(--color-text-bg-green);
+	width: 100%;
 }
 
 .FormContent label:has(input[type="checkbox"]) {
@@ -142,16 +144,21 @@
 	margin: 1em auto; 
 	white-space: nowrap;
 	gap: 0.8em;
+	width: auto;
 }
 
 .row {
 	display: grid;
 	gap: 1rem;
 	flex-wrap: wrap;
-	padding: 1rem 1rem 0rem 1rem;
+	margin: 1rem 1rem 0rem 1rem;
 
 	&.twoColumns {
 		grid-template-columns: 1fr 1fr;
+	}
+
+	&.twoColumns_3fr1fr {
+		grid-template-columns: 5fr 1fr;
 	}
 
 	&.threeColumns {
@@ -161,13 +168,6 @@
 	&.fourColumns {
 		grid-template-columns: 1fr 1fr 1fr 1fr;
 	}
-}
-
-.column {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	width: 100%;
 }
 
 .BtnsWrap {
@@ -212,8 +212,6 @@
 		}
 
 		&:focus-visible {
-			/* background-color: var(--color-accent-dark);
-			color: var(--color-text-bg-white); */
 			outline: 2px solid var(--color-text-bg-green);
 			border-width: 0;
 		}
@@ -264,4 +262,55 @@
 
 ::-webkit-calendar-picker-indicator:hover {
     cursor: pointer;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--color-text-bg-green);
+    margin-left: 5%;
+    margin-top: 1rem;
+    position: relative;
+    user-select: none;
+}
+
+.checkboxInput {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.customCheckbox {
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    background-color: var(--color-text-bg-white);
+    border: 2px solid var(--color-text-bg-green);
+    border-radius: 0.25rem;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.checkboxInput:checked + .customCheckbox::after {
+    content: "";
+    position: absolute;
+    left: 0.35rem;
+    top: 0.05rem;
+    width: 0.25rem;
+    height: 0.5rem;
+    border: solid var(--color-text-bg-green);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkboxLabel:hover .customCheckbox {
+	outline: 1px solid var(--color-text-bg-green);
+	outline-offset: 1px;
+	background-color: var(--color-accent-light);
+	transition: all 50ms;
 }

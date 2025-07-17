@@ -84,25 +84,33 @@ const EditGameForm = ({ userId, game, onSuccess }) => {
                 onCancel={resetForm}
                 submitting={submitting}
             >
-                <label>Date:
-                <input type="date" name="date" value={form.date} onChange={handleChange} required />
-                </label>
-                <label>Start Time:
-                <input type="time" name="start" value={form.start} onChange={handleChange} required />
-                </label>
-                <label>End Time:
-                <input type="time" name="end" value={form.end} onChange={handleChange} required />
-                </label>
-                <label>Venue:
-                <input type="text" name="venue" value={form.venue} onChange={handleChange} required />
-                </label>
-                <label>Max Players:
-                <input type="number" name="maxPlayers" value={form.maxPlayers} onChange={handleChange} required />
-                </label>
-                <label>
-                <input type="checkbox" name="allowOutsiders" value={form.allowOutsiders} onChange={handleChange} />
-                    Allow outsiders
-                </label>
+                <FormModal.Row columns={4}>
+                    <label>Date:
+                    <input type="date" name="date" value={form.date} onChange={handleChange} required />
+                    </label>
+                    <label>Start Time:
+                    <input type="time" name="start" value={form.start} onChange={handleChange} required />
+                    </label>
+                    <label>End Time:
+                    <input type="time" name="end" value={form.end} onChange={handleChange} required />
+                    </label>
+                    <label>Max Players:
+                    <input type="number" name="maxPlayers" value={form.maxPlayers} onChange={handleChange} required />
+                    </label>
+                </FormModal.Row>
+
+                <FormModal.Row variant="3fr1fr">
+                    <label>Venue:
+                    <input type="text" name="venue" value={form.venue} onChange={handleChange} required />
+                    </label>
+                </FormModal.Row>
+
+                <FormModal.Checkbox
+                    name="allowOutsiders"
+                    label="Allow outsiders"
+                    checked={form.allowOutsiders}
+                    onChange={handleChange}
+                />
             </FormModal>
         </>
     );

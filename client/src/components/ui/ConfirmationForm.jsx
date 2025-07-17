@@ -1,6 +1,7 @@
 import FormModal from "@/components/ui/FormModal";
 
 export default function ConfirmationForm({ open, setOpen, action, object, onConfirm }) {
+    const descriptionObject = object === "your account" ? "your account" : `the ${object}`;
     const handleSubmit = async () => {
         await onConfirm()
     }
@@ -15,7 +16,7 @@ export default function ConfirmationForm({ open, setOpen, action, object, onConf
             open={open}
             onOpenChange={setOpen}
             title="Confirm Action"
-            description={`Are you sure you want to ${action} the ${object}? You can't undo your changes.`}
+            description={`Are you sure you want to ${action} ${descriptionObject}? You can't undo your changes.`}
             onConfirm={handleSubmit} // return true to GamePage
             onCancel={resetForm} // close the modal 
             submitting={false}
