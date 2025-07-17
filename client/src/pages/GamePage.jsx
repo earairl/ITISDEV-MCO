@@ -70,6 +70,15 @@ export default function GamePage() {
             showToast({ description: 'Must be logged in to register' })
             return navigate('/')
         }
+
+        if (user.position === 'non-member' && !game.allowOutsiders) {
+            showToast({
+                description: 'This game is only exclusive to BadSoc members.',
+                variant: 'destructive'
+            })
+            return
+        }
+        
         try {
             const res = await fetch('http://localhost:5000/joinMatch', {
                 method: "POST",

@@ -162,6 +162,14 @@ const joinMatch = async (req, res) => {
         const user = await User.findOne({ 'credentials.username': username })
         const game = await Match.findById(gameId)
 
+        const memberInfo = await serverGetMemberInfo(user.credentials.userId)
+        const isMember = memberInfo && memberInfo.memberInfo // check for BadSoc Member
+
+        if (!isMember && !game.allowOutsiders) {
+            return res.status(403).json({ message: 'This game is only open to BadSoc members.' });
+
+        }
+
         const newStart = game.start;
         const newEnd = game.end;
 
