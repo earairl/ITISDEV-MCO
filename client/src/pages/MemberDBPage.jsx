@@ -262,6 +262,32 @@ function MemberDBPage() {
         reader.readAsArrayBuffer(file); 
     }
 
+    const handleExportMembers = async () => {
+        try {
+            const res = await fetch("http://localhost:5000/exportMembers");
+
+            if (!res.ok) {
+                throw new Error("Failed to export members");
+            }
+
+            const blob = await res.blob(); // converts response to data type for file downloads
+            const url = window.URL.createObjectURL(blob);
+
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `members_${new Date().toISOString().split('T')[0]}.xlsx`; 
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+
+            showToast({ description: "Members exported successfully." });
+        } catch (err) {
+            console.error("Error exporting members:", err);
+            showToast({ description: "Error exporting members", variant: "destructive" });
+        }
+    };
+
     const handleInputChange = (field, value) => {
         setEditedData(prev => ({
             ...prev,
@@ -549,8 +575,8 @@ function MemberDBPage() {
                         <div>
                             <AddMemberModal onSuccess={fetchMembers} btnStyle={styles.generateReportBtn}/>
                         </div>
-                        <button className={styles.generateReportBtn}>
-                            Generate Report
+                        <button className={styles.generateReportBtn} onClick={handleExportMembers}>
+                            Export Members
                         </button>
                     </div>
                 </div>

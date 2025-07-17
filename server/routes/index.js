@@ -3,7 +3,7 @@ const router = express.Router();
 const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, updateEmail, deleteUser } = require('../controllers/user');
-const { addMember, getMemberInfo, getMembers, updatePosition, updateMember, removeMember, importMembers } = require('../controllers/member');
+const { addMember, getMemberInfo, getMembers, updatePosition, updateMember, removeMember, importMembers, exportMembers } = require('../controllers/member');
 const { updateMatchStatus, editMatch, joinMatch, leaveMatch, createMatch, getFormattedGame, getFormattedGames } = require('../controllers/match');
 
 // GET
@@ -21,6 +21,7 @@ router.get('/getMemberInfo', getMemberInfo);
 router.get('/getMembers', getMembers);
 router.get('/getFormattedGame/:gameId', getFormattedGame);
 router.get('/getFormattedGames', getFormattedGames);
+router.get('/exportMembers', exportMembers);
 
 // // POST
 // router.post('/', (req, res) => {

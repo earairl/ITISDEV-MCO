@@ -1,6 +1,7 @@
 const Member = require('../models/Member');
 const { updateUserEmail, getUsername } = require('./emailSync');
 const logAudit = require('../utils/auditLogger');
+const XLSX = require('xlsx');
 
 const addMember = async (req, res) => {
     try {
@@ -318,4 +319,43 @@ const importMembers = async (req, res) => {
     }
 };
 
-module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, updatePosition, updateMember, removeMember, importMembers};
+const exportMembers = async (req, res) => {
+    try {
+        const members = await Member.find().lean();
+
+        if (!members.length) {
+            return res.status(404).json({ message: 'No members to export.' });
+        }
+        
+        const exportData = members.map(member => ({
+            idNum: member.idNum,
+            firstName: member.firstName,
+            lastName: member.lastName,
+            college: member.college,
+            position: member.position,
+            dateJoined: member.dateJoined ? new Date(member.dateJoined).toISOString().split('T')[0] : '',
+            lastMatchJoined: member.lastMatchJoined ? new Date(member.lastMatchJoined).toISOString().split('T')[0] : '',
+            isActive: member.isActive,
+            fbLink: member.fbLink,
+            email: member.email,
+            contactNo: member.contactNo,
+            telegram: member.telegram
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Members');
+
+        const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+        
+        res.setHeader('Content-Disposition', `attachment; filename=members_${new Date().toISOString().split('T')[0]}.xlsx`);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+        res.end(buffer);
+    } catch (error) {
+        console.error("Error exporting members:", error);
+        res.status(500).json({ message: "Server error. Failed to export members." });
+    }
+};
+
+module.exports = { addMember, serverGetMemberInfo, getMemberInfo, getMembers, updatePosition, updateMember, removeMember, importMembers, exportMembers};
