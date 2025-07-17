@@ -73,7 +73,7 @@ const AddMemberModal = ({ onSuccess, btnStyle }) => {
                 onCancel={resetForm}
                 submitting={submitting}
             >
-                <div className={styles.row_3columns}>
+                <div className={`${styles.row} ${styles.fourColumns}`}>
                     <div className={styles.column}>
                         <label>ID Number:
                             <input type="text" name="idNum" value={form.idNum} onChange={handleChange} required />
@@ -89,22 +89,19 @@ const AddMemberModal = ({ onSuccess, btnStyle }) => {
                             <input type="text" name="lastName" value={form.lastName} onChange={handleChange} required />
                         </label>
                     </div>
-                </div>
-
-                <div className={styles.row_2columns}>
                     <div className={styles.column}>
                         <label>Contact No:
                             <input type="text" name="contactNo" value={form.contactNo} onChange={handleChange} required />
                         </label>
                     </div>
+                </div>
+
+                <div className={`${styles.row} ${styles.threeColumns}`}>
                     <div className={styles.column}>
                         <label>Email:
                             <input type="email" name="email" value={form.email} onChange={handleChange} required />
                         </label>
                     </div>
-                </div>
-
-                <div className={styles.row_2columns}>
                     <div className={styles.column}>
                         <label>Facebook Link:
                             <input type="url" name="fbLink" value={form.fbLink} onChange={handleChange} required />
@@ -117,7 +114,7 @@ const AddMemberModal = ({ onSuccess, btnStyle }) => {
                     </div>
                 </div>
 
-                <div className={styles.row_3columns}>
+                <div className={`${styles.row} ${styles.threeColumns}`}>
                     <div className={styles.column}>
                         <label>College:
                             <select name="college" value={form.college} onChange={handleChange} required>
