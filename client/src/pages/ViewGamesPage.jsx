@@ -37,7 +37,7 @@ export default function ViewGamesPage() {
                 <h1>Games</h1>
                 <div>
                     { user.position === 'officer' &&
-                        <ScheduleModal userId={user.idNum} onSuccess={fetchGames} />
+                        <ScheduleModal userId={user.idNum} onSuccess={fetchGames} style={styles.scheduleGameBtn}/>
                     }
                 </div>
             </div>

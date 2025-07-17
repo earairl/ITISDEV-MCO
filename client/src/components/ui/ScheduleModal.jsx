@@ -2,7 +2,7 @@ import { useState } from "react";
 import FormModal from "@/components/ui/FormModal";
 import { useToast } from "@/components/ui/Toaster";
 
-const ScheduleModal = ({ userId, onSuccess }) => {
+const ScheduleModal = ({ userId, onSuccess, style }) => {
     const [form, setForm] = useState({
         date: "", start: "", end: "", venue: "", maxPlayers: "", allowOutsiders: false
     });
@@ -44,6 +44,7 @@ const ScheduleModal = ({ userId, onSuccess }) => {
             type="button"
             value="Schedule New Game"
             onClick={() => setOpen(true)}
+            className={style}
         />
         <FormModal
             open={open}
