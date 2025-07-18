@@ -60,7 +60,7 @@ const AddMemberModal = ({ onSuccess, btnStyle }) => {
         >
             <FormModal.Row columns={4}>
             {["idNum", "firstName", "lastName", "contactNo"].map(field => (
-                <label>{field}:
+                <label key={field} >{field}:
                     <input type="text" name={field} value={form[field]} onChange={handleChange} required />
                 </label>
             ))}
