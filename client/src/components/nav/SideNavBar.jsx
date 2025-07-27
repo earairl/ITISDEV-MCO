@@ -1,4 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
+import { useContext } from 'react'
 import classNames from 'classnames'
 import { useToast } from '@/components/ui/Toaster'
 
@@ -7,8 +8,11 @@ import shuttlesyncGreen from '@/assets/shuttlesync-green.png'
 
 import { SideBarActions } from './SideBarActions'
 
+import { UserContext } from '@/components/UserProvider'
+
 function SideNavBar(props) {
     const { showToast } = useToast()
+    const { user, setUser } = useContext(UserContext)
 
     const actions = [
         ...(props.position !== 'guest' ?
@@ -54,6 +58,7 @@ function SideNavBar(props) {
             if (response.ok) {
                 sessionStorage.removeItem('isLoggedIn');
                 sessionStorage.removeItem('user');
+                setUser({ username: 'guest', position: 'guest' })
                 navigate('/');
             }
         } catch (err) {
