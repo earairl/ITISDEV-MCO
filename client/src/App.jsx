@@ -4,13 +4,17 @@ import { Toaster } from '@/components/ui/Toaster'
 
 import AnimatedRoutes from './components/AnimatedRoutes'
 
+import { UserProvider } from '@/components/UserProvider'
+
 function App() {
   return (
-    <Toaster>
-      <Router>
-        <AnimatedRoutes />
-      </Router>
-    </Toaster>
+      <Toaster>
+        <Router>
+          <UserProvider>
+            <AnimatedRoutes />
+          </UserProvider>
+        </Router>
+      </Toaster>
   )
 }
 

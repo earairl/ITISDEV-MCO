@@ -46,10 +46,7 @@ const addMember = async (req, res) => {
 
 const serverGetMemberInfo = async (idNum) => {
     try {
-        console.log('member id: ', idNum);
         const member = await Member.findOne({ 'idNum': idNum });
-
-        console.log('member info: ', member);
 
         const memberInfo = member
         ? {

@@ -1,6 +1,7 @@
 const Match = require('../models/Match');
 const User = require('../models/User');
 const { serverGetMemberInfo } = require('./member');
+const { serverGetUser } = require('./user');
 const logAudit = require('../utils/auditLogger');
 
 const getGames = async (res) => {
@@ -193,7 +194,6 @@ const joinMatch = async (req, res) => {
             return res.status(409).json({ message: 'Conflicting timeslot with another game.' });
         }
 
-        // make frontend validate nlng??? lawrd
         if (game.players.includes(user._id) || game.waitlist.includes(user._id))
             return res.status(409).json({ message: 'Already registered for this game.' })
 
@@ -203,7 +203,7 @@ const joinMatch = async (req, res) => {
             user.currentlyQueued.push(game._id)
             await user.save()
             await game.save();
-            return res.status(200).json({ message: 'Successfully joined the game!' });
+            return res.status(200).json({ message: 'Successfully joined the game!', user: await serverGetUser(user._id) });
         }
         
         game.waitlist.push(user._id);
@@ -218,8 +218,10 @@ const joinMatch = async (req, res) => {
 // call whenever a user backs out from a full match
 async function refreshQueue(game) {
     const player = game.waitlist[0]
+    const user = await User.findById(player._id)
     game.waitlist.pull(player)
     game.players.push(player)
+    user.currentlyQueued.push(game._id)
 
     return await game.save()
 }
@@ -249,7 +251,7 @@ const leaveMatch = async (req, res) => {
 
         if (isFull && game.waitlist.length) await refreshQueue(game)
         
-        return res.status(200).json({ message: 'Successfully withdrew from the game.' });
+        return res.status(200).json({ message: 'Successfully withdrew from the game.', user: await serverGetUser(user._id) })
     } catch (error) {
         console.error('Error leaving match:', error);
         res.status(500).json({ message: 'Error leaving match.', error });

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useLocation, Outlet } from 'react-router-dom'
 import { NavBar } from '../components/nav/NavBar'
 import { SideNavBar } from '../components/nav/SideNavBar'
@@ -6,10 +6,13 @@ import styles from "./MainLayout.module.css";
 
 import { motion, AnimatePresence } from 'motion/react'
 
+import { UserContext } from '@/components/UserProvider'
+
 function MainLayout({ children }) {
     const [sidebarActive, setSidebarActive] = useState(false)
-    const userInfo = sessionStorage.getItem('user');
-    const user = userInfo ? JSON.parse(userInfo) : { username: 'guest', position: 'guest' };
+    const { user, setUser } = useContext(UserContext)
+    // const userInfo = sessionStorage.getItem('user');
+    // const user = userInfo ? JSON.parse(userInfo) : { username: 'guest', position: 'guest' };
 
     const location = useLocation()
     const isFromAuthPage = location.state?.fromAuth || false
@@ -59,7 +62,7 @@ function MainLayout({ children }) {
             <NavBar username={user.username} position={user.position} toggleSideNav={toggleSideNav} />
 
             {/* places "pages" here */}
-            <Outlet context={user} />
+            <Outlet />
         </motion.div>
     )
 }

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '@/components/UserProvider'
 
 function LoginForm(props) {
     const navigate = props.navigate
@@ -7,6 +8,7 @@ function LoginForm(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const { user, setUser } = useContext(UserContext)
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -29,7 +31,7 @@ function LoginForm(props) {
             })
             if (response.ok) {
                 sessionStorage.setItem('isLoggedIn', true);
-                sessionStorage.setItem('user', JSON.stringify(data.user));
+                setUser(data.user);
                 navigate('/home', { state: { fromAuth: true } });
             }
         } catch (err) {

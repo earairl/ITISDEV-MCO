@@ -4,12 +4,14 @@ const { updateMemberEmail } = require('./emailSync');
 
 const serverGetUser = async (userId) => {
     try {
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).populate('currentlyQueued matchHistory');
         const userInfo = {
             username: user.credentials.username,
             email: user.credentials.email,
             attendanceRate: user.attendanceRate, 
-            penalties: user.penalties
+            penalties: user.penalties,
+            currentlyQueued: user.currentlyQueued,
+            matchHistory: user.matchHistory,
         };
 
         const result = await serverGetMemberInfo(user.credentials.userId);

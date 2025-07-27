@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import { GamesList } from '../components/game/GamesList'
@@ -7,8 +7,10 @@ import ScheduleModal from "@/components/ui/ScheduleModal";
 
 import styles from './ViewGamesPage.module.css'
 
+import { UserContext } from '@/components/UserProvider'
+
 export default function ViewGamesPage() {
-    const user = useOutletContext()
+    const { user, setUser } = useContext(UserContext)
     const [games, setGames] = useState([])
     const [filter, setFilter] = useState('all')
 

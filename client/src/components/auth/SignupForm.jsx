@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { motion, AnimatePresence } from 'motion/react'
 
 function SignupForm(props) {
@@ -11,6 +11,7 @@ function SignupForm(props) {
     const [userId, setUserId] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [activeIdInp, setActiveIdInp] = useState(false);
+    const { user, setUser } = useContext(UserContext)
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -38,7 +39,7 @@ function SignupForm(props) {
             })
             if (response.ok) {
                 sessionStorage.setItem('isLoggedIn', true);
-                sessionStorage.setItem('user', JSON.stringify(data.user));
+                setUser(data.user);
                 navigate('/home', { state: { fromAuth: true } });
             }
         } catch (err) {

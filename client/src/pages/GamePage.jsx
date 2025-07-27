@@ -1,5 +1,5 @@
 import { useParams, useOutletContext, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import styles from './GamePage.module.css'
 
 import { useToast } from '@/components/ui/Toaster'
@@ -7,8 +7,10 @@ import ScrollableArea from '@/components/ui/ScrollableArea'
 import { GameInfo } from '@/components/game/GameInfo'
 import ConfirmationForm from '@/components/ui/ConfirmationForm'
 
+import { UserContext } from '@/components/UserProvider'
+
 export default function GamePage() {
-    const user = useOutletContext()
+    const { user, setUser } = useContext(UserContext)
     const [game, setGame] = useState(null)
     const { gameId } = useParams()
     const { showToast } = useToast()
@@ -92,6 +94,8 @@ export default function GamePage() {
 
             if (res.ok) {
                 await fetchGame()
+                // console.log('user joined: ', data.user.userInfo)
+                setUser(data.user.userInfo)
             }
         } catch (err) {
             console.error('Error joining game: ', err)
@@ -112,6 +116,8 @@ export default function GamePage() {
 
             if (res.ok) {
                 await fetchGame()
+                // console.log('user left: ', data.user.userInfo)
+                setUser(data.user.userInfo)
             }
         } catch (err) {
             console.error('Error leaving game: ', err)
