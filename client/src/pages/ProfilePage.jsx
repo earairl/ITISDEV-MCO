@@ -108,6 +108,7 @@ function ProfilePage() {
                     setPenalties(userInfo.penalties);
                 }
 
+                // fetch for current games
                 if (userInfo.currentlyQueued && userInfo.currentlyQueued.length > 0) {
                     try {
                         const gamePromises = userInfo.currentlyQueued.map(async (gameId) => {
@@ -135,12 +136,40 @@ function ProfilePage() {
                 } else {
                     setCurrentGames([]);
                 }
+
+                // fetch for past games
+                if (userInfo.matchHistory && userInfo.matchHistory.length > 0) {
+                    try {
+                        const pastGamesPromises = userInfo.matchHistory.map(async (gameId) => {
+                            const res = await fetch(`http://localhost:5000/getFormattedGame/${gameId._id || gameId}`);
+                            if (res.ok) {
+                                return await res.json()
+                            }
+                            return null
+                        })
+
+                        const pastGames = await Promise.all(pastGamesPromises)
+                        const validPastGames = pastGames.filter(game => game !== null)
+
+                        const formattedPastGames = validPastGames.map(game => ({
+                            _id: game._id,
+                            displayGame: `${game.date} | ${game.start} at ${game.venue}`
+                        }));
+
+                        setPastGames(formattedPastGames)
+                    } catch (err) {
+                        console.error("Error fetching past games:", err);
+                        setPastGames([]);
+                    } 
+                } else {
+                    setPastGames([])
+                }
             } catch (err) {
                 console.error("Error fetching profile data:", err);
                 setIsMember(false);
                 setDateJoined("");
                 setCurrentGames([]);
-
+                setPastGames([]);
             }
         }
 
@@ -347,8 +376,15 @@ function ProfilePage() {
                                         data={currentGames}
                                         path="games"
                                         param="_id"
-                                        displayText="displayGame"/>
-                        <ScrollableArea tabName="Past Games Joined" tabWidth="40" data={pastGames} />
+                                        displayText="displayGame"
+                                        noDataMsg="No Current Games"/>
+                        <ScrollableArea tabName="Past Games Joined"
+                                        tabWidth="40"
+                                        data={pastGames}
+                                        path="games"
+                                        param="_id"
+                                        displayText="displayGame"
+                                        noDataMsg="No Game History"/>
                     </article>
                     {loggedInUsername !== username && loggedInPosition === "officer" && (
                         <article className={styles.Penalty}>

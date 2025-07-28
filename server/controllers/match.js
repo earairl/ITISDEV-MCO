@@ -325,7 +325,23 @@ const updateMatchStatus = async (req, res) => {
 
     try {
         const game = await Match.findById(gameId)
+        const previousStatus = game.status
         game.status = status
+
+        if ((status === "closed" || status === "completed") && 
+            previousStatus !== "closed" && previousStatus !== "completed") {
+            for (const playerId of game.players) {
+                const user = await User.findById(playerId)
+                if (user) {
+                    user.currentlyQueued.pull(gameId)
+
+                    if (!user.matchHistory.includes(gameId))
+                        user.matchHistory.push(gameId)
+
+                    await user.save()
+                }
+            }
+        }
 
         await game.save()
         return res.status(200).json({ message: 'Match status updated successfully!' })
