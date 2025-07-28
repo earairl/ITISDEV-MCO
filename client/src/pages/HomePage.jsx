@@ -2,7 +2,7 @@ import MainLayout from "@/template/MainLayout"
 import { motion } from 'motion/react'
 import { useOutletContext } from "react-router-dom"
 import styles from "./HomePage.module.css";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { useToast } from "@/components/ui/Toaster";
 
 /* Radix UI */
@@ -16,6 +16,7 @@ import { UserContext } from '@/components/UserProvider'
 
 function HomePage() {
     const { user, setUser } = useContext(UserContext)
+    const [upcomingGames, setUpcomingGames] = useState([])
     console.log('user upcoming games: ', user.currentlyQueued)
     console.log('user history: ', user.matchHistory)
     const { showToast } = useToast();
@@ -29,6 +30,38 @@ function HomePage() {
     //     }
     // }, []);
 
+    useEffect(() => {
+        const fetchUpcomingGames = async () => {
+            if (user.currentlyQueued && user.currentlyQueued.length > 0) {
+                try {
+                    const gamePromises = user.currentlyQueued.map(async (gameId) => {
+                        const res = await fetch(`http://localhost:5000/getFormattedGame/${gameId._id || gameId}`);
+                        if (res.ok) {
+                            return await res.json();
+                        }
+                        return null;
+                    });
+                    
+                    const games = await Promise.all(gamePromises);
+                    const validGames = games.filter(game => game !== null);
+
+                    // Formatted for display
+                    const formattedUpcomingGames = validGames.map(game => ({
+                        _id: game._id,
+                        displayGame: `${game.date} | ${game.start} at ${game.venue}`,
+                    }));
+                    setUpcomingGames(formattedUpcomingGames);
+                } catch (err) {
+                    console.error("Error fetching upcoming games:", err);
+                }
+            } else {
+                setUpcomingGames([]);
+            }
+        };
+
+        fetchUpcomingGames();
+    }, [user.currentlyQueued]); // dependency variable
+
     return (
         <motion.div
             initial={{opacity: 0}}
@@ -39,7 +72,13 @@ function HomePage() {
                 <div className={styles.Content}>
                     <article className={styles.ScrollTabs}>
                         <ScrollableArea tabName="Notifications" tabHeight="40" tabWidth="40"/>
-                        <ScrollableArea tabName="Upcoming Games" tabHeight="40" tabWidth="40"/>
+                        <ScrollableArea tabName="Upcoming Games" 
+                                        tabHeight="40" 
+                                        tabWidth="40"
+                                        data={upcomingGames}
+                                        path="games"
+                                        param="_id"
+                                        displayText="displayGame"/>
                     </article>
                     {/* { (user.position !== 'guest') &&
                         <article className={styles.Buttons}>

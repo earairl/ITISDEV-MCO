@@ -108,10 +108,39 @@ function ProfilePage() {
                     setPenalties(userInfo.penalties);
                 }
 
+                if (userInfo.currentlyQueued && userInfo.currentlyQueued.length > 0) {
+                    try {
+                        const gamePromises = userInfo.currentlyQueued.map(async (gameId) => {
+                            const res = await fetch(`http://localhost:5000/getFormattedGame/${gameId._id || gameId}`);
+                            if (res.ok) {
+                                return await res.json();
+                            }
+                            return null;
+                        });
+                        
+                        const games = await Promise.all(gamePromises);
+                        const validGames = games.filter(game => game !== null);
+
+                        // Formatted for display
+                        const formattedCurrentGames = validGames.map(game => ({
+                            _id: game._id,
+                            displayGame: `${game.date} | ${game.start} at ${game.venue}`,
+                        }));
+
+                        setCurrentGames(formattedCurrentGames);
+                    } catch (err) {
+                        console.error("Error fetching upcoming games:", err);
+                        setCurrentGames([]);
+                    }
+                } else {
+                    setCurrentGames([]);
+                }
             } catch (err) {
                 console.error("Error fetching profile data:", err);
                 setIsMember(false);
                 setDateJoined("");
+                setCurrentGames([]);
+
             }
         }
 
@@ -313,7 +342,12 @@ function ProfilePage() {
                         </article>
                     )}
                     <article className={styles.ScrollTabs}>
-                        <ScrollableArea tabName="Current Games Queued" tabWidth="40" data={currentGames} />
+                        <ScrollableArea tabName="Current Games Queued" 
+                                        tabWidth="40" 
+                                        data={currentGames}
+                                        path="games"
+                                        param="_id"
+                                        displayText="displayGame"/>
                         <ScrollableArea tabName="Past Games Joined" tabWidth="40" data={pastGames} />
                     </article>
                     {loggedInUsername !== username && loggedInPosition === "officer" && (

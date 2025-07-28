@@ -9,7 +9,7 @@ const TAGS = Array.from({ length: 50 }).map(
 );
 
 // add conditionals to determine what to render, e.g. data for games, times, notifs, etc.
-const ScrollableArea = ({ tabName, data = [], tabHeight = 22, tabWidth = 35, path = null, param = null }) => (
+const ScrollableArea = ({ tabName, data = [], tabHeight = 22, tabWidth = 35, path = null, param = null, displayText = null, noDataMsg = "No Data to Display"}) => (
 	<div>
 		<h2 className={styles.TabTitle}>{ tabName }</h2>
 		<ScrollArea.Root 
@@ -24,17 +24,17 @@ const ScrollableArea = ({ tabName, data = [], tabHeight = 22, tabWidth = 35, pat
 							path ? (
 								<Link key={index} to={`/${path}/${item[param]}`}>
 									<div className={styles.Tag}>
-										{item[param]}
+										{displayText ? item[displayText] : item[param]}
 									</div>
 								</Link>
 							) : (
 								<div className={styles.Tag}>
-									{item}
+									{displayText ? item[displayText] : item[param]}
 								</div>
 							)
 						))
 					) : ( // if data is empty
-						<h1 className={styles.NoData}>No Data to Display</h1>
+						<h1 className={styles.NoData}>{noDataMsg}</h1>
 					)} 
 				</div>
 			</ScrollArea.Viewport>
