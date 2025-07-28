@@ -1,5 +1,7 @@
 require('dotenv').config()
 const express = require('express')
+const cron = require('node-cron')
+const { autoCloseMatches } = require('./controllers/match')
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -36,6 +38,23 @@ app.use(
         store: store
     })
 );
+
+// Scheduled closing
+// *Minute *Hour *DayOfMonth *Month *DayOfWeek
+// * = every (in field), / = every nth, n = interval number
+cron.schedule('*/15 * * * *', async () => {
+    try {
+        const gamesClosed = await autoCloseMatches()
+        if (gamesClosed > 0) {
+            console.log(`[${new Date().toISOString()}] Scheduled checkup: ${gamesClosed} matches auto-closed`);
+        } else {
+            console.log(`[${new Date().toISOString()}] Scheduled checkup: No expired matches found`);
+        }
+    } catch (error) {
+        console.error(`[${new Date().toISOString()}] Scheduled checkup failed:`, error);
+    }
+})
+console.log('Auto-close scheduler started: runs checks for closed matches every 15 minutes');
 
 // routes
 app.use('/', indexRoute);

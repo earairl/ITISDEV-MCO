@@ -6,6 +6,7 @@ const logAudit = require('../utils/auditLogger');
 
 const getGames = async (res) => {
     try {
+        await autoCloseMatches()
         const games = await Match.find({
             status: { $in: ['open', 'ongoing', 'full'] },
             })
@@ -21,6 +22,8 @@ const getGames = async (res) => {
 
 const getFormattedGame = async (req, res) => {
     try {
+        await autoCloseMatches()
+        
         const initialGame = await Match.findById(req.params.gameId)
             .populate([
                 { path: 'players', select: 'credentials.username' },
@@ -53,6 +56,7 @@ const getFormattedGame = async (req, res) => {
 
 const getFormattedGames = async (req, res) => {
     try {
+        await autoCloseMatches()
         const initialGames = await Match.find().lean()
 
         const games = initialGames.map(game => {
@@ -160,6 +164,8 @@ const joinMatch = async (req, res) => {
     }
 
     try {
+        await autoCloseMatches()
+
         const user = await User.findOne({ 'credentials.username': username })
         const game = await Match.findById(gameId)
 
@@ -231,6 +237,8 @@ const leaveMatch = async (req, res) => {
     const { username, gameId } = req.body
 
     try {
+        await autoCloseMatches()
+
         const user = await User.findOne({ 'credentials.username': username })
         const game = await Match.findById(gameId)
 
@@ -351,4 +359,53 @@ const updateMatchStatus = async (req, res) => {
     }
 }
 
-module.exports = { updateMatchStatus, editMatch, joinMatch, leaveMatch, createMatch, getGames, getFormattedGame, getFormattedGames };
+const autoCloseMatches = async () => {
+    try {
+        const now = new Date();
+        
+        // optimization
+        const expiredCount = await Match.countDocuments({
+            end: { $lt: now },
+            status: { $in: ['open', 'full', 'ongoing'] }
+        });
+        
+        if (expiredCount === 0) 
+            return 0; // No work needed, return immediately
+
+        // expensive operation
+        const expiredMatches = await Match.find({
+            end: { $lt: now }, // Mongodb operator, less than
+            status: { $in: ['open', 'full', 'ongoing'] } // in array
+        });
+
+        console.log(`Checking for expired matches: ${expiredMatches.length} found`);
+
+        for (const match of expiredMatches) {
+            console.log(`Auto-closing expired match ${match._id}`);
+            
+            // Update match status
+            match.status = 'closed';
+            
+            // Move players from queue to history
+            for (const playerId of match.players) {
+                const user = await User.findById(playerId);
+                if (user) {
+                    user.currentlyQueued.pull(match._id);
+                    if (!user.matchHistory.includes(match._id)) {
+                        user.matchHistory.push(match._id);
+                    }
+                    await user.save();
+                }
+            }
+            
+            await match.save();
+        }
+        
+        return expiredMatches.length;
+    } catch (error) {
+        console.error('Error closing expired matches:', error);
+        return 0;
+    }
+}
+
+module.exports = { updateMatchStatus, editMatch, joinMatch, leaveMatch, createMatch, getGames, getFormattedGame, getFormattedGames, autoCloseMatches };
