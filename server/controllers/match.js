@@ -3,6 +3,7 @@ const User = require('../models/User');
 const { serverGetMemberInfo } = require('./member');
 const { serverGetUser } = require('./user');
 const logAudit = require('../utils/auditLogger');
+const { createNotification } = require('../services/notifications');
 
 const getGames = async (res) => {
     try {
@@ -130,23 +131,89 @@ const editMatch = async (req, res) => {
         })
 
         if (hasChanges) {
-            initialMatch.start = matchDateTimeStart
-            initialMatch.end = matchDateTimeEnd
-            initialMatch.venue = venue
-            initialMatch.maxPlayers = maxPlayers
-            initialMatch.allowOutsiders = allowOutsiders
+            const changes = {};
+            const oldStart = initialMatch.start;
+            const oldEnd = initialMatch.end;
+            const oldVenue = initialMatch.venue;
+
+            if (oldStart.getTime() !== matchDateTimeStart.getTime()) 
+                changes.start = { old: oldStart, new: matchDateTimeStart };
+            if (oldEnd.getTime() !== matchDateTimeEnd.getTime()) 
+                changes.end = { old: oldEnd, new: matchDateTimeEnd };
+            if (oldVenue !== venue) 
+                changes.venue = { old: oldVenue, new: venue };
+
+            const scheduleChanged = oldStart.getTime() !== matchDateTimeStart.getTime() || oldEnd.getTime() !== matchDateTimeEnd.getTime();
+            const venueChanged = oldVenue !== venue;
+
+            initialMatch.start = matchDateTimeStart;
+            initialMatch.end = matchDateTimeEnd;
+            initialMatch.venue = venue;
+            initialMatch.maxPlayers = maxPlayers;
+            initialMatch.allowOutsiders = allowOutsiders;
 
             if (initialMatch.players.length > maxPlayers) {
-                const remaining = initialMatch.players.slice(0, maxPlayers)
-                const waitlisted = initialMatch.players.slice(maxPlayers)
-
-                initialMatch.players = remaining
-                initialMatch.waitlist = [...waitlisted, ...initialMatch.waitlist]
+                const remaining = initialMatch.players.slice(0, maxPlayers);
+                const waitlisted = initialMatch.players.slice(maxPlayers);
+                initialMatch.players = remaining;
+                initialMatch.waitlist = [...waitlisted, ...initialMatch.waitlist];
             }
 
             await initialMatch.save();
+
+            const readableDate = matchDateTimeStart.toLocaleDateString('en-US', {
+                month: 'long', day: 'numeric', year: 'numeric', weekday: 'long'
+            });
+            const readableStart = matchDateTimeStart.toLocaleTimeString('en-US', {
+                hour: 'numeric', minute: '2-digit', hour12: true
+            });
+            const readableEnd = matchDateTimeEnd.toLocaleTimeString('en-US', {
+                hour: 'numeric', minute: '2-digit', hour12: true
+            });
+
+            let title = 'Match Schedule Changed';
+            let message = `Your match at ${venue} has been rescheduled to ${readableDate} | ${readableStart} – ${readableEnd}`;
+            let data = {
+                gameId: initialMatch._id,
+                newStart: matchDateTimeStart,
+                newEnd: matchDateTimeEnd,
+                oldStart,
+                oldEnd
+            };
+
+            if (scheduleChanged && venueChanged) {
+                title = 'Match Schedule and Venue Changed';
+                message = `Your match has moved from ${oldVenue} to ${venue} and has been rescheduled to ${readableDate} | ${readableStart} – ${readableEnd}`;
+                data = {
+                    gameId: initialMatch._id,
+                    oldVenue,
+                    newVenue: venue,
+                    newStart: matchDateTimeStart,
+                    newEnd: matchDateTimeEnd,
+                    oldStart,
+                    oldEnd
+                };
+            } else if (venueChanged) {
+                title = 'Match Venue Changed';
+                message = `Your match on ${readableDate} has moved from ${oldVenue} to ${venue}`;
+                data = {
+                    gameId: initialMatch._id,
+                    oldVenue,
+                    newVenue: venue
+                };
+            }
+
+            await createNotification(
+                user._id,
+                'match_change',
+                title,
+                message,
+                data
+            );
+
             return res.status(200).json({ message: 'Match updated successfully!' });
         }
+
         else res.status(200).json({ message: 'No changes detected.' });
 
     } catch (error) {
@@ -349,6 +416,19 @@ const updateMatchStatus = async (req, res) => {
                     await user.save()
                 }
             }
+        }
+
+        if (status === 'cancelled' && previousStatus !== 'cancelled') {
+            const readableDate = game.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', weekday: 'long' });
+            const readableStartTime = game.start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+            await createNotification(
+                game.createdBy,
+                'match_cancellation',
+                'Match Cancelled',
+                `Match Cancelled: ${game.venue} - ${readableDate} | ${readableStartTime}`,
+                { gameId: game._id }
+            );
         }
 
         await game.save()

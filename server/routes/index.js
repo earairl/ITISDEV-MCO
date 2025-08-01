@@ -5,6 +5,7 @@ const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, updateEmail, deleteUser } = require('../controllers/user');
 const { addMember, getMemberInfo, getMembers, updatePosition, updateMember, removeMember, importMembers, exportMembers } = require('../controllers/member');
 const { updateMatchStatus, editMatch, joinMatch, leaveMatch, createMatch, getFormattedGame, getFormattedGames } = require('../controllers/match');
+const { getUserNotifications } = require('../services/notifications');
 
 // GET
 router.get('/', (req, res) => {
@@ -22,6 +23,7 @@ router.get('/getMembers', getMembers);
 router.get('/getFormattedGame/:gameId', getFormattedGame);
 router.get('/getFormattedGames', getFormattedGames);
 router.get('/exportMembers', exportMembers);
+router.get('/getNotifications/:userId', getUserNotifications);
 
 // // POST
 // router.post('/', (req, res) => {

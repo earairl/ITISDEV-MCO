@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { motion, AnimatePresence } from 'motion/react'
+import { UserContext } from '@/components/UserProvider'
 
 function SignupForm(props) {
     const navigate = props.navigate

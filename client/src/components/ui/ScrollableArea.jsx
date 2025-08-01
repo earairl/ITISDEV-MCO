@@ -28,7 +28,7 @@ const ScrollableArea = ({ tabName, data = [], tabHeight = 22, tabWidth = 35, pat
 									</div>
 								</Link>
 							) : (
-								<div className={styles.Tag}>
+								<div key={index} className={styles.Tag}>
 									{displayText ? item[displayText] : item[param]}
 								</div>
 							)
