@@ -2,10 +2,10 @@ import MainLayout from "@/template/MainLayout"
 import { motion } from 'motion/react'
 import styles from "./ProfilePage.module.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react"; // useState: stores data that changes, useEffect: run code in response to comp
+import { useEffect, useState, useRef, useContext } from "react"; // useState: stores data that changes, useEffect: run code in response to comp
 import editIcon from "@/assets/edit.png";
-import { useRef } from "react";
 import { useToast } from '@/components/ui/Toaster';
+import { UserContext } from '@/components/UserProvider';
 
 import ScrollableArea from "@/components/ui/ScrollableArea"
 import SelectMenu from "@/components/ui/SelectMenu";
@@ -24,8 +24,7 @@ function ProfilePage() {
     const [isMember, setIsMember] = useState(false);
     const [currentGames, setCurrentGames] = useState([]);
     const [pastGames, setPastGames] = useState([]);
-    const [loggedInUsername, setLoggedInUsername] = useState("");
-    const [loggedInPosition, setLoggedInPosition] = useState("");
+    const { user, setUser } = useContext(UserContext);
     const [attendanceRate, setAttendanceRate] = useState(null);
     const [penalties, setPenalties] = useState([]);
     const [isEditing, setIsEditing]   = useState(false);
@@ -48,41 +47,26 @@ function ProfilePage() {
 
     useEffect(() => {
         async function fetchProfileData() {
-            //setLoading(true);
-            const storedUser = sessionStorage.getItem("user");
-
-            // logged user
-            if (storedUser) {
-                const user = JSON.parse(storedUser);
-                setLoggedInUsername(user.username);
-                setEmail(user.username === username ? user.email : "");
-
-                try {
-                    const res = await fetch(`http://localhost:5000/getUser?username=${user.username}`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        setLoggedInPosition(data.userInfo.position);
-                    }
-                } catch (err) {
-                    console.error("Error fetching logged-in user:", err);
-                }
-            }
-            // user being viewed
             try {
+                if (user.username === username) {
+                    setEmail(user.email || "");
+                }
+
+                // Fetch user being viewed
                 const res = await fetch(`http://localhost:5000/getUser?username=${username}`);
                 if (!res.ok) {
-                    setIsMember(false)
-                    setPosition("")
-                    setDateJoined("")
+                    setIsMember(false);
+                    setPosition("");
+                    setDateJoined("");
                     navigate("/notFound", { replace: true });
                     return;
                 }
 
                 const data = await res.json();
                 const userInfo = data.userInfo;
+
                 setEmail(userInfo?.email ?? "");
 
-                //fetch games from backend
                 if (userInfo.dateJoined) {
                     setIsMember(true);
                     setPosition(userInfo.position);
@@ -93,7 +77,7 @@ function ProfilePage() {
                         })
                     );
                     setIdNum(userInfo.idNum);
-                } else { // clear old data from state
+                } else {
                     setIsMember(false);
                     setPosition("");
                     setDateJoined("");
@@ -104,11 +88,11 @@ function ProfilePage() {
                     setAttendanceRate(userInfo.attendanceRate);
                 }
 
-                if(Array.isArray(userInfo.penalties)) {
+                if (Array.isArray(userInfo.penalties)) {
                     setPenalties(userInfo.penalties);
                 }
 
-                // fetch for current games
+                // Fetch current games
                 if (userInfo.currentlyQueued && userInfo.currentlyQueued.length > 0) {
                     try {
                         const gamePromises = userInfo.currentlyQueued.map(async (gameId) => {
@@ -118,11 +102,10 @@ function ProfilePage() {
                             }
                             return null;
                         });
-                        
+
                         const games = await Promise.all(gamePromises);
                         const validGames = games.filter(game => game !== null);
 
-                        // Formatted for display
                         const formattedCurrentGames = validGames.map(game => ({
                             _id: game._id,
                             displayGame: `${game.date} | ${game.start} at ${game.venue}`,
@@ -137,33 +120,34 @@ function ProfilePage() {
                     setCurrentGames([]);
                 }
 
-                // fetch for past games
+                // Fetch past games
                 if (userInfo.matchHistory && userInfo.matchHistory.length > 0) {
                     try {
                         const pastGamesPromises = userInfo.matchHistory.map(async (gameId) => {
                             const res = await fetch(`http://localhost:5000/getFormattedGame/${gameId._id || gameId}`);
                             if (res.ok) {
-                                return await res.json()
+                                return await res.json();
                             }
-                            return null
-                        })
+                            return null;
+                        });
 
-                        const pastGames = await Promise.all(pastGamesPromises)
-                        const validPastGames = pastGames.filter(game => game !== null)
+                        const pastGames = await Promise.all(pastGamesPromises);
+                        const validPastGames = pastGames.filter(game => game !== null);
 
                         const formattedPastGames = validPastGames.map(game => ({
                             _id: game._id,
-                            displayGame: `${game.date} | ${game.start} at ${game.venue}`
+                            displayGame: `${game.date} | ${game.start} at ${game.venue}`,
                         }));
 
-                        setPastGames(formattedPastGames)
+                        setPastGames(formattedPastGames);
                     } catch (err) {
                         console.error("Error fetching past games:", err);
                         setPastGames([]);
-                    } 
+                    }
                 } else {
-                    setPastGames([])
+                    setPastGames([]);
                 }
+
             } catch (err) {
                 console.error("Error fetching profile data:", err);
                 setIsMember(false);
@@ -212,10 +196,8 @@ function ProfilePage() {
 
             if (res.ok) {
                 setEmail(trimmedEmail);
-                const saved = sessionStorage.getItem("user");
-                if (saved) {
-                    const updated = { ...JSON.parse(saved), email: trimmedEmail };
-                    sessionStorage.setItem("user", JSON.stringify(updated));
+                if (user.username === username) {
+                    setUser({ ...user, email: trimmedEmail });
                 }
                 setIsEditing(false);
             } else {
@@ -315,7 +297,7 @@ function ProfilePage() {
                                 {!isEditing && (
                                     <>
                                     <h3>{email}</h3>
-                                    {loggedInUsername === username && (
+                                    {user.username === username && (
                                         <button
                                             className={styles.EditIcon}
                                             aria-label="Edit E-mail address"
@@ -354,7 +336,7 @@ function ProfilePage() {
                         </div>
                         <div className={styles.HeaderRight}>
                             {isMember && <h2>Joined {dateJoined}</h2>}
-                            {loggedInUsername !== username && loggedInPosition === "officer" && position === "member" ? (
+                            {user.username !== username && user.position === "officer" && position === "member" ? (
                                     <SelectMenu position={position} 
                                                 onChange={handleSelectChange} 
                                                 value={position}/>
@@ -364,7 +346,7 @@ function ProfilePage() {
                             )}
                         </div>
                     </header>
-                    {(loggedInUsername === username || loggedInPosition === "officer") && (
+                    {(user.username === username || user.position === "officer") && (
                         <article className={styles.ProfileStats}>
                             <h2>{`${Math.round(attendanceRate * 100)}% Attendance Rate`}</h2>
                             <h2>{`${penalties.length}/10 Penalties`}</h2>
@@ -386,7 +368,7 @@ function ProfilePage() {
                                         displayText="displayGame"
                                         noDataMsg="No Game History"/>
                     </article>
-                    {loggedInUsername !== username && loggedInPosition === "officer" && (
+                    {user.username !== username && user.position === "officer" && (
                         <article className={styles.Penalty}>
                             <input type="button" value="Assign Penalty" />
                         </article>
@@ -403,7 +385,7 @@ function ProfilePage() {
                         />
                     )}
 
-                    {(loggedInUsername === username) && (
+                    {(user.username === username) && (
                         <button className={styles.DeleteBtn} onClick={() => openConfirmation('delete', 'your account')}>Delete My Account</button>
                     )}
                 </div>
