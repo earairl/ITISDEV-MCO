@@ -29,7 +29,8 @@ export default function ViewGamesPage() {
     }, []);
 
     const filteredGames = games.filter(game => {
-        if (filter === 'all') return true
+        if (filter === 'all' && user.position === 'officer') return true
+        else if (filter === 'all' && user.position !== 'officer') return ['open', 'ongoing', 'full'].includes(game.status)
         return game.status === filter
     })
 
@@ -43,7 +44,7 @@ export default function ViewGamesPage() {
                     }
                 </div>
             </div>
-            <GameTabs filter={filter} setFilter={setFilter} styles={styles} />
+            <GameTabs filter={filter} setFilter={setFilter} styles={styles} user={user} />
             <div className={styles.gamesTable}>
                 <table>
                     <thead>

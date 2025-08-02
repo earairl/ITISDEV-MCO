@@ -1,6 +1,12 @@
 export function GameTabs(props) {
     const styles = props.styles
-    const tabs = ['all', 'open', 'full']
+    const user = props.user
+    const tabs = ['all', 'open', 'full',
+        ...(user.position === 'officer' ?
+            ['closed', 'cancelled']
+            : []
+        ),
+    ]
 
     return (
         <div className={styles.tabsWrap}>

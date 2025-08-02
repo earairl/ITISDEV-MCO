@@ -29,8 +29,6 @@ export default function GamePage() {
     }
 
     async function handleConfirm() {
-
-        // await updateGameStatus(nextStatus);
         try {
             const res = await fetch('http://localhost:5000/updateMatchStatus', {
                 method: "PATCH",

@@ -58,7 +58,9 @@ const getFormattedGame = async (req, res) => {
 const getFormattedGames = async (req, res) => {
     try {
         await autoCloseMatches()
-        const initialGames = await Match.find().lean()
+        const initialGames = await Match.find()
+                                        .sort({ start: 1, status: 1 })
+                                        .lean()
 
         const games = initialGames.map(game => {
             const initialDate = new Date(game.start)
