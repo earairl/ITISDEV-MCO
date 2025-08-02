@@ -102,8 +102,8 @@ function HomePage() {
                             tabHeight="40"
                             tabWidth="40"
                             data={notifications}
-                            displayText="notification" // or message, if preferred
-                        />
+                            displayText="notification"
+                            noDataMsg="Nothing New"/>
                         
                         <ScrollableArea 
                             tabName="Upcoming Games" 
@@ -112,7 +112,8 @@ function HomePage() {
                             data={upcomingGames}
                             path="games"
                             param="_id"
-                            displayText="displayGame"/>
+                            displayText="displayGame"
+                            noDataMsg="No Games"/>
                     </article>
                     {/* { (user.position !== 'guest') &&
                         <article className={styles.Buttons}>

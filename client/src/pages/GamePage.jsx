@@ -139,8 +139,16 @@ export default function GamePage() {
                             }
                         </div>
                         <div className={styles.PlayerListsWrap}>
-                            <ScrollableArea tabName={'Registered Players'} data={game.players} path={'profile'} param={'username'} />
-                            <ScrollableArea tabName={'Waitlisted Players'} data={game.waitlist} path={'profile'} param={'username'} />
+                            <ScrollableArea tabName={'Registered Players'}
+                                            data={game.players}
+                                            path={'profile'}
+                                            param={'username'}
+                                            noDataMsg="No Registered Players"/>
+                            <ScrollableArea tabName={'Waitlisted Players'}
+                                            data={game.waitlist}
+                                            path={'profile'}
+                                            param={'username'}
+                                            noDataMsg="None on List"/>
                         </div>
                     </div>
                     { game.status !== 'closed' && game.status !== 'cancelled' ?

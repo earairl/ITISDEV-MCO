@@ -34,6 +34,10 @@ const getUserNotifications = async (req, res) => {
                 {
                     type: { $in: ['match_change', 'match_cancellation'] },
                     'data.gameId': { $in: currentlyQueuedGameIds }
+                },
+                {
+                    userId: user._id,
+                    type: { $in: ['slot_granted', 'position_change'] }
                 }
             ]
         }).sort({ createdAt: -1 });

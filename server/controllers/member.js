@@ -1,7 +1,9 @@
 const Member = require('../models/Member');
+const User = require('../models/User');
 const { updateUserEmail, getUsername } = require('./emailSync');
 const logAudit = require('../utils/auditLogger');
 const XLSX = require('xlsx');
+const { createNotification } = require('../services/notifications');
 
 const addMember = async (req, res) => {
     try {
@@ -113,14 +115,50 @@ const updatePosition = async (req, res) => {
             return res.status(404).json({ message: 'Member not found.' });
         }
 
+        const oldPosition = member.position;
+
         if(member.position !== position) {
             await logAudit({
                 editor,
                 action: "updatePosition",
-                field: "position",
-                oldValue: member.position,
-                newValue: position
+                changes: [{
+                    field: "position",
+                    oldValue: member.position,
+                    newValue: position
+                }]
             })
+
+            const user = await User.findOne({ 'credentials.userId': idNum });
+            if (user) {
+                const isPromotion = (oldPosition === 'member' && position === 'officer');
+                const isDemotion = (oldPosition === 'officer' && position === 'member');
+                
+                let title, message;
+                
+                if (isPromotion) {
+                    title = 'Congratulations! You\'ve been promoted!';
+                    message = `You have been promoted from ${oldPosition} to ${position}. Welcome to the officer team!`;
+                } else if (isDemotion) {
+                    title = 'Position Updated';
+                    message = `Your position has been changed from ${oldPosition} to ${position}.`;
+                } else {
+                    title = 'Position Updated';
+                    message = `Your position has been updated from ${oldPosition} to ${position}.`;
+                }
+
+                await createNotification(
+                    user._id,
+                    'position_change',
+                    title,
+                    message,
+                    { 
+                        oldPosition,
+                        newPosition: position,
+                        isPromotion,
+                        isDemotion
+                    }
+                );
+            }
         }
         member.position = position;
         await member.save();
@@ -152,6 +190,46 @@ const updateMember = async (req, res) => {
 
         let updated = false;
 
+        if (newPosition && ['member', 'officer'].includes(newPosition) && member.position !== newPosition) {
+            changes.push({ field: "position", oldValue: member.position, newValue: newPosition });
+            
+            // Add notification logic for position change
+            const user = await User.findOne({ 'credentials.userId': idNum });
+            if (user) {
+                const isPromotion = (member.position === 'member' && newPosition === 'officer');
+                const isDemotion = (member.position === 'officer' && newPosition === 'member');
+                
+                let title, message;
+                
+                if (isPromotion) {
+                    title = 'Congratulations! You\'ve been promoted!';
+                    message = `You have been promoted from ${member.position} to ${newPosition}. Welcome to the officer team!`;
+                } else if (isDemotion) {
+                    title = 'Position Updated';
+                    message = `Your position has been changed from ${member.position} to ${newPosition}.`;
+                } else {
+                    title = 'Position Updated';
+                    message = `Your position has been updated from ${member.position} to ${newPosition}.`;
+                }
+
+                await createNotification(
+                    user._id,
+                    'position_change',
+                    title,
+                    message,
+                    { 
+                        oldPosition: member.position,
+                        newPosition,
+                        isPromotion,
+                        isDemotion
+                    }
+                );
+            }
+            
+            member.position = newPosition;
+            updated = true;
+        }
+        
         if (newFirstName && member.firstName !== newFirstName) {
             changes.push({ field: "firstName", oldValue: member.firstName, newValue: newFirstName });
             member.firstName = newFirstName;
@@ -167,12 +245,6 @@ const updateMember = async (req, res) => {
         if (newCollege && member.college !== newCollege) {
             changes.push({ field: "college", oldValue: member.college, newValue: newCollege });
             member.college = newCollege;
-            updated = true;
-        }
-
-        if (newPosition && ['member', 'officer'].includes(newPosition) && member.position !== newPosition) {
-            changes.push({ field: "position", oldValue: member.position, newValue: newPosition });
-            member.position = newPosition;
             updated = true;
         }
 
