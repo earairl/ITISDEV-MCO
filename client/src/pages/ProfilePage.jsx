@@ -336,7 +336,7 @@ function ProfilePage() {
                         </div>
                         <div className={styles.HeaderRight}>
                             {isMember && <h2>Joined {dateJoined}</h2>}
-                            {user.username !== username && user.position === "officer" && position === "member" ? (
+                            {user.username !== username && user.position === "officer" ? (
                                     <SelectMenu position={position} 
                                                 onChange={handleSelectChange} 
                                                 value={position}/>
