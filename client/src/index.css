@@ -77,10 +77,15 @@ a:hover {
     min-height: 100vh;
 } */
 
-body {
+html, body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  width: 100vw;
+  height: auto;
+  min-height: 100vh;
+}
+
+body {
+  display: block;
 }
 
 h1, h2, h3, h4, h5, h6 {
