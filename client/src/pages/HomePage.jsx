@@ -70,8 +70,11 @@ function HomePage() {
                     const games = await Promise.all(gamePromises);
                     const validGames = games.filter(game => game !== null);
 
+                    const upcomingGames = validGames.filter(game => 
+                        !['cancelled', 'completed'].includes(game.status)
+                    );
                     // Formatted for display
-                    const formattedUpcomingGames = validGames.map(game => ({
+                    const formattedUpcomingGames = upcomingGames.map(game => ({
                         _id: game._id,
                         displayGame: `${game.date} | ${game.start} at ${game.venue}`,
                     }));

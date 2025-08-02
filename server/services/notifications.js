@@ -8,7 +8,8 @@ const createNotification = async (userId, type, title, message, data = {}) => {
             type,
             title,
             message,
-            data
+            data,
+            expiresAt: undefined // apply default
         });
         await notification.save();
         return notification;
