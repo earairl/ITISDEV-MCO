@@ -421,7 +421,7 @@ const importMembers = async (req, res) => {
                 college,
                 position,
                 dateJoined: dateJoined ? new Date(dateJoined) : new Date(),
-                lastMatchJoined: lastMatchJoined ? new Date(lastMatchJoined) : new Date(),
+                lastMatchJoined: lastMatchJoined ? new Date(lastMatchJoined) : undefined,
                 isActive
             });
 
