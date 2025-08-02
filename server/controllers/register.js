@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Member = require('../models/Member');
 const { serverGetUser } = require('./user');
 const { serverGetMemberInfo } = require('./member');
 
@@ -22,7 +23,7 @@ const register = async (req, res) => {
         let finalUserId;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email validation regex
         const existingUsername = await User.findOne({ 'credentials.username': username });
-        const existingEmail = await User.findOne({ 'credentials.email': email });
+        const existingUserEmail = await User.findOne({ 'credentials.email': email });
         const existingUserId = await User.exists({ 'credentials.userId': userId });
         
         if (username.length < 5) {
@@ -41,8 +42,23 @@ const register = async (req, res) => {
             return res.status(400).json({ message: 'Invalid email format.' });
         }
 
-        if (existingEmail) {
+        if (existingUserEmail) {
             return res.status(400).json({ message: 'Email already taken.' });
+        }
+
+        if(userId){
+            const existingMemberEmail = await Member.findOne({
+                'email': email,
+                'idNum': { $ne: userId }
+            });
+            if (existingMemberEmail) {
+                return res.status(400).json({ message: 'Email already taken.' });
+            }
+        } else {
+            const existingMemberEmail = await Member.findOne({ 'email': email });
+            if (existingMemberEmail) {
+                return res.status(400).json({ message: 'Email already taken.' });
+            }
         }
 
         if (activeIdInp) {
