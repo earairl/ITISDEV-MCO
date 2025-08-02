@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 const { register } = require('../controllers/register');
 const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, updateEmail, deleteUser } = require('../controllers/user');
@@ -32,7 +34,7 @@ router.get('/getNotifications/:userId', getUserNotifications);
 router.post('/register', register);
 router.post('/login', loginUser);
 router.post('/addMember', addMember);
-router.post('/importMembers', importMembers);
+router.post('/importMembers', upload.single("file"), importMembers);
 router.post('/createMatch', createMatch);
 router.post('/joinMatch', joinMatch);
 router.post('/leaveMatch', leaveMatch);

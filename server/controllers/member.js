@@ -2,7 +2,7 @@ const Member = require('../models/Member');
 const User = require('../models/User');
 const { updateUserEmail, getUsername } = require('./emailSync');
 const logAudit = require('../utils/auditLogger');
-const XLSX = require('xlsx');
+const ExcelJS = require("exceljs");
 const { createNotification } = require('../services/notifications');
 
 const addMember = async (req, res) => {
@@ -335,42 +335,94 @@ const removeMember = async (req, res) => {
 };
 
 const importMembers = async (req, res) => {
-    const { members } = req.body;
-    const created = [];
-    const skipped = [];
-
-    if(!Array.isArray(members)) {
-        return res.status(400).json({ message: 'Invalid data format. Not an array of members.' });
-    }
-
     try {
-        for (const entry of members) {
-            const { idNum, firstName, lastName, college, position, dateJoined, lastMatchJoined, fbLink, email, contactNo, telegram, isActive} = entry;
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded." });
+        }
+
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(req.file.buffer);
+        const worksheet = workbook.worksheets[0]; 
+        // get all rows from excel sheet as array of arrays, remove first header row, remove any empty rows
+        const rows = worksheet.getSheetValues().slice(2).filter(row => {
+            return row && row.some(cell => cell !== null && cell !== undefined && cell !== "");
+        });
+
+        //normalizes excel js format into plain string 
+        const getValue = (cell) => {
+            if (!cell) return "";
+
+            const value = cell.value ?? cell; 
+
+            if (typeof value !== "object") return String(value);
+
+            if (Array.isArray(value.richText)) {
+                return value.richText.map(rt => rt.text || "").join("");
+            }
+
+            if (value.text) return value.text;
+            if (value.result !== undefined) return String(value.result); 
+            if (value.hyperlink && value.text) return value.text;
+
+            return "";
+        };
+
+        const created = [];
+        const skipped = [];
+
+        for (const row of rows) {
+            if (!row) continue;
+
+            const idNum = getValue(row[1]);
+            const firstName = getValue(row[2]);
+            const lastName = getValue(row[3]);
+            const college = getValue(row[4]);
+            const position = getValue(row[5]);
+            let contactNo = getValue(row[6]);
+            if (/^[9]\d{9}$/.test(contactNo)) {
+                contactNo = "0" + contactNo;
+            }
+            const email = getValue(row[7]);   
+            const fbLink = getValue(row[8]);  
+            const telegram = getValue(row[9]);
+            const dateJoined = row[10]; 
+            const lastMatchJoined = row[11];
+            const status = getValue(row[12]);
 
             if (!idNum || !firstName || !lastName || !college || !position || !fbLink || !email || !contactNo) {
-                skipped.push({ idNum, reason: 'Missing required fields.' });
+                if (idNum) { 
+                    skipped.push({ idNum, reason: "Missing required fields." });
+                }
                 continue;
             }
 
-            const exists = await Member.findOne({ idNum});
+            if (!['member', 'officer'].includes(position)) {
+                skipped.push({ idNum, reason: "Invalid position value." });
+                continue;
+            }
+
+            const exists = await Member.findOne({ idNum });
             if (exists) {
                 skipped.push({ idNum, reason: 'ID number already exists.' });
                 continue;
             }
 
+            // convert status to boolean
+            const isActive = status?.toLowerCase() === "active";
+
             const newMember = new Member({
                 idNum,
                 firstName,
                 lastName,
+                contactNo,
+                email,
+                fbLink,
+                telegram,
                 college,
                 position,
-                dateJoined: new Date(dateJoined),
-                lastMatchJoined: new Date(lastMatchJoined),
-                isActive,
-                fbLink,
-                email,
-                contactNo,
-                telegram  
+                dateJoined: dateJoined ? new Date(dateJoined) : new Date(),
+                lastMatchJoined: lastMatchJoined ? new Date(lastMatchJoined) : new Date(),
+                isActive
             });
 
             await newMember.save();
@@ -395,32 +447,58 @@ const exportMembers = async (req, res) => {
         if (!members.length) {
             return res.status(404).json({ message: 'No members to export.' });
         }
-        
-        const exportData = members.map(member => ({
-            idNum: member.idNum,
-            firstName: member.firstName,
-            lastName: member.lastName,
-            college: member.college,
-            position: member.position,
-            dateJoined: member.dateJoined ? new Date(member.dateJoined).toISOString().split('T')[0] : '',
-            lastMatchJoined: member.lastMatchJoined ? new Date(member.lastMatchJoined).toISOString().split('T')[0] : '',
-            isActive: member.isActive,
-            fbLink: member.fbLink,
-            email: member.email,
-            contactNo: member.contactNo,
-            telegram: member.telegram
-        }));
 
-        const worksheet = XLSX.utils.json_to_sheet(exportData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Members');
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Members');
 
-        const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
-        
-        res.setHeader('Content-Disposition', `attachment; filename=members_${new Date().toISOString().split('T')[0]}.xlsx`);
-        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        worksheet.columns = [
+            { header: 'ID Number', key: 'idNum' },
+            { header: 'First Name', key: 'firstName' },
+            { header: 'Last Name', key: 'lastName' },
+            { header: 'College', key: 'college' },
+            { header: 'Position', key: 'position' },
+            { header: 'Contact No', key: 'contactNo' },
+            { header: 'Email', key: 'email' },
+            { header: 'Facebook', key: 'fbLink' },
+            { header: 'Telegram', key: 'telegram' },
+            { header: 'Date Joined', key: 'dateJoined' },
+            { header: 'Last Match Joined', key: 'lastMatchJoined' },
+            { header: 'Status', key: 'isActive' }
+        ];
 
-        res.end(buffer);
+        members.forEach(member => {
+            worksheet.addRow({
+                idNum: member.idNum,
+                firstName: member.firstName,
+                lastName: member.lastName,
+                college: member.college,
+                position: member.position,
+                contactNo: member.contactNo,
+                email: member.email,
+                fbLink: member.fbLink,
+                telegram: member.telegram,
+                dateJoined: member.dateJoined
+                    ? new Date(member.dateJoined).toISOString().split("T")[0]
+                    : "",
+                lastMatchJoined: member.lastMatchJoined
+                    ? new Date(member.lastMatchJoined).toISOString().split("T")[0]
+                    : "",
+                isActive: member.isActive ? "Active" : "Inactive",        
+            });
+        });
+
+        const buffer = await workbook.xlsx.writeBuffer();
+
+        res.setHeader(
+            "Content-Disposition",
+            `attachment; filename=members_${new Date().toISOString().split("T")[0]}.xlsx`
+        );
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+
+        res.send(buffer);
     } catch (error) {
         console.error("Error exporting members:", error);
         res.status(500).json({ message: "Server error. Failed to export members." });
