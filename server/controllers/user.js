@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const { serverLeaveMatches } = require('../utils//matchUtils');
 const { serverGetMemberInfo } = require('./member');
 const { updateMemberEmail } = require('./emailSync');
 
@@ -109,6 +110,9 @@ const deleteUser = async (req, res) => {
         user.credentials.email = `[deleted]_${user._id}`;
         user.credentials.password = user._id;
         user.deleted = true;
+        
+        await serverLeaveMatches(user._id)
+
         user.currentlyQueued = [];
         await user.save();
 

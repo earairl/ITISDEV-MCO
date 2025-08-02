@@ -7,7 +7,7 @@ const { loginUser, logoutUser } = require('../controllers/login');
 const { getUser, updateEmail, deleteUser } = require('../controllers/user');
 const { addMember, getMemberInfo, getMembers, updatePosition, updateMember, removeMember, importMembers, exportMembers } = require('../controllers/member');
 const { updateMatchStatus, editMatch, joinMatch, leaveMatch, createMatch, getFormattedGame, getFormattedGames } = require('../controllers/match');
-const { getUserNotifications } = require('../services/notifications');
+const { getUserNotifications } = require('../utils/notifications');
 
 // GET
 router.get('/', (req, res) => {

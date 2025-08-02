@@ -3,7 +3,7 @@ const User = require('../models/User');
 const { updateUserEmail, getUsername } = require('./emailSync');
 const logAudit = require('../utils/auditLogger');
 const ExcelJS = require("exceljs");
-const { createNotification } = require('../services/notifications');
+const { createNotification } = require('../utils/notifications');
 
 const addMember = async (req, res) => {
     try {

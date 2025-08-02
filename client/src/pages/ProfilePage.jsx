@@ -39,6 +39,29 @@ function ProfilePage() {
     const [modalAction, setModalAction] = useState('')
     const [modalObject, setModalObject] = useState('')
 
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/logout', { 
+                method: 'GET', 
+                credentials  : 'include',
+                headers: { 'Content-Type': 'application/json' }, 
+            });
+
+            if (response.ok) {
+                sessionStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('user');
+                setUser({ username: 'guest', position: 'guest' })
+                navigate('/');
+            }
+        } catch (err) {
+            console.error('Logout error:', err);
+            showToast({
+                title: 'Logout Error',
+                description: err,
+            })
+        }
+    };
+
     function openConfirmation(action, object) {
         setModalAction(action)
         setModalObject(object)
@@ -275,7 +298,7 @@ function ProfilePage() {
             showToast({ description: data.message })
 
             if (res.ok) {
-                navigate('/')
+                handleLogout()
             }
         } catch (err) {
             console.error('Error deleting user: ', err)

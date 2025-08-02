@@ -3,7 +3,7 @@ const User = require('../models/User');
 const { serverGetMemberInfo } = require('./member');
 const { serverGetUser } = require('./user');
 const logAudit = require('../utils/auditLogger');
-const { createNotification } = require('../services/notifications');
+const { createNotification } = require('../utils/notifications');
 
 const getGames = async (res) => {
     try {
@@ -349,6 +349,7 @@ const leaveMatch = async (req, res) => {
         }
         else if (game.waitlist.includes(user._id)) game.waitlist.pull(user._id)
 
+        if (game.players.length < game.maxPlayers) game.status = 'open'
         await game.save()
 
         if (isFull && game.waitlist.length) await refreshQueue(game)
