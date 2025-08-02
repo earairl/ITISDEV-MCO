@@ -169,13 +169,11 @@ function ProfilePage() {
     async function handleSaveClick() {
         const trimmedEmail = draftEmail.trim();
         if (!trimmedEmail) { 
-            setIsEditing(false);
             showToast({
                 description: 'Email address cannot be empty.',
             });
             return;
         } else if (trimmedEmail === email) { 
-            setIsEditing(false);
             showToast({
                 description: 'No changes were made.',
             });
@@ -206,10 +204,13 @@ function ProfilePage() {
         } catch (err) {
             console.error("Email update failed:", err);
             showToast({
-                title: 'Login Error',
                 description: err?.message || String(err) || "An unexpected error occurred."
             });
         }
+    }
+
+    async function handleCancelClick() {
+        setIsEditing(false);
     }
     
     const handleChangePosition = async (newPosition) => {
@@ -330,6 +331,13 @@ function ProfilePage() {
                                     >
                                         Save
                                     </button>
+                                    <button
+                                        type="button"
+                                        className={styles.Cancelbtn}
+                                        onClick={handleCancelClick}
+                                    >
+                                        Cancel
+                                    </button>
                                     </>
                                 )}
                             </div>
@@ -346,12 +354,12 @@ function ProfilePage() {
                             )}
                         </div>
                     </header>
-                    {(user.username === username || user.position === "officer") && (
+                    {/* {(user.username === username || user.position === "officer") && (
                         <article className={styles.ProfileStats}>
                             <h2>{`${Math.round(attendanceRate * 100)}% Attendance Rate`}</h2>
                             <h2>{`${penalties.length}/10 Penalties`}</h2>
                         </article>
-                    )}
+                    )} */}
                     <article className={styles.ScrollTabs}>
                         <ScrollableArea tabName="Current Games Queued" 
                                         tabWidth="40" 
@@ -368,11 +376,11 @@ function ProfilePage() {
                                         displayText="displayGame"
                                         noDataMsg="No Game History"/>
                     </article>
-                    {user.username !== username && user.position === "officer" && (
+                    {/* {user.username !== username && user.position === "officer" && (
                         <article className={styles.Penalty}>
                             <input type="button" value="Assign Penalty" />
                         </article>
-                    )}
+                    )} */}
                     {/* Position Set Confirmation */}
                     {showConfirmDialog && (
                         <AlertModal

@@ -163,6 +163,24 @@
     opacity: 0.8;
 }
 
+.Cancelbtn {
+    margin: 0;
+    margin-left: 0.6rem;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-style: italic;
+    padding: 0;
+    cursor: pointer;
+    color: gray;
+    text-decoration: underline;
+    transition: opacity 120ms;
+
+    &:hover, focus-visible{
+        opacity: 0.8;
+    }
+}
+
 .BtnsWrap {
     align-self: center;
     display: flex;

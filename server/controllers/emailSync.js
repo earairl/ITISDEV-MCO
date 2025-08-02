@@ -20,12 +20,36 @@ const updateMemberEmail = async (idNum, newEmail) => {
         const member = await Member.findOne({ idNum });
         if (!member) return { isMember: false };
 
+        const existingMember = await Member.findOne({
+            email: newEmail,
+            idNum: { $ne: idNum }
+        });
+
+        if (existingMember) {
+            return {
+                existingEmail: true,
+                isMember: true,
+                success: false,
+                message: 'Email already exists.'
+            };
+        }
+
         member.email = newEmail;
         await member.save();
-        return { isMember: true };
+        return {
+            existingEmail: false,
+            isMember: true,
+            success: true,
+            message: 'Member email updated successfully.'
+        };
     } catch (error) {
         console.error('Error syncing email to member:', error);
-        return { success: false, message: 'Error updating member email', error };
+        return {
+            isMember: false,
+            success: false,
+            message: 'Error updating member email',
+            error
+        };
     }
 };
 

@@ -52,23 +52,41 @@ const getUser = async (req, res) => {
 
 const updateEmail = async (req, res) => {
     const { username, newEmail } = req.body;
+
     try {
         const user = await User.findOne({ 'credentials.username': username });
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
 
-        user.credentials.email = newEmail;
-        await user.save();
+        const currentEmail = user.credentials.email;
+        if (currentEmail === newEmail) {
+            return res.status(200).json({ message: 'No changes made. Email is the same.' });
+        }
 
+        const existingUser = await User.findOne({
+            'credentials.email': newEmail,
+            'credentials.username': { $ne: username }
+        });
+
+        if (existingUser) {
+            return res.status(409).json({ message: 'Email already exists.' });
+        }
+
+        user.credentials.email = newEmail;
         const isMember = await updateMemberEmail(user.credentials.userId, newEmail);
-        if(isMember.isMember)
+        if (isMember.success) {
             console.log("Email updated successfully (Member Schema).");
-        
-        res.status(200).json({ message: 'Email updated successfully!' });
+        } else if (isMember.existingEmail){
+            return res.status(409).json({ message: 'Email already exists.' });
+        }
+
+        await user.save();
+        return res.status(200).json({ message: 'Email updated successfully!' });
+
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'Error editing email', error });
+        console.error('Error updating email:', error);
+        return res.status(500).json({ message: 'Error editing email', error });
     }
 };
 
