@@ -17,7 +17,7 @@ const generateUserId = async (requestedId) => {
 };
 
 const register = async (req, res) => {
-    const { userId, username, email, password, activeIdInp } = req.body;
+    const { userId, username, email, password, password2, activeIdInp } = req.body;
 
     try {
         let finalUserId;
@@ -44,6 +44,10 @@ const register = async (req, res) => {
 
         if (existingUserEmail) {
             return res.status(400).json({ message: 'Email already taken.' });
+        }
+
+        if (password !== password2) {
+            return res.status(400).json({ message: 'Passwords do not match.' });
         }
 
         if(userId){

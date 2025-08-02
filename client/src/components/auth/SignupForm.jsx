@@ -8,9 +8,11 @@ function SignupForm(props) {
     const showToast = props.showToast
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [password2, setPassword2] = useState('');
     const [email, setEmail] = useState('');
     const [userId, setUserId] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
     const [activeIdInp, setActiveIdInp] = useState(false);
     const { user, setUser } = useContext(UserContext)
 
@@ -31,6 +33,7 @@ function SignupForm(props) {
                     username, 
                     email, 
                     password, 
+                    password2,
                     activeIdInp, }),
             });
 
@@ -105,6 +108,26 @@ function SignupForm(props) {
                             onClick={() => setShowPassword(!showPassword)}
                         >
                         {showPassword ? "visibility_off" : "visibility"}
+                        </span>
+                    </div>
+                </div>
+
+                <div className={styles.inpContent}>
+                    <label htmlFor="signupPass2">Confirm Password</label><br/>
+                    <div className={styles.passWrap}>
+                        <input 
+                            id="signupPass2"
+                            type={showPassword2 ? "text" : "password"} 
+                            className={styles.authPass} 
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)}
+                            required
+                        />
+                        <span 
+                            className={styles.visBtn}
+                            onClick={() => setShowPassword2(!showPassword2)}
+                        >
+                        {showPassword2 ? "visibility_off" : "visibility"}
                         </span>
                     </div><br/>
                 </div>
