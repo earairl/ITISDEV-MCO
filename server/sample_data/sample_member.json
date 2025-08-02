@@ -1,0 +1,18 @@
+{
+  "Members": [
+    {
+      "idNum": "10000011",
+      "firstName": "Peter",
+      "lastName": "Parker",
+      "contactNo": "+634072241783",
+      "email": "spooderman@gmail.com",
+      "fbLink": "https://en.wikipedia.org/wiki/Peter_Parker_(Marvel_Cinematic_Universe)",
+      "telegram": "@peterparker",
+      "college": "COS",
+      "position": "member",
+      "dateJoined": "2024-07-01T00:00:00.000Z",
+      "lastMatchJoined": "2025-06-29T00:00:00.000Z",
+      "isActive": true
+    }
+  ]
+}

@@ -7,6 +7,10 @@
         "email": "jopet@gmail.com",
         "password": "Isko123!"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -16,6 +20,10 @@
         "email": "annecurt@gmail.com",
         "password": "CurtisPass!2023"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -25,6 +33,10 @@
         "email": "alden.richards@gmail.com",
         "password": "AlDubForever!"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -34,6 +46,10 @@
         "email": "maine.mendoza@gmail.com",
         "password": "YayaDub!22"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -43,6 +59,10 @@
         "email": "cardo@gmail.com",
         "password": "FPJAngProbinsyano!"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -52,6 +72,10 @@
         "email": "bea.alonzo@gmail.com",
         "password": "OneMoreChance123"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -61,6 +85,10 @@
         "email": "dong@gmail.com",
         "password": "MarianForever!"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -70,6 +98,10 @@
         "email": "marian@gmail.com",
         "password": "DingdongLove2024"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -79,6 +111,10 @@
         "email": "vice@gmail.com",
         "password": "GandaraQueen!"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -88,6 +124,10 @@
         "email": "kath@gmail.com",
         "password": "KathNiel4ever!"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -97,6 +137,10 @@
         "email": "joshlia@gmail.com",
         "password": "ExCouple123"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -106,6 +150,10 @@
         "email": "angel.locsin@gmail.com",
         "password": "DarnaReal!"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -115,6 +163,10 @@
         "email": "carlos@gmail.com",
         "password": "RandomPass!123"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -124,6 +176,10 @@
         "email": "sarah.geronimo@gmail.com",
         "password": "PopStarRoyalty!"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     },
     {
@@ -133,6 +189,10 @@
         "email": "piolo@gmail.com",
         "password": "PapaP1234"
       },
+      "penalties": [],
+      "currentlyQueued": [],
+      "matchHistory": [],
+      "attendanceRate": 0,
       "deleted": false
     }
   ],
@@ -141,7 +201,11 @@
       "idNum": "10000001",
       "firstName": "Jose",
       "lastName": "Manalo",
-      "college": "Engineering",
+      "contactNo": "+639171234567",
+      "email": "jopet@gmail.com",
+      "fbLink": "https://facebook.com/josemanalo",
+      "telegram": "@jopet",
+      "college": "GCOE",
       "position": "member",
       "dateJoined": "2023-01-15T00:00:00.000Z",
       "lastMatchJoined": "2024-12-10T00:00:00.000Z",
@@ -151,7 +215,11 @@
       "idNum": "10000002",
       "firstName": "Anne",
       "lastName": "Curtis",
-      "college": "Science",
+      "contactNo": "+639171234568",
+      "email": "annecurt@gmail.com",
+      "fbLink": "https://facebook.com/annecurtis",
+      "telegram": "@annec",
+      "college": "COS",
       "position": "officer",
       "dateJoined": "2022-10-12T00:00:00.000Z",
       "lastMatchJoined": "2025-06-25T00:00:00.000Z",
@@ -161,7 +229,11 @@
       "idNum": "10000003",
       "firstName": "Alden",
       "lastName": "Richards",
-      "college": "Business",
+      "contactNo": "+639171234569",
+      "email": "alden.richards@gmail.com",
+      "fbLink": "https://facebook.com/aldenrichards",
+      "telegram": "@aldenr",
+      "college": "RVRCOB",
       "position": "member",
       "dateJoined": "2024-03-22T00:00:00.000Z",
       "lastMatchJoined": "2025-04-30T00:00:00.000Z",
@@ -171,7 +243,11 @@
       "idNum": "10000004",
       "firstName": "Maine",
       "lastName": "Mendoza",
-      "college": "Arts",
+      "contactNo": "+639171234570",
+      "email": "maine.mendoza@gmail.com",
+      "fbLink": "https://facebook.com/mainemendoza",
+      "telegram": "@mained",
+      "college": "CLA",
       "position": "member",
       "dateJoined": "2023-11-05T00:00:00.000Z",
       "lastMatchJoined": "2025-05-20T00:00:00.000Z",
@@ -181,7 +257,11 @@
       "idNum": "10000005",
       "firstName": "Coco",
       "lastName": "Martin",
-      "college": "Criminology",
+      "contactNo": "+639171234571",
+      "email": "cardo@gmail.com",
+      "fbLink": "https://facebook.com/cocomartin",
+      "telegram": "@cocom",
+      "college": "TDSOL",
       "position": "officer",
       "dateJoined": "2021-08-10T00:00:00.000Z",
       "lastMatchJoined": "2025-06-01T00:00:00.000Z",
@@ -191,7 +271,11 @@
       "idNum": "10000006",
       "firstName": "Bea",
       "lastName": "Alonzo",
-      "college": "Engineering",
+      "contactNo": "+639171234572",
+      "email": "bea.alonzo@gmail.com",
+      "fbLink": "https://facebook.com/beaalonzo",
+      "telegram": "@beaalonzo",
+      "college": "GCOE",
       "position": "member",
       "dateJoined": "2023-09-14T00:00:00.000Z",
       "lastMatchJoined": "2025-06-15T00:00:00.000Z",
@@ -201,7 +285,11 @@
       "idNum": "10000007",
       "firstName": "Dingdong",
       "lastName": "Dantes",
-      "college": "Science",
+      "contactNo": "+639171234573",
+      "email": "dong@gmail.com",
+      "fbLink": "https://facebook.com/dingdongdantes",
+      "telegram": "@dingdongd",
+      "college": "COS",
       "position": "member",
       "dateJoined": "2023-12-01T00:00:00.000Z",
       "lastMatchJoined": "2025-05-01T00:00:00.000Z",
@@ -211,7 +299,11 @@
       "idNum": "10000008",
       "firstName": "Marian",
       "lastName": "Rivera",
-      "college": "Business",
+      "contactNo": "+639171234574",
+      "email": "marian@gmail.com",
+      "fbLink": "https://facebook.com/marianrivera",
+      "telegram": "@marianr",
+      "college": "RVRCOB",
       "position": "officer",
       "dateJoined": "2022-06-20T00:00:00.000Z",
       "lastMatchJoined": "2025-03-15T00:00:00.000Z",
@@ -221,7 +313,11 @@
       "idNum": "10000009",
       "firstName": "Vice",
       "lastName": "Ganda",
-      "college": "Arts",
+      "contactNo": "+639171234575",
+      "email": "vice@gmail.com",
+      "fbLink": "https://facebook.com/viceganda",
+      "telegram": "@viceganda",
+      "college": "CLA",
       "position": "member",
       "dateJoined": "2021-02-11T00:00:00.000Z",
       "lastMatchJoined": "2025-01-20T00:00:00.000Z",
@@ -231,7 +327,11 @@
       "idNum": "10000010",
       "firstName": "Kathryn",
       "lastName": "Bernardo",
-      "college": "Arts",
+      "contactNo": "+639171234576",
+      "email": "kath@gmail.com",
+      "fbLink": "https://facebook.com/kathrynbernardo",
+      "telegram": "@kathbernardo",
+      "college": "CLA",
       "position": "member",
       "dateJoined": "2024-07-01T00:00:00.000Z",
       "lastMatchJoined": "2025-06-29T00:00:00.000Z",
@@ -241,7 +341,11 @@
       "idNum": "20000011",
       "firstName": "Joshua",
       "lastName": "Garcia",
-      "college": "Engineering",
+      "contactNo": "+639171234577",
+      "email": "joshlia@gmail.com",
+      "fbLink": "https://facebook.com/joshuagarcia",
+      "telegram": "@joshlia",
+      "college": "GCOE",
       "position": "member",
       "dateJoined": "2024-08-10T00:00:00.000Z",
       "lastMatchJoined": "2025-06-18T00:00:00.000Z",
@@ -251,7 +355,11 @@
       "idNum": "20000012",
       "firstName": "Julia",
       "lastName": "Barretto",
-      "college": "Science",
+      "contactNo": "+639171234578",
+      "email": "julia.barretto@gmail.com",
+      "fbLink": "https://facebook.com/juliabarretto",
+      "telegram": "@juliabarretto",
+      "college": "COS",
       "position": "member",
       "dateJoined": "2023-03-10T00:00:00.000Z",
       "lastMatchJoined": "2025-06-20T00:00:00.000Z",
@@ -261,7 +369,11 @@
       "idNum": "20000013",
       "firstName": "Angel",
       "lastName": "Locsin",
-      "college": "Health Sciences",
+      "contactNo": "+639171234579",
+      "email": "angel.locsin@gmail.com",
+      "fbLink": "https://facebook.com/angellocsin",
+      "telegram": "@angel",
+      "college": "COS",
       "position": "officer",
       "dateJoined": "2024-01-25T00:00:00.000Z",
       "lastMatchJoined": "2025-05-05T00:00:00.000Z",
@@ -271,7 +383,11 @@
       "idNum": "20000014",
       "firstName": "Sarah",
       "lastName": "Geronimo",
-      "college": "Music",
+      "contactNo": "+639171234580",
+      "email": "sarah.geronimo@gmail.com",
+      "fbLink": "https://facebook.com/sarahgeronimo",
+      "telegram": "@sarahg",
+      "college": "CLA",
       "position": "member",
       "dateJoined": "2023-07-15T00:00:00.000Z",
       "lastMatchJoined": "2025-06-15T00:00:00.000Z",
@@ -281,7 +397,11 @@
       "idNum": "20000015",
       "firstName": "Piolo",
       "lastName": "Pascual",
-      "college": "Theater Arts",
+      "contactNo": "+639171234581",
+      "email": "piolo@gmail.com",
+      "fbLink": "https://facebook.com/piolopascual",
+      "telegram": "@piolo",
+      "college": "CLA",
       "position": "officer",
       "dateJoined": "2022-02-18T00:00:00.000Z",
       "lastMatchJoined": "2025-06-05T00:00:00.000Z",
