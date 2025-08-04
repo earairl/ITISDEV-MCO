@@ -442,7 +442,9 @@ const importMembers = async (req, res) => {
 
 const exportMembers = async (req, res) => {
     try {
-        const members = await Member.find().lean();
+        // const members = await Member.find().lean();
+        const { members } = req.body
+        console.log(members)
 
         if (!members.length) {
             return res.status(404).json({ message: 'No members to export.' });

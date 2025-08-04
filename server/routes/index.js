@@ -24,7 +24,6 @@ router.get('/getMemberInfo', getMemberInfo);
 router.get('/getMembers', getMembers);
 router.get('/getFormattedGame/:gameId', getFormattedGame);
 router.get('/getFormattedGames', getFormattedGames);
-router.get('/exportMembers', exportMembers);
 router.get('/getNotifications/:userId', getUserNotifications);
 
 // // POST
@@ -38,6 +37,7 @@ router.post('/importMembers', upload.single("file"), importMembers);
 router.post('/createMatch', createMatch);
 router.post('/joinMatch', joinMatch);
 router.post('/leaveMatch', leaveMatch);
+router.post('/exportMembers', exportMembers);
 
 // // DELETE
 // router.delete('/:id', (req, res) => {

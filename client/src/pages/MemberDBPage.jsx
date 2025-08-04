@@ -240,7 +240,15 @@ function MemberDBPage() {
 
     const handleExportMembers = async () => {
         try {
-            const res = await fetch("http://localhost:5000/exportMembers");
+            // const res = await fetch("http://localhost:5000/exportMembers");
+
+            const res = await fetch("http://localhost:5000/exportMembers", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ members: filteredMembers }),
+            })
 
             if (!res.ok) {
                 throw new Error("Failed to export members");
