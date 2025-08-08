@@ -30,12 +30,24 @@ If both commands return version numbers, Node.js and npm are correctly installed
 ### 2. Install Dependencies
 - Navigate to both client and server directories, type `npm init` and enter, then install the backend dependencies:
 ```sh
+cd client
+npm install
+```
+
+```sh
+cd ../server
 npm install
 ```
 
 ### 3. Run the Server
-Start the frontend and backend server by typing this under the respective directories:
+Run both frontend and backend servers in separate terminal windows/tabs:
 ```sh
+cd client
+npm run dev
+```
+
+```sh
+cd ../server
 npm run dev
 ```
 
