@@ -143,11 +143,11 @@ function MemberDBPage() {
             setEditingRow(null);
             setEditedData({});
 
-            const saved = sessionStorage.getItem("user");
-            if (saved) {
-                const updated = { ...JSON.parse(saved), dateJoined: editedData.dateJoined, email: editedData.email, position: editedData.position};
-                sessionStorage.setItem("user", JSON.stringify(updated));
-            }
+            // const saved = sessionStorage.getItem("user");
+            // if (saved) {
+            //     const updated = { ...JSON.parse(saved), dateJoined: editedData.dateJoined, email: editedData.email, position: editedData.position};
+            //     sessionStorage.setItem("user", JSON.stringify(updated));
+            // }
             
             showToast({
                 description: 'Member updated successfully',
