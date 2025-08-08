@@ -50,6 +50,17 @@ const register = async (req, res) => {
             return res.status(400).json({ message: 'Passwords do not match.' });
         }
 
+        if (activeIdInp) {
+            const result = await serverGetMemberInfo(userId);
+            if (result && !result.memberInfo) {
+                return res.status(400).json({ message: 'ID number is not registered. Please contact your officers for clarifications.' });
+            }
+        }
+
+        if (existingUserId) {
+            return res.status(400).json({ message: 'The ID number is already in use. Please provide another one.' });
+        }
+
         if(userId){
             const existingMemberEmail = await Member.findOne({
                 'email': email,
@@ -63,17 +74,6 @@ const register = async (req, res) => {
             if (existingMemberEmail) {
                 return res.status(400).json({ message: 'Email already taken.' });
             }
-        }
-
-        if (activeIdInp) {
-            const result = await serverGetMemberInfo(userId);
-            if (result && !result.memberInfo) {
-                return res.status(400).json({ message: 'ID number is not registered. Please contact your officers for clarifications.' });
-            }
-        }
-
-        if (existingUserId) {
-            return res.status(400).json({ message: 'The ID number is already in use. Please provide another one.' });
         }
 
         finalUserId = userId;
