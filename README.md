@@ -23,8 +23,8 @@ If both commands return version numbers, Node.js and npm are correctly installed
 
 ## Local Host
 ### 1. Clone or Extract the Project
-- If using a ZIP file, unzip `filename`.
-- Move the extracted `filename` folder to a safe directory.
+- If using a ZIP file, unzip the project folder.
+- Move the extracted project folder to a safe directory.
 - Open the terminal/command line to the root directory of the project
 
 ### 2. Install Dependencies
@@ -54,3 +54,31 @@ http://localhost:5173
     "dev": "nodemon app.js"
   }
   ```
+  
+## Packages Installed in client directory
+```
+npm install classnames
+npm install framer-motion
+npm install motion
+npm install radix-ui
+npm install react
+npm install react-dom
+npm install react-router-dom
+npm install tailwindcss
+npm install uuid
+```
+
+## Packages Installed in server directory
+```
+npm install bcrypt
+npm install connect-mongodb-session
+npm install cors
+npm install dotenv
+npm install exceljs
+npm install express
+npm install express-session
+npm install mongoose
+npm install multer
+npm install node-cron
+npm install nodemon
+```
