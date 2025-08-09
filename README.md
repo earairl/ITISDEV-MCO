@@ -1,7 +1,9 @@
 # ITISDEV-MCO
 
 ## Dev Tools and Notes
-- certain changes in react may require you to reload the whole browser, i.e. importing a component that you forgot to export
+- Certain changes in React may require you to reload the whole browser, i.e. importing a component that you forgot to export
+- The project uses MongoDB with Mongoose for data persistence
+- Automatic match closure is handled by node-cron jobs
 
 ## Project Setup and Installation
 
@@ -28,7 +30,7 @@ If both commands return version numbers, Node.js and npm are correctly installed
 - Open the terminal/command line to the root directory of the project
 
 ### 2. Install Dependencies
-- Navigate to both client and server directories, type `npm init` and enter, then install the backend dependencies:
+- Navigate to both client and server directories, type `npm install` and enter to install all the backend dependencies:
 ```sh
 cd client
 npm install
@@ -59,6 +61,13 @@ http://localhost:5173
 
 ---
 
+## Key Features
+- Match creation and management system
+- User authentication and registration
+- Member management with Excel export functionality
+- Automatic match status updates using cron jobs
+- Notification system for match updates
+
 ## Troubleshooting
 - **If `npm run dev` does not work**, check the `package.json` file to ensure it contains:
   ```json
@@ -66,7 +75,14 @@ http://localhost:5173
     "dev": "nodemon app.js"
   }
   ```
-  
+- **Database connection issues**: Verify your MongoDB connection string in the `.env` file
+- **Port conflicts**: Ensure ports 5173 (frontend) and your backend port are available
+- **Missing dependencies**: Run `npm install` again if you encounter module not found errors
+
+## Development Scripts
+- **Database migrations**: Use `node updateDocs.js` in the server directory for database updates
+- **Auto-closing matches**: The system automatically closes expired matches using scheduled jobs
+
 ## Packages Installed in client directory
 ```
 npm install classnames
